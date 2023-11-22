@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.design.ak.dao.UserDao">
+
+        <resultMap type="com.design.ak.entity.User" id="UserMap">
+                <result property="id" column="id" jdbcType="INTEGER"/>
+                <result property="username" column="userName" jdbcType="VARCHAR"/>
+                <result property="nickname" column="nickName" jdbcType="VARCHAR"/>
+                <result property="phone" column="phone" jdbcType="VARCHAR"/>
+                <result property="status" column="status" jdbcType="INTEGER"/>
+                <result property="role" column="role" jdbcType="VARCHAR"/>
+                <result property="password" column="password" jdbcType="VARCHAR"/>
+                <result property="department" column="department" jdbcType="INTEGER"/>
+                <result property="post" column="post" jdbcType="INTEGER"/>
+                <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        </resultMap>
+
+    <sql id="commColumnsItem">
+id, userName, nickName, phone, status, role, password, department, post, remark        
+    </sql>
+        <!--查询单个-->
+        <select id="queryById" resultMap="UserMap">
+            select
+            <include refid="commColumnsItem" />
+            from user
+                where id = #{id}
+        </select>
+
+        <!--查询指定行数据-->
+        <select id="queryAllByLimit" resultMap="UserMap">
+            select
+            <include refid="commColumnsItem" />
+            from user
+            <where>
+                    <if test="id != null">
+                        and id = #{id}
+                    </if>
+                    <if test="username != null and username != ''">
+                        and userName = #{username}
+                    </if>
+                    <if test="nickname != null and nickname != ''">
+                        and nickName = #{nickname}
+                    </if>
+                    <if test="phone != null and phone != ''">
+                        and phone = #{phone}
+                    </if>
+                    <if test="status != null">
+                        and status = #{status}
+                    </if>
+                    <if test="role != null and role != ''">
+                        and role = #{role}
+                    </if>
+                    <if test="password != null and password != ''">
+                        and password = #{password}
+                    </if>
+                    <if test="department != null">
+                        and department = #{department}
+                    </if>
+                    <if test="post != null">
+                        and post = #{post}
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        and remark = #{remark}
+                    </if>
+            </where>
+            <choose>
+                <when test="pageInfo.order != null">
+                    order by #{pageInfo.order}
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="pageInfo.pageSize >0">
+            limit #{pageInfo.pageIndex}, #{pageInfo.pageSize}
+            </if>
+        </select>
+
+        <!--统计总行数-->
+        <select id="count" resultType="java.lang.Long">
+            select count(1)
+            from user
+            <where>
+                    <if test="id != null">
+                        and id = #{id}
+                    </if>
+                    <if test="username != null and username != ''">
+                        and userName = #{username}
+                    </if>
+                    <if test="nickname != null and nickname != ''">
+                        and nickName = #{nickname}
+                    </if>
+                    <if test="phone != null and phone != ''">
+                        and phone = #{phone}
+                    </if>
+                    <if test="status != null">
+                        and status = #{status}
+                    </if>
+                    <if test="role != null and role != ''">
+                        and role = #{role}
+                    </if>
+                    <if test="password != null and password != ''">
+                        and password = #{password}
+                    </if>
+                    <if test="department != null">
+                        and department = #{department}
+                    </if>
+                    <if test="post != null">
+                        and post = #{post}
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        and remark = #{remark}
+                    </if>
+            </where>
+        </select>
+
+        <!--新增所有列-->
+        <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+            insert into user(userName, nickName, phone, status, role, password, department, post, remark)
+                values
+            (#{username}, #{nickname}, #{phone}, #{status}, #{role}, #{password}, #{department}, #{post}, #{remark})
+        </insert>
+
+        <!--通过主键修改数据-->
+        <update id="updateById">
+            update user
+            <set>
+                    <if test="username != null and username != ''">
+                        userName = #{username},
+                    </if>
+                    <if test="nickname != null and nickname != ''">
+                        nickName = #{nickname},
+                    </if>
+                    <if test="phone != null and phone != ''">
+                        phone = #{phone},
+                    </if>
+                    <if test="status != null">
+                        status = #{status},
+                    </if>
+                    <if test="role != null and role != ''">
+                        role = #{role},
+                    </if>
+                    <if test="password != null and password != ''">
+                        password = #{password},
+                    </if>
+                    <if test="department != null">
+                        department = #{department},
+                    </if>
+                    <if test="post != null">
+                        post = #{post},
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        remark = #{remark},
+                    </if>
+            </set>
+            where id = #{id}
+        </update>
+
+        <!--通过主键删除-->
+        <delete id="deleteById">
+            delete
+            from user where id in
+            <foreach collection="id" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        </delete>
+
+    </mapper>
