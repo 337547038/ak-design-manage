@@ -11,6 +11,7 @@ java、Springboot、Maven、Mybatis、Mybatis-Plus、lombok、easyCode、aop、S
 - 使用`easyCode`插件一键生成`controller、dao、entity、service、mapper`层代码
 - 自定义`easyCode`模板生成增删查改方法及`Swagger`文档
 - 封装统一自定义异常返回`code`和`msg`信息
+- 封装统一拦截打印请求和响应日志
 
 ## 开发环境
 | 名称           | 版本    |

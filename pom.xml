@@ -71,7 +71,12 @@
 			<artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
 			<version>4.1.0</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.20</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

@@ -57,8 +57,6 @@ public class UserController {
         Object pageInfo = pages.get("pageInfo");//分页信息
         if (pageInfo == null) {
             pageInfo = new Object();
-            throw new CustomException("401", "未认证请检查token");
-            //throw new RuntimeException("xxxxxx");
         }
         User user = JSON.parseObject(JSON.toJSONString(queryObj), User.class);//json字符串转java对象
         //处理分页的pageIndex和pageSize两个值
