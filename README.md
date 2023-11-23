@@ -13,6 +13,9 @@ java、Springboot、Maven、Mybatis、Mybatis-Plus、lombok、easyCode、aop、S
 - 封装统一自定义异常返回`code`和`msg`信息
 - 封装统一拦截打印请求和响应日志
 
+## easyCode模板
+[插件easyCode代码生成器点击查看详情](https://gitee.com/q337547038/java-springboot/wikis/05.%E6%8F%92%E4%BB%B6easyCode%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8)
+
 ## 开发环境
 | 名称           | 版本    |
 |--------------|-------|

@@ -1,7 +1,7 @@
 package com.design.ak.controller;
 
-import com.design.ak.entity.User;
-import com.design.ak.service.UserService;
+import com.design.ak.entity.Test;
+import com.design.ak.service.TestService;
 import com.alibaba.fastjson2.JSON;
 import com.design.ak.utils.Utils;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +14,20 @@ import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**
- * (User)表控制层
+ * (Test)表控制层
  *
  * @author ak.design
- * @since 2023-11-23 13:41:39
+ * @since 2023-11-23 15:39:21
  */
-@Tag(name = "User相关")
+@Tag(name = "Test相关")
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("test")
+public class TestController {
     /**
      * 服务对象
      */
     @Resource
-    private UserService userService;
+    private TestService testService;
 
     /**
      * 分页查询
@@ -52,10 +52,10 @@ public class UserController {
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
         Object queryObj = pages.get("query");//查询条件
-        User user = JSON.parseObject(JSON.toJSONString(queryObj), User.class);//json字符串转java对象
+        Test test = JSON.parseObject(JSON.toJSONString(queryObj), Test.class);//json字符串转java对象
         Map<String, Object> pageMap = Utils.Pagination(pages);
         pages.put("pageInfo", pageMap); //对pageInfo重新赋值
-        return ResponseEntity.ok(this.userService.queryByPage(user, pages));
+        return ResponseEntity.ok(this.testService.queryByPage(test, pages));
     }
 
     /**
@@ -66,33 +66,33 @@ public class UserController {
      */
     @Operation(summary ="根据id查询数据")
     @GetMapping("{id}")
-    public ResponseEntity<User> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.userService.queryById(id));
+    public ResponseEntity<Test> queryById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.testService.queryById(id));
     }
 
     /**
      * 新增数据
      *
-     * @param user 实体
+     * @param test 实体
      * @return 新增结果Id
      */
     @Operation(summary ="新增数据")
     @PostMapping("add")
-    public ResponseEntity<Integer> add(@RequestBody User user) {
-        User result = userService.insert(user);
+    public ResponseEntity<Integer> add(@RequestBody Test test) {
+        Test result = testService.insert(test);
         return ResponseEntity.ok(result.getId());
     }
 
     /**
      * 编辑数据
      *
-     * @param user 实体
+     * @param test 实体
      * @return 影响行数
      */
     @Operation(summary ="编辑数据")
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody User user) {
-        return ResponseEntity.ok(this.userService.updateById(user));
+    public ResponseEntity<Integer> edit(@RequestBody Test test) {
+        return ResponseEntity.ok(this.testService.updateById(test));
     }
 
     /**
@@ -107,7 +107,7 @@ public class UserController {
     public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
-        return ResponseEntity.ok(this.userService.deleteById(idList));
+        return ResponseEntity.ok(this.testService.deleteById(idList));
     }
 
 }

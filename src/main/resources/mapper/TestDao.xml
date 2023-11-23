@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.design.ak.dao.TestDao">
+
+        <resultMap type="com.design.ak.entity.Test" id="TestMap">
+                <result property="id" column="id" jdbcType="INTEGER"/>
+                <result property="name" column="name" jdbcType="VARCHAR"/>
+                <result property="content" column="content" jdbcType="VARCHAR"/>
+                <result property="phone" column="phone" jdbcType="VARCHAR"/>
+                <result property="status" column="status" jdbcType="INTEGER"/>
+        </resultMap>
+
+    <sql id="commColumnsItem">
+id, name, content, phone, status        
+    </sql>
+        <!--查询单个-->
+        <select id="queryById" resultMap="TestMap">
+            select
+            <include refid="commColumnsItem" />
+            from test
+                where id = #{id}
+        </select>
+
+        <!--查询指定行数据-->
+        <select id="queryAllByLimit" resultMap="TestMap">
+            select
+            <include refid="commColumnsItem" />
+            from test
+            <where>
+                    <if test="id != null">
+                        and id = #{id}
+                    </if>
+                    <if test="name != null and name != ''">
+                        and name = #{name}
+                    </if>
+                    <if test="content != null and content != ''">
+                        and content = #{content}
+                    </if>
+                    <if test="phone != null and phone != ''">
+                        and phone = #{phone}
+                    </if>
+                    <if test="status != null">
+                        and status = #{status}
+                    </if>
+            </where>
+            <choose>
+                <when test="pageInfo.order != null">
+                    order by #{pageInfo.order}
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="pageInfo.pageSize >0">
+            limit #{pageInfo.pageIndex}, #{pageInfo.pageSize}
+            </if>
+        </select>
+
+        <!--统计总行数-->
+        <select id="count" resultType="java.lang.Long">
+            select count(1)
+            from test
+            <where>
+                    <if test="id != null">
+                        and id = #{id}
+                    </if>
+                    <if test="name != null and name != ''">
+                        and name = #{name}
+                    </if>
+                    <if test="content != null and content != ''">
+                        and content = #{content}
+                    </if>
+                    <if test="phone != null and phone != ''">
+                        and phone = #{phone}
+                    </if>
+                    <if test="status != null">
+                        and status = #{status}
+                    </if>
+            </where>
+        </select>
+
+        <!--新增所有列-->
+        <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+            insert into test(name, content, phone, status)
+                values
+            (#{name}, #{content}, #{phone}, #{status})
+        </insert>
+
+        <!--通过主键修改数据-->
+        <update id="updateById">
+            update test
+            <set>
+                    <if test="name != null and name != ''">
+                        name = #{name},
+                    </if>
+                    <if test="content != null and content != ''">
+                        content = #{content},
+                    </if>
+                    <if test="phone != null and phone != ''">
+                        phone = #{phone},
+                    </if>
+                    <if test="status != null">
+                        status = #{status},
+                    </if>
+            </set>
+            where id = #{id}
+        </update>
+
+        <!--通过主键删除-->
+        <delete id="deleteById">
+            delete
+            from test where id in
+            <foreach collection="id" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        </delete>
+
+    </mapper>

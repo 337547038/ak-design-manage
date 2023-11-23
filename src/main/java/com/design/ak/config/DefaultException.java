@@ -20,7 +20,7 @@ public class DefaultException {
     @ExceptionHandler
     public Object error (Exception e) {// 根据我的方法参数来捕获异常，这里捕获的就是Exception异常
         HashMap<String, Object> result = new HashMap<>();
-        result.put("code",0);
+        result.put("code",ReturnCodeEnum.RC100.getMessage());
         result.put("msg",e.getMessage());
         return result;
     }
