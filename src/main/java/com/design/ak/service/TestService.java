@@ -7,7 +7,7 @@ import java.util.Map;
  * (Test)表服务接口
  *
  * @author ak.design
- * @since 2023-11-23 15:39:23
+ * @since 2023-11-24 14:50:09
  */
 public interface TestService {
 
@@ -21,11 +21,10 @@ public interface TestService {
     
     /**
      * 分页查询
-     * @param test 筛选条件
-     * @param pageInfo 分页对象
+     * @param pages 筛选条件 分页对象
      * @return 查询结果
      */
-    Map<String,Object> queryByPage(Test test,Map<String,Object> pageInfo);
+    Map<String,Object> queryByPage(Map<String,Object> pages);
     /**
      * 新增数据
      *

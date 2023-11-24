@@ -1,5 +1,6 @@
 package com.design.ak.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.design.ak.entity.User;
 import com.design.ak.dao.UserDao;
 import com.design.ak.service.UserService;
@@ -13,7 +14,7 @@ import java.util.Map;
  * (User)表服务实现类
  *
  * @author ak.design
- * @since 2023-11-21 14:14:25
+ * @since 2023-11-23 16:14:22
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -81,5 +82,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteById(String[] id) {
         return this.userDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public User login(User user){
+        user.setStatus(1);
+        Map<String,Number> pageInfo=new HashMap<>();
+        //pageInfo.put("pageIndex",1);
+        //pageInfo.put("pageSize",-1);
+        /*pages.put("pageInfo",pageInfo);
+        System.out.println(JSON.toJSONString(pages));
+        System.out.println("pages");
+        List<User> list = this.userDao.queryAllByLimit(pages);
+        System.out.println("login list");
+        System.out.println(list);*/
+        Map<String,Object> pages = new HashMap<>();
+
+        return null;
     }
 }

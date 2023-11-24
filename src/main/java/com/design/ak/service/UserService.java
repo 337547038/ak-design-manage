@@ -7,7 +7,7 @@ import java.util.Map;
  * (User)表服务接口
  *
  * @author ak.design
- * @since 2023-11-21 14:14:25
+ * @since 2023-11-23 16:14:22
  */
 public interface UserService {
 
@@ -49,5 +49,7 @@ public interface UserService {
      * @return 是否成功
      */
     boolean deleteById(String[] id);
+    
+    User login(User user);
 
 }

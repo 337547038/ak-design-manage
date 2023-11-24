@@ -2,22 +2,24 @@ package com.design.ak.controller;
 
 import com.design.ak.entity.User;
 import com.design.ak.service.UserService;
-import com.alibaba.fastjson2.JSON;
 import com.design.ak.utils.Utils;
+import com.alibaba.fastjson2.JSON;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * (User)表控制层
  *
  * @author ak.design
- * @since 2023-11-23 13:41:39
+ * @since 2023-11-23 16:14:19
  */
 @Tag(name = "User相关")
 @RestController
@@ -108,6 +110,12 @@ public class UserController {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
         return ResponseEntity.ok(this.userService.deleteById(idList));
+    }
+
+    @Operation(summary = "根据用户名和密码登录")
+    @PostMapping("login")
+    public ResponseEntity<User> login(@RequestBody @Validated User user){
+        return ResponseEntity.ok(this.userService.login(user));
     }
 
 }

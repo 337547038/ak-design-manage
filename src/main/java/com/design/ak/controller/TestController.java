@@ -2,8 +2,6 @@ package com.design.ak.controller;
 
 import com.design.ak.entity.Test;
 import com.design.ak.service.TestService;
-import com.alibaba.fastjson2.JSON;
-import com.design.ak.utils.Utils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
@@ -17,7 +15,7 @@ import java.util.Map;
  * (Test)表控制层
  *
  * @author ak.design
- * @since 2023-11-23 15:39:21
+ * @since 2023-11-24 14:50:07
  */
 @Tag(name = "Test相关")
 @RestController
@@ -51,11 +49,7 @@ public class TestController {
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
-        Object queryObj = pages.get("query");//查询条件
-        Test test = JSON.parseObject(JSON.toJSONString(queryObj), Test.class);//json字符串转java对象
-        Map<String, Object> pageMap = Utils.Pagination(pages);
-        pages.put("pageInfo", pageMap); //对pageInfo重新赋值
-        return ResponseEntity.ok(this.testService.queryByPage(test, pages));
+        return ResponseEntity.ok(this.testService.queryByPage(pages));
     }
 
     /**

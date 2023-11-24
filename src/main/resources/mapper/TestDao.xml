@@ -27,20 +27,20 @@ id, name, content, phone, status
             <include refid="commColumnsItem" />
             from test
             <where>
-                    <if test="id != null">
-                        and id = #{id}
+                    <if test="query.id != null">
+                        and id = #{query.id}
                     </if>
-                    <if test="name != null and name != ''">
-                        and name = #{name}
+                    <if test="query.name != null and query.name != ''">
+                        and name = #{query.name}
                     </if>
-                    <if test="content != null and content != ''">
-                        and content = #{content}
+                    <if test="query.content != null and query.content != ''">
+                        and content = #{query.content}
                     </if>
-                    <if test="phone != null and phone != ''">
-                        and phone = #{phone}
+                    <if test="query.phone != null and query.phone != ''">
+                        and phone = #{query.phone}
                     </if>
-                    <if test="status != null">
-                        and status = #{status}
+                    <if test="query.status != null">
+                        and status = #{query.status}
                     </if>
             </where>
             <choose>

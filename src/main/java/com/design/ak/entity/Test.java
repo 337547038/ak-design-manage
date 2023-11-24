@@ -10,13 +10,13 @@ import java.io.Serial;
  * (Test)实体类
  *
  * @author ak.design
- * @since 2023-11-23 15:39:22
+ * @since 2023-11-24 14:50:08
  */
 @Getter
 @Setter
 public class Test implements Serializable {
     @Serial
-    private static final long serialVersionUID = 491829890382837701L;
+    private static final long serialVersionUID = -84283631014115342L;
 
     private Integer id;
 
@@ -27,6 +27,7 @@ public class Test implements Serializable {
     private String phone;
 
     private Integer status;
+
 
 }
 

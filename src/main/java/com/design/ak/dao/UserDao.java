@@ -10,7 +10,7 @@ import java.util.Map;
  * (User)表数据库访问层
  *
  * @author ak.design
- * @since 2023-11-21 14:14:23
+ * @since 2023-11-23 16:14:20
  */
  @Mapper
 public interface UserDao {

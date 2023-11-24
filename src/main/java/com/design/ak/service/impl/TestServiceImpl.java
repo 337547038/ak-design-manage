@@ -1,5 +1,7 @@
 package com.design.ak.service.impl;
 
+import com.alibaba.fastjson2.JSON;
+import com.design.ak.utils.Utils;
 import com.design.ak.entity.Test;
 import com.design.ak.dao.TestDao;
 import com.design.ak.service.TestService;
@@ -13,7 +15,7 @@ import java.util.Map;
  * (Test)表服务实现类
  *
  * @author ak.design
- * @since 2023-11-23 15:39:24
+ * @since 2023-11-24 14:50:10
  */
 @Service("testService")
 public class TestServiceImpl implements TestService {
@@ -34,14 +36,16 @@ public class TestServiceImpl implements TestService {
     /**
      * 分页查询
      *
-     * @param test 筛选条件
-     * @param pages  分页对象
+     * @param pages  筛选条件分页对象
      * @return 查询结果
      */
     @Override
-    public Map<String, Object> queryByPage(Test test, Map<String,Object> pages) {
+    public Map<String, Object> queryByPage(Map<String,Object> pages) {
+        Object query = pages.get("query");//条件查询信息
+        Test test = JSON.parseObject(JSON.toJSONString(query), Test.class);//json字符串转java对象
+        Map<String,Object> pageInfo = Utils.Pagination(pages);//分页信息
         long total = this.testDao.count(test);
-        List<Test> list = this.testDao.queryAllByLimit(pages);
+        List<Test> list = this.testDao.queryAllByLimit(test,pageInfo);
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

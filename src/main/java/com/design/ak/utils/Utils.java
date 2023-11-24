@@ -17,17 +17,17 @@ public class Utils {
      * 公共分页处理方法
      */
     public static Map<String, Object> Pagination(Map<String, Object> pages){
-        Object pageInfo = pages.get("pageInfo");//分页信息
-        if (pageInfo == null) {
-            pageInfo = new Object();
+        Object pageInfoObj = pages.get("pageInfo");//分页信息
+        if (pageInfoObj == null) {
+            pageInfoObj = new Object();
         }
         //处理分页的pageIndex和pageSize两个值
-        JSONObject pageInfoMap = JSON.parseObject(JSON.toJSONString(pageInfo));
-        int pageNum = pageInfoMap.getIntValue("pageNum", 1);
-        int pageSize = pageInfoMap.getIntValue("pageSize", 20);
+        JSONObject pageInfo = JSON.parseObject(JSON.toJSONString(pageInfoObj));
+        int pageNum = pageInfo.getIntValue("pageNum", 1);
+        int pageSize = pageInfo.getIntValue("pageSize", 20);
         int pageIndex = (pageNum - 1) * pageSize;
-        pageInfoMap.put("pageIndex", pageIndex);//从第几条开始取
-        pageInfoMap.put("pageSize", pageSize);
-        return pageInfoMap;
+        pageInfo.put("pageIndex", pageIndex);//从第几条开始取
+        pageInfo.put("pageSize", pageSize);
+        return pageInfo;
     }
 }
