@@ -2,8 +2,6 @@ package com.design.ak.controller;
 
 import com.design.ak.entity.User;
 import com.design.ak.service.UserService;
-import com.design.ak.utils.Utils;
-import com.alibaba.fastjson2.JSON;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +11,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * (User)表控制层
  *
  * @author ak.design
- * @since 2023-11-23 16:14:19
+ * @since 2023-11-24 15:03:05
  */
 @Tag(name = "User相关")
 @RestController
@@ -35,29 +34,26 @@ public class UserController {
      * 分页查询
      * 前端传参:
      * {
-     *     query:{},//查询条件
-     *     pageInfo:{
-     *         pageNum:1,//当前第几页
-     *         pageSize:20,//每页多少条记录，默认20。小于0返回全部
-     *         order:"id desc"//排序
-     *     }
+     * query:{},//查询条件
+     * pageInfo:{
+     * pageNum:1,//当前第几页
+     * pageSize:20,//每页多少条记录，默认20。小于0返回全部
+     * order:"id desc"//排序
      * }
+     * }
+     *
      * @param pages 筛选条件分页对象
      * @return 查询结果
      */
-    @Operation(summary ="分页列表")
+    @Operation(summary = "分页列表")
     @Parameters({
-            @Parameter(name = "pageInfo.pageNum",description = "当前第几页"),
-            @Parameter(name = "pageInfo.pageSize",description = "每页显示多少条"),
-            @Parameter(name = "query",description = "查询条件")
+            @Parameter(name = "pageInfo.pageNum", description = "当前第几页"),
+            @Parameter(name = "pageInfo.pageSize", description = "每页显示多少条"),
+            @Parameter(name = "query", description = "查询条件")
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
-        Object queryObj = pages.get("query");//查询条件
-        User user = JSON.parseObject(JSON.toJSONString(queryObj), User.class);//json字符串转java对象
-        Map<String, Object> pageMap = Utils.Pagination(pages);
-        pages.put("pageInfo", pageMap); //对pageInfo重新赋值
-        return ResponseEntity.ok(this.userService.queryByPage(user, pages));
+        return ResponseEntity.ok(this.userService.queryByPage(pages));
     }
 
     /**
@@ -66,7 +62,7 @@ public class UserController {
      * @param id 主键
      * @return 单条数据
      */
-    @Operation(summary ="根据id查询数据")
+    @Operation(summary = "根据id查询数据")
     @GetMapping("{id}")
     public ResponseEntity<User> queryById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.userService.queryById(id));
@@ -78,7 +74,7 @@ public class UserController {
      * @param user 实体
      * @return 新增结果Id
      */
-    @Operation(summary ="新增数据")
+    @Operation(summary = "新增数据")
     @PostMapping("add")
     public ResponseEntity<Integer> add(@RequestBody User user) {
         User result = userService.insert(user);
@@ -91,7 +87,7 @@ public class UserController {
      * @param user 实体
      * @return 影响行数
      */
-    @Operation(summary ="编辑数据")
+    @Operation(summary = "编辑数据")
     @PostMapping("edit")
     public ResponseEntity<Integer> edit(@RequestBody User user) {
         return ResponseEntity.ok(this.userService.updateById(user));
@@ -103,20 +99,33 @@ public class UserController {
      * @param ids 主键
      * @return 删除是否成功
      */
-    @Operation(summary ="根据id删除")
-    @Parameter(name = "id",description = "多个id时使用豆号隔开",required = true)
+    @Operation(summary = "根据id删除")
+    @Parameter(name = "id", description = "多个id时使用豆号隔开", required = true)
     @PostMapping("delete")
-    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
+    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String, Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
         return ResponseEntity.ok(this.userService.deleteById(idList));
     }
 
     @Operation(summary = "根据用户名和密码登录")
+    @Parameter(name = "username", description = "登录用户名", required = true)
+    @Parameter(name = "password", description = "登录密码", required = true)
     @PostMapping("login")
-    public ResponseEntity<User> login(@RequestBody @Validated User user){
+    public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated User user) {
+        /*if(user.getPhone()==null){
+            throw new RuntimeException("用户名或密码错误456");
+        }
+        List<User> list = this.userService.login(user);
+        if (!list.isEmpty()) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("token", "");
+            result.put("userId", list.get(0).getId());
+            return ResponseEntity.ok(result);
+        } else {
+            throw new RuntimeException("用户名或密码错误");
+        }*/
         return ResponseEntity.ok(this.userService.login(user));
     }
-
 }
 

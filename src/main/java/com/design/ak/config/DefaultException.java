@@ -21,7 +21,7 @@ public class DefaultException {
     public Object error (Exception e) {// 根据我的方法参数来捕获异常，这里捕获的就是Exception异常
         HashMap<String, Object> result = new HashMap<>();
         result.put("code",ReturnCodeEnum.RC500.getCode());
-        result.put("msg",e.getMessage());
+        result.put("msg",e.getMessage().replace("java.lang.RuntimeException:",""));
         return result;
     }
 }

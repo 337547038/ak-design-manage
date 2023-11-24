@@ -2,6 +2,7 @@ package com.design.ak.dao;
 
 import com.design.ak.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * (User)表数据库访问层
  *
  * @author ak.design
- * @since 2023-11-23 16:14:20
+ * @since 2023-11-24 15:03:06
  */
  @Mapper
 public interface UserDao {
@@ -25,11 +26,11 @@ public interface UserDao {
 
     /**
      * 查询指定行数据
-     *
-     *@param pages 筛选条件 分页对象
+     *@param user 筛选条件
+     *@param pageInfo 分页对象
      * @return 对象列表
      */
-    List<User> queryAllByLimit(Map<String,Object> pages);
+    List<User> queryAllByLimit(@Param("query") User user,@Param("pageInfo") Map<String,Object> pageInfo);
 
     /**
      * 统计总行数

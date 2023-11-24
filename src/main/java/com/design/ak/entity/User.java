@@ -6,19 +6,20 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serial;
+import java.util.Map;
 
 
 /**
  * (User)实体类
  *
  * @author ak.design
- * @since 2023-11-23 16:14:21
+ * @since 2023-11-24 15:03:07
  */
 @Getter
 @Setter
 public class User implements Serializable {
     @Serial
-    private static final long serialVersionUID = -82918130366395909L;
+    private static final long serialVersionUID = 515319974973798232L;
 
     private Integer id;
 

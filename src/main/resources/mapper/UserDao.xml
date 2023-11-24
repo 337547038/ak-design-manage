@@ -32,35 +32,35 @@ id, userName, nickName, phone, status, role, password, department, post, remark
             <include refid="commColumnsItem" />
             from user
             <where>
-                    <if test="id != null">
-                        and id = #{id}
+                    <if test="query.id != null">
+                        and id = #{query.id}
                     </if>
-                    <if test="username != null and username != ''">
-                        and userName = #{username}
+                    <if test="query.username != null and query.username != ''">
+                        and userName = #{query.username}
                     </if>
-                    <if test="nickname != null and nickname != ''">
-                        and nickName = #{nickname}
+                    <if test="query.nickname != null and query.nickname != ''">
+                        and nickName = #{query.nickname}
                     </if>
-                    <if test="phone != null and phone != ''">
-                        and phone = #{phone}
+                    <if test="query.phone != null and query.phone != ''">
+                        and phone = #{query.phone}
                     </if>
-                    <if test="status != null">
-                        and status = #{status}
+                    <if test="query.status != null">
+                        and status = #{query.status}
                     </if>
-                    <if test="role != null and role != ''">
-                        and role = #{role}
+                    <if test="query.role != null and query.role != ''">
+                        and role = #{query.role}
                     </if>
-                    <if test="password != null and password != ''">
-                        and password = #{password}
+                    <if test="query.password != null and query.password != ''">
+                        and password = #{query.password}
                     </if>
-                    <if test="department != null">
-                        and department = #{department}
+                    <if test="query.department != null">
+                        and department = #{query.department}
                     </if>
-                    <if test="post != null">
-                        and post = #{post}
+                    <if test="query.post != null">
+                        and post = #{query.post}
                     </if>
-                    <if test="remark != null and remark != ''">
-                        and remark = #{remark}
+                    <if test="query.remark != null and query.remark != ''">
+                        and remark = #{query.remark}
                     </if>
             </where>
             <choose>

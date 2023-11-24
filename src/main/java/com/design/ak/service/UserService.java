@@ -2,12 +2,13 @@ package com.design.ak.service;
 
 import com.design.ak.entity.User;
 
+import java.util.List;
 import java.util.Map;
 /**
  * (User)表服务接口
  *
  * @author ak.design
- * @since 2023-11-23 16:14:22
+ * @since 2023-11-24 15:03:08
  */
 public interface UserService {
 
@@ -21,11 +22,10 @@ public interface UserService {
     
     /**
      * 分页查询
-     * @param user 筛选条件
-     * @param pageInfo 分页对象
+     * @param pages 筛选条件 分页对象
      * @return 查询结果
      */
-    Map<String,Object> queryByPage(User user,Map<String,Object> pageInfo);
+    Map<String,Object> queryByPage(Map<String,Object> pages);
     /**
      * 新增数据
      *
@@ -49,7 +49,8 @@ public interface UserService {
      * @return 是否成功
      */
     boolean deleteById(String[] id);
-    
-    User login(User user);
+
+    Map<String,Object> login(User user);
+    //List<User> login(User user);
 
 }
