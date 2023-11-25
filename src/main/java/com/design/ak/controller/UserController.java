@@ -1,5 +1,6 @@
 package com.design.ak.controller;
 
+import com.design.ak.config.PassToken;
 import com.design.ak.entity.User;
 import com.design.ak.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -111,20 +112,9 @@ public class UserController {
     @Operation(summary = "根据用户名和密码登录")
     @Parameter(name = "username", description = "登录用户名", required = true)
     @Parameter(name = "password", description = "登录密码", required = true)
+    @PassToken
     @PostMapping("login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated User user) {
-        /*if(user.getPhone()==null){
-            throw new RuntimeException("用户名或密码错误456");
-        }
-        List<User> list = this.userService.login(user);
-        if (!list.isEmpty()) {
-            Map<String, Object> result = new HashMap<>();
-            result.put("token", "");
-            result.put("userId", list.get(0).getId());
-            return ResponseEntity.ok(result);
-        } else {
-            throw new RuntimeException("用户名或密码错误");
-        }*/
         return ResponseEntity.ok(this.userService.login(user));
     }
 }

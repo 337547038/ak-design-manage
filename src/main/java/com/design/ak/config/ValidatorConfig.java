@@ -2,10 +2,10 @@ package com.design.ak.config;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import jakarta.validation.ValidatorFactory;
 
 /**
  * author: 337547038
@@ -16,6 +16,7 @@ import jakarta.validation.ValidatorFactory;
  * 可以通过一些简单的配置，开启Fali Fast模式，一旦校验失败就立即返回
  * 调用：
  */
+
 
 @Component
 public class ValidatorConfig {

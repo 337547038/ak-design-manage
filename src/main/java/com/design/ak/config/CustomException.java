@@ -13,10 +13,10 @@ import lombok.Getter;
 @Getter
 public class CustomException extends RuntimeException {
     //可以用来接受我们方法中传的参数
-    private final String code;
+    private final Integer code;
     private final String msg;
 
-    public CustomException(String code, String msg) {
+    public CustomException(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }

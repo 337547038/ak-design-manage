@@ -101,16 +101,17 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("用户名或密码错误");
         }
         JSONObject obj = JSONObject.from(list.get(0));
-        obj.put("token",getToken(obj.getString("username"),obj.getString("password"),EXPIRE_TIME));
-        obj.put("refreshToken",getToken(obj.getString("username"),obj.getString("password"),EXPIRE_TIME*2));
-        obj.put("expire_time",EXPIRE_TIME);
+        obj.put("token", getToken(obj.getString("id"), obj.getString("password"), EXPIRE_TIME));
+        obj.put("refreshToken", getToken(obj.getString("id"), obj.getString("password"), EXPIRE_TIME * 2));
+        obj.put("expire_time", EXPIRE_TIME);
         obj.remove("password");
         return obj;
     }
 
     private static final long EXPIRE_TIME = 5 * 60 * 1000;
+
     //获取token的静态方法
-    public static String getToken(String userId,String password,long expire){
+    public static String getToken(String userId, String password, long expire) {
 
         Date date = new Date(System.currentTimeMillis() + expire);
 
