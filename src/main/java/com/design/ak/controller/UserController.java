@@ -1,13 +1,17 @@
 package com.design.ak.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.design.ak.config.PassToken;
 import com.design.ak.entity.User;
 import com.design.ak.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 import jakarta.annotation.Resource;
 
@@ -23,7 +27,7 @@ import java.util.Map;
  */
 @Tag(name = "User相关")
 @RestController
-@RequestMapping("user")
+@RequestMapping("system/user")
 public class UserController {
     /**
      * 服务对象
@@ -114,8 +118,12 @@ public class UserController {
     @Parameter(name = "password", description = "登录密码", required = true)
     @PassToken
     @PostMapping("login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated User user) {
-        return ResponseEntity.ok(this.userService.login(user));
+    public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated User user, String code,String codeId) {
+        System.out.println(JSONObject.toJSONString(user));
+        System.out.println(code);
+        System.out.println(codeId);
+        return ResponseEntity.ok(new HashMap<>());
+        //return ResponseEntity.ok(this.userService.login(user));
     }
 }
 

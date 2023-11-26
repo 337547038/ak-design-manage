@@ -53,7 +53,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         //否则进行token检查
         if (token == null) {
             //log.error("token 不存在，请重新登录");
-            throw new CustomException(codeToken, "token不存在，请重新登录");
+            throw new CustomException(codeToken, "登录超时，请重新登录");
         }
         // 获取 userId
         String userId;
@@ -75,7 +75,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             jwtVerifier.verify(token);
         } catch (JWTVerificationException e) {
             //log.error("token 校验失败");
-            throw new CustomException(codeToken, "登录超时，请重新登录");
+            throw new CustomException(codeToken, "token异常，请重新登录");
         }
         return true;
     }

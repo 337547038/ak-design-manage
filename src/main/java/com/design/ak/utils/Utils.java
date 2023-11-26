@@ -7,7 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * author: 337547038
@@ -52,4 +55,63 @@ public class Utils {
         return null;
     }
 
+    /**
+     * 图片验证码校验
+     *
+     * @param code   验证码的值
+     * @param codeId 验证码加密的id值
+     * @return 是否校验通过
+     */
+    public static Boolean captchaVerify(String code, String codeId) {
+        if (code == null || codeId == null) {
+            return false;
+        }
+        String codeMd5 = convertToMD5(code);
+        return Objects.equals(codeMd5, codeId);
+    }
+
+    /**
+     * 将字符串转换为md5值
+     *
+     * @param string 筛选条件分页对象
+     * @return 返回md5值
+     */
+    public static String convertToMD5(String string) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] md5Bytes = md.digest(string.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : md5Bytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+            //return sb.toString().substring(8, 24);//这个返回16位
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将字符串转为sha1加密值
+     *
+     * @param string 筛选条件分页对象
+     * @return r返回加密字符串
+     */
+    public static String sha1(String string) throws NoSuchAlgorithmException {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] messageDigest = md.digest(string.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : messageDigest) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
