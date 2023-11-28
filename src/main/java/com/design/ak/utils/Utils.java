@@ -3,12 +3,14 @@ package com.design.ak.utils;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -55,6 +57,19 @@ public class Utils {
         return null;
     }
 
+    /**
+     * 生成token
+     * @param userId 会员id
+     * @param password //密码
+     * @param expire　//　过期时间ms
+     * @return token
+     */
+    public static String getToken(String userId, String password, long expire) {
+        Date date = new Date(System.currentTimeMillis() + expire);
+        return JWT.create().withAudience(userId)// 将 user id 保存到 token 里面,作为载荷
+                .withExpiresAt(date)
+                .sign(Algorithm.HMAC256(password));// 以 password 作为 token 的密钥
+    }
     /**
      * 图片验证码校验
      *

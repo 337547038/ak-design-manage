@@ -1,12 +1,23 @@
 package com.design.ak.controller;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.design.ak.config.CustomException;
 import com.design.ak.config.PassToken;
+import com.design.ak.config.ResponseResult;
+import com.design.ak.entity.Login;
 import com.design.ak.entity.User;
 import com.design.ak.service.UserService;
+import com.design.ak.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.design.ak.utils.Utils.getToken;
+
 /**
  * (User)表控制层
  *
@@ -27,6 +40,7 @@ import java.util.Map;
  */
 @Tag(name = "User相关")
 @RestController
+@Slf4j
 @RequestMapping("system/user")
 public class UserController {
     /**
@@ -34,6 +48,8 @@ public class UserController {
      */
     @Resource
     private UserService userService;
+
+    private static final long EXPIRE_TIME = 8 * 60 * 60 * 1000;//token过期时间
 
     /**
      * 分页查询
@@ -117,13 +133,64 @@ public class UserController {
     @Parameter(name = "username", description = "登录用户名", required = true)
     @Parameter(name = "password", description = "登录密码", required = true)
     @PassToken
-    @PostMapping("login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody @Validated User user, String code,String codeId) {
-        System.out.println(JSONObject.toJSONString(user));
-        System.out.println(code);
-        System.out.println(codeId);
-        return ResponseEntity.ok(new HashMap<>());
-        //return ResponseEntity.ok(this.userService.login(user));
+    @RequestMapping("login")
+    public ResponseResult<Map<String, Object>> login(@RequestBody Login login) {
+        User user = new User();
+        user.setStatus(1);
+        user.setPassword(login.getPassword());
+        user.setUsername(login.getUsername());
+        Boolean bool = Utils.captchaVerify(login.getCode(), login.getCodeId());
+        if (!bool) {
+            return ResponseResult.fail("验证码错误");
+        }
+        List<User> list = this.userService.login(user);
+        if (list.isEmpty()) {
+            return ResponseResult.fail("用户名或密码错误");
+        }
+        JSONObject obj = JSONObject.from(list.get(0));
+        obj.put("token", getToken(obj.getString("id"), obj.getString("password"), EXPIRE_TIME));
+        obj.put("refreshToken", getToken(obj.getString("id"), obj.getString("password"), EXPIRE_TIME * 2));
+        obj.put("expire_time", EXPIRE_TIME);
+        obj.remove("password");
+        return ResponseResult.success(obj, "登录成功");
+    }
+
+    @Operation(summary = "使用refreshToken换取新token")
+    @Parameter(name = "refreshToken", description = "token", required = true)
+    @PassToken
+    @RequestMapping("refreshToken")
+    public ResponseResult<Map<String, Object>> refreshToken(@RequestBody String params) {
+        JSONObject obj = JSONObject.parseObject(params);
+        String token = obj.getString("refreshToken");
+        if (token == null) {
+            throw new CustomException(0, "登录超时，token刷新失败");
+        }
+        System.out.println(obj);
+        String userId;
+        try {
+            userId = JWT.decode(token).getAudience().get(0);
+        } catch (JWTDecodeException e) {
+            //log.error("token 解码失败");
+            throw new CustomException(0, "登录超时，请重新登录.");
+        }
+        User user = userService.queryById(Integer.valueOf(userId));
+        if (user == null || user.getStatus() == 0) {
+            log.error("用户不存在，请重新登录。用户信息:{}", JSON.toJSONString(user));
+            throw new CustomException(0, "用户不存在，请重新登录");
+        }
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+        try {
+            jwtVerifier.verify(token);
+        } catch (JWTVerificationException e) {
+            //log.error("token 校验失败");
+            throw new CustomException(0, "登录超时，请重新登录");
+        }
+        //生成新token
+        Map<String, Object> newToken = new HashMap<>();
+        newToken.put("token", getToken(String.valueOf(user.getId()), user.getPassword(), EXPIRE_TIME));
+        newToken.put("refreshToken", getToken(String.valueOf(user.getId()), user.getPassword(), EXPIRE_TIME * 2));
+        newToken.put("expire_time", EXPIRE_TIME);
+        return ResponseResult.success(newToken, "刷新token成功");
     }
 }
 

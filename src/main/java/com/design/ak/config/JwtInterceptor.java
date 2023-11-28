@@ -1,5 +1,6 @@
 package com.design.ak.config;
 
+import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,9 +12,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.Method;
 
@@ -31,11 +34,6 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        //StringBuffer url = request.getRequestURL();
-        //System.out.println("request.getRequestURL()");
-        //System.out.println(url);
-
         String token = request.getHeader("Authorization");
         // 如果不是映射到方法的，直接通过
         if (!(handler instanceof HandlerMethod handlerMethod)) {
@@ -61,12 +59,13 @@ public class JwtInterceptor implements HandlerInterceptor {
             userId = JWT.decode(token).getAudience().get(0);
         } catch (JWTDecodeException e) {
             //log.error("token 解码失败");
-            throw new CustomException(codeToken, "token异常，请重新登录");
+            throw new CustomException(codeToken, "token异常，请重新登录.");
         }
         // 根据 userId 查询 User
+        //　todo 每个请求接口请查一次用户核对，不理想
         User user = userService.queryById(Integer.valueOf(userId));
         if (user == null || user.getStatus() == 0) {
-            //log.error("用户不存在，请重新登录");
+            log.error("用户不存在，请重新登录。用户信息:{}", JSON.toJSONString(user));
             throw new CustomException(codeToken, "用户不存在，请重新登录");
         }
         // 验证 token

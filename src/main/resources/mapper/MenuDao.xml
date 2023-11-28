@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.design.ak.dao.MenuDao">
+
+        <resultMap type="com.design.ak.entity.Menu" id="MenuMap">
+                <result property="id" column="id" jdbcType="INTEGER"/>
+                <result property="parentid" column="parentId" jdbcType="INTEGER"/>
+                <result property="name" column="name" jdbcType="VARCHAR"/>
+                <result property="icon" column="icon" jdbcType="VARCHAR"/>
+                <result property="sort" column="sort" jdbcType="INTEGER"/>
+                <result property="path" column="path" jdbcType="VARCHAR"/>
+                <result property="status" column="status" jdbcType="INTEGER"/>
+                <result property="remark" column="remark" jdbcType="VARCHAR"/>
+                <result property="type" column="type" jdbcType="INTEGER"/>
+        </resultMap>
+
+    <sql id="commColumnsItem">
+id, parentId, name, icon, sort, path, status, remark, type        
+    </sql>
+        <!--查询单个-->
+        <select id="queryById" resultMap="MenuMap">
+            select
+            <include refid="commColumnsItem" />
+            from menu
+                where id = #{id}
+        </select>
+
+        <!--查询指定行数据-->
+        <select id="queryAllByLimit" resultMap="MenuMap">
+            select
+            <include refid="commColumnsItem" />
+            from menu
+            <where>
+                    <if test="query.id != null">
+                        and id = #{query.id}
+                    </if>
+                    <if test="query.parentid != null">
+                        and parentId = #{query.parentid}
+                    </if>
+                    <if test="query.name != null and query.name != ''">
+                        and name = #{query.name}
+                    </if>
+                    <if test="query.icon != null and query.icon != ''">
+                        and icon = #{query.icon}
+                    </if>
+                    <if test="query.sort != null">
+                        and sort = #{query.sort}
+                    </if>
+                    <if test="query.path != null and query.path != ''">
+                        and path = #{query.path}
+                    </if>
+                    <if test="query.status != null">
+                        and status = #{query.status}
+                    </if>
+                    <if test="query.remark != null and query.remark != ''">
+                        and remark = #{query.remark}
+                    </if>
+                    <if test="query.type != null">
+                        and type = #{query.type}
+                    </if>
+            </where>
+            <choose>
+                <when test="pageInfo.order != null">
+                    order by #{pageInfo.order}
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="pageInfo.pageSize >0">
+            limit #{pageInfo.pageIndex}, #{pageInfo.pageSize}
+            </if>
+        </select>
+
+        <!--统计总行数-->
+        <select id="count" resultType="java.lang.Long">
+            select count(1)
+            from menu
+            <where>
+                    <if test="id != null">
+                        and id = #{id}
+                    </if>
+                    <if test="parentid != null">
+                        and parentId = #{parentid}
+                    </if>
+                    <if test="name != null and name != ''">
+                        and name = #{name}
+                    </if>
+                    <if test="icon != null and icon != ''">
+                        and icon = #{icon}
+                    </if>
+                    <if test="sort != null">
+                        and sort = #{sort}
+                    </if>
+                    <if test="path != null and path != ''">
+                        and path = #{path}
+                    </if>
+                    <if test="status != null">
+                        and status = #{status}
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        and remark = #{remark}
+                    </if>
+                    <if test="type != null">
+                        and type = #{type}
+                    </if>
+            </where>
+        </select>
+
+        <!--新增所有列-->
+        <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+            insert into menu(parentId, name, icon, sort, path, status, remark, type)
+                values
+            (#{parentid}, #{name}, #{icon}, #{sort}, #{path}, #{status}, #{remark}, #{type})
+        </insert>
+
+        <!--通过主键修改数据-->
+        <update id="updateById">
+            update menu
+            <set>
+                    <if test="parentid != null">
+                        parentId = #{parentid},
+                    </if>
+                    <if test="name != null and name != ''">
+                        name = #{name},
+                    </if>
+                    <if test="icon != null and icon != ''">
+                        icon = #{icon},
+                    </if>
+                    <if test="sort != null">
+                        sort = #{sort},
+                    </if>
+                    <if test="path != null and path != ''">
+                        path = #{path},
+                    </if>
+                    <if test="status != null">
+                        status = #{status},
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        remark = #{remark},
+                    </if>
+                    <if test="type != null">
+                        type = #{type},
+                    </if>
+            </set>
+            where id = #{id}
+        </update>
+
+        <!--通过主键删除-->
+        <delete id="deleteById">
+            delete
+            from menu where id in
+            <foreach collection="id" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        </delete>
+
+    </mapper>

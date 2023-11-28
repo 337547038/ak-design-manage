@@ -8,6 +8,7 @@ import com.design.ak.utils.Utils;
 import com.design.ak.entity.User;
 import com.design.ak.dao.UserDao;
 import com.design.ak.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -94,31 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> login(User user) {
-        user.setStatus(1);
-        List<User> list = this.userDao.queryAllByLimit(user, new HashMap<>());
-        if (list.isEmpty()) {
-            throw new RuntimeException("用户名或密码错误");
-        }
-        JSONObject obj = JSONObject.from(list.get(0));
-        obj.put("token", getToken(obj.getString("id"), obj.getString("password"), EXPIRE_TIME));
-        obj.put("refreshToken", getToken(obj.getString("id"), obj.getString("password"), EXPIRE_TIME * 2));
-        obj.put("expire_time", EXPIRE_TIME);
-        obj.remove("password");
-        return obj;
-    }
-
-    private static final long EXPIRE_TIME = 5 * 60 * 1000;
-
-    //获取token的静态方法
-    public static String getToken(String userId, String password, long expire) {
-
-        Date date = new Date(System.currentTimeMillis() + expire);
-
-        return JWT.create().withAudience(userId)// 将 user id 保存到 token 里面,作为载荷
-                .withExpiresAt(date)
-                .sign(Algorithm.HMAC256(password));// 以 password 作为 token 的密钥
-
-
+    public List<User> login(User user) {
+        return this.userDao.queryAllByLimit(user, new HashMap<>());
     }
 }

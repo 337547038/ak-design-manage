@@ -1,16 +1,15 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.User;
+import com.design.ak.entity.Menu;
 
-import java.util.List;
 import java.util.Map;
 /**
- * (User)表服务接口
+ * (Menu)表服务接口
  *
  * @author ak.design
- * @since 2023-11-24 15:03:08
+ * @since 2023-11-27 14:59:00
  */
-public interface UserService {
+public interface MenuService {
 
     /**
      * 通过ID查询单条数据
@@ -18,7 +17,7 @@ public interface UserService {
      * @param id 主键
      * @return 实例对象
      */
-    User queryById(Integer id);
+    Menu queryById(Integer id);
     
     /**
      * 分页查询
@@ -29,18 +28,18 @@ public interface UserService {
     /**
      * 新增数据
      *
-     * @param user 实例对象
+     * @param menu 实例对象
      * @return 实例对象
      */
-    User insert(User user);
+    Menu insert(Menu menu);
 
     /**
      * 修改数据
      *
-     * @param user 实例对象
+     * @param menu 实例对象
      * @return 实例对象
      */
-    Integer updateById(User user);
+    Integer updateById(Menu menu);
 
     /**
      * 通过主键删除数据
@@ -49,7 +48,5 @@ public interface UserService {
      * @return 是否成功
      */
     boolean deleteById(String[] id);
-
-    List<User> login(User user);
 
 }

@@ -22,12 +22,12 @@ public class CommonExceptionHandler {
      * 处理CustomException.java自定义错误抛出的异常
      */
     @ExceptionHandler(CustomException.class) //就是定义处理什么异常。自定的类名
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK) // 以异常形式返回
     //在这个方法里定义我们需要返回的格式
     public Map<String, Object> handleUserNotExistException(CustomException ex) {
         Map<String, Object> result = new HashMap<>();
         result.put("code", ex.getCode());  //获取到我们定义的code
-        result.put("msg", ex.getMsg());        //获取到我们定义的msg
+        result.put("message", ex.getMsg());        //获取到我们定义的msg
         return result;
     }
 
@@ -46,7 +46,7 @@ public class CommonExceptionHandler {
         }
         String msg = sb.toString();
         result.put("code", ReturnCodeEnum.RC100.getCode());
-        result.put("msg", ReturnCodeEnum.RC100.getMessage() + msg);
+        result.put("message", ReturnCodeEnum.RC100.getMessage() + msg);
         return result;
     }
 
@@ -58,7 +58,7 @@ public class CommonExceptionHandler {
     public Map<Object, Object> handleConstraintViolationException(ConstraintViolationException ex) {
         Map<Object, Object> result = new HashMap<>();
         result.put("code", ReturnCodeEnum.RC100.getCode());
-        result.put("msg", ex.getMessage());
+        result.put("message", ex.getMessage());
         return result;
     }
 }

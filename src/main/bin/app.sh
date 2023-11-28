@@ -32,9 +32,28 @@ function enter() {
     jdb -attach $(ps -ef | grep $APP_NAME.jar | grep -v grep | awk '{print $2}')
 }
 
+function logs() {
+    #查看日志
+}
+function status() {
+    #查看运行状态
+}
+function help() {
+    #看可所有可用命令
+    echo "status  查看运行状态"
+    echo "start  启动应用"
+    echo "stop  停止应用"
+    echo "restart  重启应用"
+    echo "enter  进入查看终端操作"
+    echo "logs  查看日志"
+    echo "help  查看所有可用命令"
+}
 start  # 默认启动应用
 
 # 你可以通过输入以下命令来执行其他操作：
 # ./app.sh stop  # 停止应用
 # ./app.sh restart  # 重启应用
 # ./app.sh enter  # 进入查看终端操作
+# ./app.sh logs  # 查看日志
+# ./app.sh status  # 查看运行状态
+# ./app.sh help  # 看可所有可用命令
