@@ -11,6 +11,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,7 +29,9 @@ public class Utils {
     public static Map<String, Object> Pagination(Map<String, Object> pages) {
         Object pageInfoObj = pages.get("pageInfo");//分页信息
         if (pageInfoObj == null) {
-            pageInfoObj = new Object();
+            Map<String, Object> info = new HashMap<>();
+            info.put("pageSize", -1);
+            return info;
         }
         //处理分页的pageIndex和pageSize两个值
         JSONObject pageInfo = JSON.parseObject(JSON.toJSONString(pageInfoObj));
@@ -59,9 +62,10 @@ public class Utils {
 
     /**
      * 生成token
-     * @param userId 会员id
+     *
+     * @param userId   会员id
      * @param password //密码
-     * @param expire　//　过期时间ms
+     * @param expire   　//　过期时间ms
      * @return token
      */
     public static String getToken(String userId, String password, long expire) {
@@ -70,6 +74,7 @@ public class Utils {
                 .withExpiresAt(date)
                 .sign(Algorithm.HMAC256(password));// 以 password 作为 token 的密钥
     }
+
     /**
      * 图片验证码校验
      *

@@ -11,7 +11,7 @@ import java.util.Map;
  * (Menu)表数据库访问层
  *
  * @author ak.design
- * @since 2023-11-27 14:58:58
+ * @since 2023-11-29 10:44:16
  */
  @Mapper
 public interface MenuDao {

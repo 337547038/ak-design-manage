@@ -33,12 +33,4 @@ public class CaptchaController {
         map.put("codeId", Utils.convertToMD5(captcha.getCode()));
         return ResponseEntity.ok(map);
     }
-    @PassToken
-    @PostMapping("/verify")
-    public Boolean checkVerity(@RequestBody String params){
-        JSONObject obj = JSONObject.parseObject(params);
-        Boolean bool = Utils.captchaVerify(obj.getString("code"),obj.getString("codeId"));
-        System.out.println(bool);
-        return bool;
-    }
 }

@@ -1,23 +1,15 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.Menu;
+import com.design.ak.entity.LoginLog;
 
 import java.util.Map;
 /**
- * (Menu)表服务接口
+ * (LoginLog)表服务接口
  *
  * @author ak.design
- * @since 2023-11-29 10:44:16
+ * @since 2023-11-29 15:32:23
  */
-public interface MenuService {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    Menu queryById(Integer id);
+public interface LoginLogService {
     
     /**
      * 分页查询
@@ -28,18 +20,11 @@ public interface MenuService {
     /**
      * 新增数据
      *
-     * @param menu 实例对象
+     * @param loginLog 实例对象
      * @return 实例对象
      */
-    Menu insert(Menu menu);
+    LoginLog insert(LoginLog loginLog);
 
-    /**
-     * 修改数据
-     *
-     * @param menu 实例对象
-     * @return 实例对象
-     */
-    Integer updateById(Menu menu);
 
     /**
      * 通过主键删除数据

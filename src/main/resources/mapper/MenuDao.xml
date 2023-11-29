@@ -4,7 +4,7 @@
 
         <resultMap type="com.design.ak.entity.Menu" id="MenuMap">
                 <result property="id" column="id" jdbcType="INTEGER"/>
-                <result property="parentid" column="parentId" jdbcType="INTEGER"/>
+                <result property="parentId" column="parentId" jdbcType="INTEGER"/>
                 <result property="name" column="name" jdbcType="VARCHAR"/>
                 <result property="icon" column="icon" jdbcType="VARCHAR"/>
                 <result property="sort" column="sort" jdbcType="INTEGER"/>
@@ -34,8 +34,8 @@ id, parentId, name, icon, sort, path, status, remark, type
                     <if test="query.id != null">
                         and id = #{query.id}
                     </if>
-                    <if test="query.parentid != null">
-                        and parentId = #{query.parentid}
+                    <if test="query.parentId != null">
+                        and parentId = #{query.parentId}
                     </if>
                     <if test="query.name != null and query.name != ''">
                         and name = #{query.name}
@@ -80,8 +80,8 @@ id, parentId, name, icon, sort, path, status, remark, type
                     <if test="id != null">
                         and id = #{id}
                     </if>
-                    <if test="parentid != null">
-                        and parentId = #{parentid}
+                    <if test="parentId != null">
+                        and parentId = #{parentId}
                     </if>
                     <if test="name != null and name != ''">
                         and name = #{name}
@@ -111,15 +111,15 @@ id, parentId, name, icon, sort, path, status, remark, type
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
             insert into menu(parentId, name, icon, sort, path, status, remark, type)
                 values
-            (#{parentid}, #{name}, #{icon}, #{sort}, #{path}, #{status}, #{remark}, #{type})
+            (#{parentId}, #{name}, #{icon}, #{sort}, #{path}, #{status}, #{remark}, #{type})
         </insert>
 
         <!--通过主键修改数据-->
         <update id="updateById">
             update menu
             <set>
-                    <if test="parentid != null">
-                        parentId = #{parentid},
+                    <if test="parentId != null">
+                        parentId = #{parentId},
                     </if>
                     <if test="name != null and name != ''">
                         name = #{name},

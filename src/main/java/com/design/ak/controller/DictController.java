@@ -31,21 +31,22 @@ public class DictController {
      * 分页查询
      * 前端传参:
      * {
-     *     query:{},//查询条件
-     *     pageInfo:{
-     *         pageNum:1,//当前第几页
-     *         pageSize:20,//每页多少条记录，默认20。小于0返回全部
-     *         order:"id desc"//排序
-     *     }
+     * query:{},//查询条件
+     * pageInfo:{
+     * pageNum:1,//当前第几页
+     * pageSize:20,//每页多少条记录，默认20。小于0返回全部
+     * order:"id desc"//排序
      * }
+     * }
+     *
      * @param pages 筛选条件分页对象
      * @return 查询结果
      */
-    @Operation(summary ="分页列表")
+    @Operation(summary = "分页列表")
     @Parameters({
-            @Parameter(name = "pageInfo.pageNum",description = "当前第几页"),
-            @Parameter(name = "pageInfo.pageSize",description = "每页显示多少条"),
-            @Parameter(name = "query",description = "查询条件")
+            @Parameter(name = "pageInfo.pageNum", description = "当前第几页"),
+            @Parameter(name = "pageInfo.pageSize", description = "每页显示多少条"),
+            @Parameter(name = "query", description = "查询条件")
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
@@ -58,7 +59,7 @@ public class DictController {
      * @param id 主键
      * @return 单条数据
      */
-    @Operation(summary ="根据id查询数据")
+    @Operation(summary = "根据id查询数据")
     @GetMapping("{id}")
     public ResponseEntity<Dict> queryById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.dictService.queryById(id));
@@ -70,7 +71,7 @@ public class DictController {
      * @param dict 实体
      * @return 新增结果Id
      */
-    @Operation(summary ="新增数据")
+    @Operation(summary = "新增数据")
     @PostMapping("add")
     public ResponseEntity<Integer> add(@RequestBody Dict dict) {
         Dict result = dictService.insert(dict);
@@ -83,7 +84,7 @@ public class DictController {
      * @param dict 实体
      * @return 影响行数
      */
-    @Operation(summary ="编辑数据")
+    @Operation(summary = "编辑数据")
     @PostMapping("edit")
     public ResponseEntity<Integer> edit(@RequestBody Dict dict) {
         return ResponseEntity.ok(this.dictService.updateById(dict));
@@ -95,10 +96,10 @@ public class DictController {
      * @param ids 主键
      * @return 删除是否成功
      */
-    @Operation(summary ="根据id删除")
-    @Parameter(name = "id",description = "多个id时使用豆号隔开",required = true)
+    @Operation(summary = "根据id删除")
+    @Parameter(name = "id", description = "多个id时使用豆号隔开", required = true)
     @PostMapping("delete")
-    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
+    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String, Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
         return ResponseEntity.ok(this.dictService.deleteById(idList));

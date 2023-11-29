@@ -2,8 +2,7 @@ package com.design.ak.entity;
 
 import java.util.Date;
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import java.io.Serial;
 
 
@@ -11,13 +10,12 @@ import java.io.Serial;
  * 数据字典表(Dict)实体类
  *
  * @author ak.design
- * @since 2023-11-28 16:47:47
+ * @since 2023-11-29 09:53:30
  */
-@Getter
-@Setter
+@Data
 public class Dict implements Serializable {
     @Serial
-    private static final long serialVersionUID = 863605490711612855L;
+    private static final long serialVersionUID = 700238362468939932L;
 
     private Integer id;
 
@@ -35,11 +33,11 @@ public class Dict implements Serializable {
 
     private String children;
 
-    private Date updatetime;
+    private Date updateTime;
 /**
      * 1系统类型不能删除
      */
-    private Integer issystem;
+    private Integer isSystem;
 
 
 }

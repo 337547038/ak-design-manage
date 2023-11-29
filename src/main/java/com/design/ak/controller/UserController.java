@@ -17,6 +17,7 @@ import com.design.ak.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -130,20 +131,22 @@ public class UserController {
     }
 
     @Operation(summary = "根据用户名和密码登录")
-    @Parameter(name = "username", description = "登录用户名", required = true)
+    @Parameter(name = "userName", description = "登录用户名", required = true)
     @Parameter(name = "password", description = "登录密码", required = true)
     @PassToken
-    @RequestMapping("login")
-    public ResponseResult<Map<String, Object>> login(@RequestBody Login login) {
+    @PostMapping("login")
+    public ResponseResult<Map<String, Object>> login(@RequestBody @Validated Login login,HttpServletRequest request) {
         User user = new User();
         user.setStatus(1);
         user.setPassword(login.getPassword());
-        user.setUsername(login.getUsername());
+        user.setUserName(login.getUserName());
         Boolean bool = Utils.captchaVerify(login.getCode(), login.getCodeId());
         if (!bool) {
             return ResponseResult.fail("验证码错误");
         }
-        List<User> list = this.userService.login(user);
+        // 获取IP地址
+        String ipAddress = request.getRemoteAddr();
+        List<User> list = this.userService.login(user,ipAddress);
         if (list.isEmpty()) {
             return ResponseResult.fail("用户名或密码错误");
         }
@@ -158,7 +161,7 @@ public class UserController {
     @Operation(summary = "使用refreshToken换取新token")
     @Parameter(name = "refreshToken", description = "token", required = true)
     @PassToken
-    @RequestMapping("refreshToken")
+    @PostMapping("refreshToken")
     public ResponseResult<Map<String, Object>> refreshToken(@RequestBody String params) {
         JSONObject obj = JSONObject.parseObject(params);
         String token = obj.getString("refreshToken");

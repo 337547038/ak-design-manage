@@ -4,19 +4,24 @@
 
         <resultMap type="com.design.ak.entity.User" id="UserMap">
                 <result property="id" column="id" jdbcType="INTEGER"/>
-                <result property="username" column="userName" jdbcType="VARCHAR"/>
-                <result property="nickname" column="nickName" jdbcType="VARCHAR"/>
+                <result property="userName" column="userName" jdbcType="VARCHAR"/>
+                <result property="nickName" column="nickName" jdbcType="VARCHAR"/>
                 <result property="phone" column="phone" jdbcType="VARCHAR"/>
                 <result property="status" column="status" jdbcType="INTEGER"/>
-                <result property="role" column="role" jdbcType="VARCHAR"/>
+                <result property="roleId" column="roleId" jdbcType="VARCHAR"/>
                 <result property="password" column="password" jdbcType="VARCHAR"/>
-                <result property="department" column="department" jdbcType="INTEGER"/>
-                <result property="post" column="post" jdbcType="INTEGER"/>
+                <result property="departmentId" column="departmentId" jdbcType="INTEGER"/>
+                <result property="postId" column="postId" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
+                <result property="creatTime" column="creatTime" jdbcType="TIMESTAMP"/>
+                <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+                <result property="lastLoginTime" column="lastLoginTime" jdbcType="TIMESTAMP"/>
+                <result property="loginTimer" column="loginTimer" jdbcType="INTEGER"/>
+                <result property="ip" column="ip" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, userName, nickName, phone, status, role, password, department, post, remark        
+id, userName, nickName, phone, status, roleId, password, departmentId, postId, remark, creatTime, updateTime, lastLoginTime, loginTimer, ip        
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="UserMap">
@@ -35,11 +40,11 @@ id, userName, nickName, phone, status, role, password, department, post, remark
                     <if test="query.id != null">
                         and id = #{query.id}
                     </if>
-                    <if test="query.username != null and query.username != ''">
-                        and userName = #{query.username}
+                    <if test="query.userName != null and query.userName != ''">
+                        and userName = #{query.userName}
                     </if>
-                    <if test="query.nickname != null and query.nickname != ''">
-                        and nickName = #{query.nickname}
+                    <if test="query.nickName != null and query.nickName != ''">
+                        and nickName = #{query.nickName}
                     </if>
                     <if test="query.phone != null and query.phone != ''">
                         and phone = #{query.phone}
@@ -47,20 +52,35 @@ id, userName, nickName, phone, status, role, password, department, post, remark
                     <if test="query.status != null">
                         and status = #{query.status}
                     </if>
-                    <if test="query.role != null and query.role != ''">
-                        and role = #{query.role}
+                    <if test="query.roleId != null and query.roleId != ''">
+                        and roleId = #{query.roleId}
                     </if>
                     <if test="query.password != null and query.password != ''">
                         and password = #{query.password}
                     </if>
-                    <if test="query.department != null">
-                        and department = #{query.department}
+                    <if test="query.departmentId != null">
+                        and departmentId = #{query.departmentId}
                     </if>
-                    <if test="query.post != null">
-                        and post = #{query.post}
+                    <if test="query.postId != null">
+                        and postId = #{query.postId}
                     </if>
                     <if test="query.remark != null and query.remark != ''">
                         and remark = #{query.remark}
+                    </if>
+                    <if test="query.creatTime != null">
+                        and creatTime = #{query.creatTime}
+                    </if>
+                    <if test="query.updateTime != null">
+                        and updateTime = #{query.updateTime}
+                    </if>
+                    <if test="query.lastLoginTime != null">
+                        and lastLoginTime = #{query.lastLoginTime}
+                    </if>
+                    <if test="query.loginTimer != null">
+                        and loginTimer = #{query.loginTimer}
+                    </if>
+                    <if test="query.ip != null and query.ip != ''">
+                        and ip = #{query.ip}
                     </if>
             </where>
             <choose>
@@ -84,11 +104,11 @@ id, userName, nickName, phone, status, role, password, department, post, remark
                     <if test="id != null">
                         and id = #{id}
                     </if>
-                    <if test="username != null and username != ''">
-                        and userName = #{username}
+                    <if test="userName != null and userName != ''">
+                        and userName = #{userName}
                     </if>
-                    <if test="nickname != null and nickname != ''">
-                        and nickName = #{nickname}
+                    <if test="nickName != null and nickName != ''">
+                        and nickName = #{nickName}
                     </if>
                     <if test="phone != null and phone != ''">
                         and phone = #{phone}
@@ -96,40 +116,55 @@ id, userName, nickName, phone, status, role, password, department, post, remark
                     <if test="status != null">
                         and status = #{status}
                     </if>
-                    <if test="role != null and role != ''">
-                        and role = #{role}
+                    <if test="roleId != null and roleId != ''">
+                        and roleId = #{roleId}
                     </if>
                     <if test="password != null and password != ''">
                         and password = #{password}
                     </if>
-                    <if test="department != null">
-                        and department = #{department}
+                    <if test="departmentId != null">
+                        and departmentId = #{departmentId}
                     </if>
-                    <if test="post != null">
-                        and post = #{post}
+                    <if test="postId != null">
+                        and postId = #{postId}
                     </if>
                     <if test="remark != null and remark != ''">
                         and remark = #{remark}
+                    </if>
+                    <if test="creatTime != null">
+                        and creatTime = #{creatTime}
+                    </if>
+                    <if test="updateTime != null">
+                        and updateTime = #{updateTime}
+                    </if>
+                    <if test="lastLoginTime != null">
+                        and lastLoginTime = #{lastLoginTime}
+                    </if>
+                    <if test="loginTimer != null">
+                        and loginTimer = #{loginTimer}
+                    </if>
+                    <if test="ip != null and ip != ''">
+                        and ip = #{ip}
                     </if>
             </where>
         </select>
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into user(userName, nickName, phone, status, role, password, department, post, remark)
+            insert into user(userName, nickName, phone, status, roleId, password, departmentId, postId, remark, creatTime, updateTime, lastLoginTime, loginTimer, ip)
                 values
-            (#{username}, #{nickname}, #{phone}, #{status}, #{role}, #{password}, #{department}, #{post}, #{remark})
+            (#{userName}, #{nickName}, #{phone}, #{status}, #{roleId}, #{password}, #{departmentId}, #{postId}, #{remark}, #{creatTime}, #{updateTime}, #{lastLoginTime}, #{loginTimer}, #{ip})
         </insert>
 
         <!--通过主键修改数据-->
         <update id="updateById">
             update user
             <set>
-                    <if test="username != null and username != ''">
-                        userName = #{username},
+                    <if test="userName != null and userName != ''">
+                        userName = #{userName},
                     </if>
-                    <if test="nickname != null and nickname != ''">
-                        nickName = #{nickname},
+                    <if test="nickName != null and nickName != ''">
+                        nickName = #{nickName},
                     </if>
                     <if test="phone != null and phone != ''">
                         phone = #{phone},
@@ -137,20 +172,35 @@ id, userName, nickName, phone, status, role, password, department, post, remark
                     <if test="status != null">
                         status = #{status},
                     </if>
-                    <if test="role != null and role != ''">
-                        role = #{role},
+                    <if test="roleId != null and roleId != ''">
+                        roleId = #{roleId},
                     </if>
                     <if test="password != null and password != ''">
                         password = #{password},
                     </if>
-                    <if test="department != null">
-                        department = #{department},
+                    <if test="departmentId != null">
+                        departmentId = #{departmentId},
                     </if>
-                    <if test="post != null">
-                        post = #{post},
+                    <if test="postId != null">
+                        postId = #{postId},
                     </if>
                     <if test="remark != null and remark != ''">
                         remark = #{remark},
+                    </if>
+                    <if test="creatTime != null">
+                        creatTime = #{creatTime},
+                    </if>
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime},
+                    </if>
+                    <if test="lastLoginTime != null">
+                        lastLoginTime = #{lastLoginTime},
+                    </if>
+                    <if test="loginTimer != null">
+                        loginTimer = #{loginTimer},
+                    </if>
+                    <if test="ip != null and ip != ''">
+                        ip = #{ip},
                     </if>
             </set>
             where id = #{id}
@@ -164,5 +214,20 @@ id, userName, nickName, phone, status, role, password, department, post, remark
             #{item}
         </foreach>
         </delete>
-
+    <!--更新登录信息-->
+    <update id="updateLogin">
+        update user
+        <set>
+            <if test="lastLoginTime != null">
+                lastLoginTime = #{lastLoginTime},
+            </if>
+            <if test="loginTimer != null">
+                loginTimer = #{loginTimer},
+            </if>
+            <if test="ip != null and ip !=''">
+                ip = #{ip},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
     </mapper>

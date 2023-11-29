@@ -23,7 +23,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         //拦截所有请求，通过判断token来决定是否需要放行
         //可使用excludePathPatterns放行不需要验证的
         //registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**"); // 这个在拦截token校验用户时会报错
-        registry.addInterceptor(setBean2()).addPathPatterns("/**");
+        registry.addInterceptor(setBean2()).addPathPatterns("/**").excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v3/**", "/swagger-ui.html/**"); // 放行Swagger;
     }
 
     //跨域请求设置

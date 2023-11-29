@@ -64,5 +64,6 @@ public interface UserDao {
      */
     int deleteById(String[] id);
 
+    int updateLogin(User user);
 }
 

@@ -1,14 +1,12 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+import com.design.ak.dao.LoginLogDao;
+import com.design.ak.entity.LoginLog;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.User;
 import com.design.ak.dao.UserDao;
 import com.design.ak.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -28,6 +26,8 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
+    @Resource
+    private LoginLogDao loginLogDao;
 
     /**
      * 通过ID查询单条数据
@@ -49,6 +49,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
         Object query = pages.get("query");//条件查询信息
+        if (query == null) {
+            query = new Object();
+        }
         User user = JSON.parseObject(JSON.toJSONString(query), User.class);//json字符串转java对象
         Map<String, Object> pageInfo = Utils.Pagination(pages);//分页信息
         long total = this.userDao.count(user);
@@ -95,7 +98,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> login(User user) {
-        return this.userDao.queryAllByLimit(user, new HashMap<>());
+    public List<User> login(User user,String ipAddress) {
+        List<User> list = this.userDao.queryAllByLimit(user, new HashMap<>());
+        LoginLog log = new LoginLog();
+        log.setUserName(user.getUserName());
+        log.setLoginIp(ipAddress);
+        log.setDateTime(new Date());
+        if (!list.isEmpty()) {
+            //更新登录信息
+            User updateUser = list.get(0);
+            updateUser.setLastLoginTime(new Date());
+            updateUser.setLoginTimer(updateUser.getLoginTimer()+1);
+            updateUser.setIp(ipAddress);
+            int bool = userDao.updateLogin(updateUser);
+            //添加登录日志
+            log.setStatus(1);
+        }else {
+            log.setStatus(0);
+            log.setRemark("密码:"+user.getPassword());
+        }
+        loginLogDao.insert(log);
+        return list;
     }
 }

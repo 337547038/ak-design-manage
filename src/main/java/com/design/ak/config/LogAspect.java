@@ -38,6 +38,8 @@ public class LogAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         String methodName = point.getSignature().toLongString();
         Object[] parameterValues = point.getArgs();
+
+
         String[] parameterNames = ((MethodSignature) point.getSignature()).getParameterNames();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (Objects.isNull(attributes)) {
@@ -45,13 +47,13 @@ public class LogAspect {
         }
         HttpServletRequest request = attributes.getRequest();
         if (log.isDebugEnabled()) {
-            log.debug("请求URL：{}", request.getRequestURL());
-            log.debug("请求头信息：{}", JSON.toJSONString(getHeaders(request.getHeaderNames(), request)));
-            log.debug("请求方法类型：{}", request.getMethod());
+            //log.debug("请求URL：{}", request.getRequestURL());
+            //log.debug("请求头信息：{}", JSON.toJSONString(getHeaders(request.getHeaderNames(), request)));
+            //log.debug("请求方法类型：{}", request.getMethod());
             // 打印调用 controller 的全路径以及执行方法
-            log.debug("请求方法全路径：{}", methodName);
-            log.debug("请求IP：{}", request.getRemoteAddr());
-            log.debug("请求参数：{}", JSON.toJSONString(assembleParameter(parameterNames, parameterValues)));
+            //log.debug("请求方法全路径：{}", methodName);
+            //log.debug("请求IP：{}", request.getRemoteAddr());
+            //log.debug("请求参数：{}", JSON.toJSONString(assembleParameter(parameterNames, parameterValues)));
         }
         Object result;
         try {

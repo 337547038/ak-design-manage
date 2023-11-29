@@ -50,6 +50,6 @@ public interface UserService {
      */
     boolean deleteById(String[] id);
 
-    List<User> login(User user);
+    List<User> login(User user,String ipAddress);
 
 }

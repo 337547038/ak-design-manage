@@ -9,8 +9,8 @@
                 <result property="status" column="status" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="children" column="children" jdbcType="VARCHAR"/>
-                <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
-                <result property="issystem" column="isSystem" jdbcType="INTEGER"/>
+                <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+                <result property="isSystem" column="isSystem" jdbcType="INTEGER"/>
         </resultMap>
 
     <sql id="commColumnsItem">
@@ -48,11 +48,11 @@ id, name, type, status, remark, children, updateTime, isSystem
                     <if test="query.children != null and query.children != ''">
                         and children = #{query.children}
                     </if>
-                    <if test="query.updatetime != null">
-                        and updateTime = #{query.updatetime}
+                    <if test="query.updateTime != null">
+                        and updateTime = #{query.updateTime}
                     </if>
-                    <if test="query.issystem != null">
-                        and isSystem = #{query.issystem}
+                    <if test="query.isSystem != null">
+                        and isSystem = #{query.isSystem}
                     </if>
             </where>
             <choose>
@@ -91,11 +91,11 @@ id, name, type, status, remark, children, updateTime, isSystem
                     <if test="children != null and children != ''">
                         and children = #{children}
                     </if>
-                    <if test="updatetime != null">
-                        and updateTime = #{updatetime}
+                    <if test="updateTime != null">
+                        and updateTime = #{updateTime}
                     </if>
-                    <if test="issystem != null">
-                        and isSystem = #{issystem}
+                    <if test="isSystem != null">
+                        and isSystem = #{isSystem}
                     </if>
             </where>
         </select>
@@ -104,7 +104,7 @@ id, name, type, status, remark, children, updateTime, isSystem
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
             insert into dict(name, type, status, remark, children, updateTime, isSystem)
                 values
-            (#{name}, #{type}, #{status}, #{remark}, #{children}, #{updatetime}, #{issystem})
+            (#{name}, #{type}, #{status}, #{remark}, #{children}, #{updateTime}, #{isSystem})
         </insert>
 
         <!--通过主键修改数据-->
@@ -126,11 +126,11 @@ id, name, type, status, remark, children, updateTime, isSystem
                     <if test="children != null and children != ''">
                         children = #{children},
                     </if>
-                    <if test="updatetime != null">
-                        updateTime = #{updatetime},
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime},
                     </if>
-                    <if test="issystem != null">
-                        isSystem = #{issystem},
+                    <if test="isSystem != null">
+                        isSystem = #{isSystem},
                     </if>
             </set>
             where id = #{id}

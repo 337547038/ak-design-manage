@@ -1,8 +1,7 @@
 package com.design.ak.entity;
 
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import java.io.Serial;
 
 
@@ -10,17 +9,16 @@ import java.io.Serial;
  * (Menu)实体类
  *
  * @author ak.design
- * @since 2023-11-27 14:58:59
+ * @since 2023-11-29 10:44:16
  */
-@Getter
-@Setter
+@Data
 public class Menu implements Serializable {
     @Serial
-    private static final long serialVersionUID = -11741187301428840L;
+    private static final long serialVersionUID = -98650633259216272L;
 
     private Integer id;
 
-    private Integer parentid;
+    private Integer parentId;
 
     private String name;
 
