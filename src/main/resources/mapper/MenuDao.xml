@@ -12,10 +12,11 @@
                 <result property="status" column="status" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="type" column="type" jdbcType="INTEGER"/>
+                <result property="navShow" column="navShow" jdbcType="INTEGER"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, parentId, name, icon, sort, path, status, remark, type        
+id, parentId, name, icon, sort, path, status, remark, type, navShow        
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="MenuMap">
@@ -58,10 +59,13 @@ id, parentId, name, icon, sort, path, status, remark, type
                     <if test="query.type != null">
                         and type = #{query.type}
                     </if>
+                    <if test="query.navShow != null">
+                        and navShow = #{query.navShow}
+                    </if>
             </where>
             <choose>
-                <when test="pageInfo.order != null">
-                    order by #{pageInfo.order}
+                <when test="pageInfo.sort != null and pageInfo.sort!=''">
+                    order by ${pageInfo.sort}
                 </when>
                 <otherwise>
                     order by id desc
@@ -104,14 +108,17 @@ id, parentId, name, icon, sort, path, status, remark, type
                     <if test="type != null">
                         and type = #{type}
                     </if>
+                    <if test="navShow != null">
+                        and navShow = #{navShow}
+                    </if>
             </where>
         </select>
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into menu(parentId, name, icon, sort, path, status, remark, type)
+            insert into menu(parentId, name, icon, sort, path, status, remark, type, navShow)
                 values
-            (#{parentId}, #{name}, #{icon}, #{sort}, #{path}, #{status}, #{remark}, #{type})
+            (#{parentId}, #{name}, #{icon}, #{sort}, #{path}, #{status}, #{remark}, #{type}, #{navShow})
         </insert>
 
         <!--通过主键修改数据-->
@@ -141,6 +148,9 @@ id, parentId, name, icon, sort, path, status, remark, type
                     </if>
                     <if test="type != null">
                         type = #{type},
+                    </if>
+                    <if test="navShow != null">
+                        navShow = #{navShow},
                     </if>
             </set>
             where id = #{id}

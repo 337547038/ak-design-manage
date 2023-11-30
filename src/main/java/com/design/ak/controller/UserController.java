@@ -97,7 +97,7 @@ public class UserController {
      * @return 新增结果Id
      */
     @Operation(summary = "新增数据")
-    @PostMapping("add")
+    @PostMapping("save")
     public ResponseEntity<Integer> add(@RequestBody User user) {
         User result = userService.insert(user);
         return ResponseEntity.ok(result.getId());

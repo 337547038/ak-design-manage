@@ -1,7 +1,7 @@
 package com.design.ak.controller;
 
-import com.design.ak.entity.Menu;
-import com.design.ak.service.MenuService;
+import com.design.ak.entity.LoginLog;
+import com.design.ak.service.LoginLogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
@@ -12,20 +12,20 @@ import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**
- * (Menu)表控制层
+ * (LoginLog)表控制层
  *
  * @author ak.design
- * @since 2023-11-29 10:44:16
+ * @since 2023-11-29 16:34:01
  */
-@Tag(name = "Menu相关")
+@Tag(name = "LoginLog相关")
 @RestController
-@RequestMapping("system/menu")
-public class MenuController {
+@RequestMapping("system/loginLog")
+public class LoginLogController {
     /**
      * 服务对象
      */
     @Resource
-    private MenuService menuService;
+    private LoginLogService loginLogService;
 
     /**
      * 分页查询
@@ -49,45 +49,9 @@ public class MenuController {
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
-        return ResponseEntity.ok(this.menuService.queryByPage(pages));
+        return ResponseEntity.ok(this.loginLogService.queryByPage(pages));
     }
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @Operation(summary ="根据id查询数据")
-    @GetMapping("{id}")
-    public ResponseEntity<Menu> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.menuService.queryById(id));
-    }
-
-    /**
-     * 新增数据
-     *
-     * @param menu 实体
-     * @return 新增结果Id
-     */
-    @Operation(summary ="新增数据")
-    @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody Menu menu) {
-        Menu result = menuService.insert(menu);
-        return ResponseEntity.ok(result.getId());
-    }
-
-    /**
-     * 编辑数据
-     *
-     * @param menu 实体
-     * @return 影响行数
-     */
-    @Operation(summary ="编辑数据")
-    @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody Menu menu) {
-        return ResponseEntity.ok(this.menuService.updateById(menu));
-    }
 
     /**
      * 删除数据，删除多个时使用豆号分隔
@@ -101,7 +65,7 @@ public class MenuController {
     public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
-        return ResponseEntity.ok(this.menuService.deleteById(idList));
+        return ResponseEntity.ok(this.loginLogService.deleteById(idList));
     }
 
 }

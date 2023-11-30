@@ -84,8 +84,8 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
                     </if>
             </where>
             <choose>
-                <when test="pageInfo.order != null">
-                    order by #{pageInfo.order}
+                <when test="pageInfo.sort != null and pageInfo.sort!=''">
+                    order by ${pageInfo.sort}
                 </when>
                 <otherwise>
                     order by id desc

@@ -71,7 +71,7 @@ public class TestController {
      * @return 新增结果Id
      */
     @Operation(summary ="新增数据")
-    @PostMapping("add")
+    @PostMapping("save")
     public ResponseEntity<Integer> add(@RequestBody Test test) {
         Test result = testService.insert(test);
         return ResponseEntity.ok(result.getId());

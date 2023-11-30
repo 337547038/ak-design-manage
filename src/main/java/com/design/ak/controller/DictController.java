@@ -72,7 +72,7 @@ public class DictController {
      * @return 新增结果Id
      */
     @Operation(summary = "新增数据")
-    @PostMapping("add")
+    @PostMapping("save")
     public ResponseEntity<Integer> add(@RequestBody Dict dict) {
         Dict result = dictService.insert(dict);
         return ResponseEntity.ok(result.getId());

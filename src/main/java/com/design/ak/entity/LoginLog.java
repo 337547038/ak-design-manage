@@ -2,6 +2,8 @@ package com.design.ak.entity;
 
 import java.util.Date;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.io.Serial;
 
@@ -24,7 +26,7 @@ public class LoginLog implements Serializable {
     private String loginIp;
 
     private String remark;
-
+    //@JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateTime;
 
     private Integer status;

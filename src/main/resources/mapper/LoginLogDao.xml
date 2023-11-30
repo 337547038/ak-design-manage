@@ -34,15 +34,15 @@ id, userName, loginIp, remark, dateTime, status
                         and remark = #{query.remark}
                     </if>
                     <if test="query.dateTime != null">
-                        and dateTime = #{query.dateTime}
+                        and DATE(dateTime) = #{query.dateTime}
                     </if>
                     <if test="query.status != null">
                         and status = #{query.status}
                     </if>
             </where>
             <choose>
-                <when test="pageInfo.order != null">
-                    order by #{pageInfo.order}
+                <when test="pageInfo.sort != null and pageInfo.sort!=''">
+                    order by ${pageInfo.sort}
                 </when>
                 <otherwise>
                     order by id desc
@@ -71,7 +71,7 @@ id, userName, loginIp, remark, dateTime, status
                         and remark = #{remark}
                     </if>
                     <if test="dateTime != null">
-                        and dateTime = #{dateTime}
+                        and DATE(dateTime) = #{dateTime}
                     </if>
                     <if test="status != null">
                         and status = #{status}

@@ -29,14 +29,12 @@ public class Utils {
     public static Map<String, Object> Pagination(Map<String, Object> pages) {
         Object pageInfoObj = pages.get("pageInfo");//分页信息
         if (pageInfoObj == null) {
-            Map<String, Object> info = new HashMap<>();
-            info.put("pageSize", -1);
-            return info;
+            return new HashMap<>();
         }
         //处理分页的pageIndex和pageSize两个值
         JSONObject pageInfo = JSON.parseObject(JSON.toJSONString(pageInfoObj));
         int pageNum = pageInfo.getIntValue("pageNum", 1);
-        int pageSize = pageInfo.getIntValue("pageSize", 20);
+        int pageSize = pageInfo.getIntValue("pageSize", -1);
         int pageIndex = (pageNum - 1) * pageSize;
         pageInfo.put("pageIndex", pageIndex);//从第几条开始取
         pageInfo.put("pageSize", pageSize);
