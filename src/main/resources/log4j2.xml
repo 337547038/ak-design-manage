@@ -20,8 +20,8 @@
         <!--filePattern:备份日志文件名称，备份目录为logs下面以年月命名的目录，备份时使用gz格式压缩 -->
         <RollingFile name="RollingFile" fileName="${LOG_HOME}/${date:yyyy-MM-dd}.log"
                      filePattern="${LOG_HOME}/${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log.gz">
-            <!-- 输出日志事件调用者的完全限定名、源文件名和行号，注意可能会影响性能，请谨慎使用。  -->
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level [%l] - %msg%n" />
+            <!-- 输出日志事件调用者的完全限定名、源文件名和行号，注意可能会影响性能，请谨慎使用。 %d{HH:mm:ss.SSS} [%t] %-5level [%l] - %msg%n -->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} - %msg%n" />
             <!--Policies:触发策略决定何时执行备份 -->
             <Policies>
                 <!--TimeBasedTriggeringPolicy:日志文件按照时间备份 -->
@@ -31,7 +31,7 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
                 <!--SizeBasedTriggeringPolicy:日志文件按照大小备份 -->
                 <!--size:指定日志文件最大为100MB，单位可以为KB、MB或GB -->
-                <SizeBasedTriggeringPolicy size="100MB" />
+                <SizeBasedTriggeringPolicy size="10MB" />
             </Policies>
             <!--DefaultRolloverStrategy:翻转策略决定如何执行备份 -->
             <!--max:最多保存5个日志备份文件，结合时间使用后，在每个时间段内最多有5个备份，多出来的会被覆盖 -->
