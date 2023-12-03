@@ -1,6 +1,6 @@
 package com.design.ak.dao;
 
-import com.design.ak.entity.Test;
+import com.design.ak.entity.Datasource;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * (Test)表数据库访问层
+ * 数据源表(Datasource)表数据库访问层
  *
  * @author ak.design
- * @since 2023-12-03 15:49:16
+ * @since 2023-12-01 22:07:42
  */
  @Mapper
-public interface TestDao {
+public interface DatasourceDao {
 
     /**
      * 通过ID查询单条数据
@@ -22,39 +22,39 @@ public interface TestDao {
      * @param id 主键
      * @return 实例对象
      */
-    Test queryById(Integer id);
+    Datasource queryById(Integer id);
 
     /**
      * 查询指定行数据
-     *@param test 筛选条件
+     *@param datasource 筛选条件
      *@param pageInfo 分页对象
      * @return 对象列表
      */
-    List<Test> queryAllByLimit(@Param("query") Test test,@Param("pageInfo") Map<String,Object> pageInfo);
+    List<Datasource> queryAllByLimit(@Param("query") Datasource datasource,@Param("pageInfo") Map<String,Object> pageInfo);
 
     /**
      * 统计总行数
      *
-     * @param test 查询条件
+     * @param datasource 查询条件
      * @return 总行数
      */
-    long count(Test test);
+    long count(Datasource datasource);
 
     /**
      * 新增数据
      *
-     * @param test 实例对象
+     * @param datasource 实例对象
      * @return 影响行数
      */
-    int insert(Test test);
+    int insert(Datasource datasource);
 
     /**
      * 修改数据
      *
-     * @param test 实例对象
+     * @param datasource 实例对象
      * @return 影响行数
      */
-    int updateById(Test test);
+    int updateById(Datasource datasource);
 
     /**
      * 通过主键删除数据

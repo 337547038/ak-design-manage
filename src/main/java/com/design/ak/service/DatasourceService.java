@@ -1,15 +1,15 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.Test;
+import com.design.ak.entity.Datasource;
 
 import java.util.Map;
 /**
- * (Test)表服务接口
+ * 数据源表(Datasource)表服务接口
  *
  * @author ak.design
- * @since 2023-12-03 15:49:18
+ * @since 2023-12-01 22:07:42
  */
-public interface TestService {
+public interface DatasourceService {
 
     /**
      * 通过ID查询单条数据
@@ -17,7 +17,7 @@ public interface TestService {
      * @param id 主键
      * @return 实例对象
      */
-    Test queryById(Integer id);
+    Datasource queryById(Integer id);
     
     /**
      * 分页查询
@@ -28,18 +28,18 @@ public interface TestService {
     /**
      * 新增数据
      *
-     * @param test 实例对象
+     * @param datasource 实例对象
      * @return 实例对象
      */
-    Test insert(Test test);
+    Datasource insert(Datasource datasource);
 
     /**
      * 修改数据
      *
-     * @param test 实例对象
+     * @param datasource 实例对象
      * @return 实例对象
      */
-    Integer updateById(Test test);
+    Integer updateById(Datasource datasource);
 
     /**
      * 通过主键删除数据

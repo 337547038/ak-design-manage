@@ -15,7 +15,7 @@ import java.util.Map;
  * (Test)表服务实现类
  *
  * @author ak.design
- * @since 2023-11-24 14:50:10
+ * @since 2023-12-03 15:49:18
  */
 @Service("testService")
 public class TestServiceImpl implements TestService {
@@ -42,6 +42,9 @@ public class TestServiceImpl implements TestService {
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
         Object query = pages.get("query");//条件查询信息
+        if(query==null){
+            query = new Object();
+        }
         Test test = JSON.parseObject(JSON.toJSONString(query), Test.class);//json字符串转java对象
         Map<String,Object> pageInfo = Utils.Pagination(pages);//分页信息
         long total = this.testDao.count(test);

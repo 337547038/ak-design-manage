@@ -1,32 +1,35 @@
 package com.design.ak.controller;
 
 import com.alibaba.fastjson2.JSON;
-import com.design.ak.entity.Test;
-import com.design.ak.service.TestService;
+import com.design.ak.entity.Datasource;
+import com.design.ak.service.DatasourceService;
+import com.design.ak.utils.Utils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
- * (Test)表控制层
+ * 数据源表(Datasource)表控制层
  *
  * @author ak.design
- * @since 2023-12-03 15:49:14
+ * @since 2023-12-01 22:07:42
  */
-@Tag(name = "Test相关")
+@Tag(name = "Datasource相关")
 @RestController
-@RequestMapping("test")
-public class TestController {
+@RequestMapping("datasource")
+public class DatasourceController {
     /**
      * 服务对象
      */
     @Resource
-    private TestService testService;
+    private DatasourceService datasourceService;
 
     /**
      * 分页查询
@@ -50,7 +53,7 @@ public class TestController {
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
-        return ResponseEntity.ok(this.testService.queryByPage(pages));
+        return ResponseEntity.ok(this.datasourceService.queryByPage(pages));
     }
 
     /**
@@ -60,36 +63,36 @@ public class TestController {
      * @return 单条数据
      */
     @Operation(summary ="根据id查询数据")
-    @GetMapping("{id}")
-    public ResponseEntity<Test> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.testService.queryById(id));
+    @PostMapping("{id}")
+    public ResponseEntity<Datasource> queryById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.datasourceService.queryById(id));
     }
 
     /**
      * 新增数据
      *
-     * @param test 实体
+     * @param datasource 实体
      * @return 新增结果Id
      */
     @Operation(summary ="新增数据")
-    @PostMapping("save")
-    public ResponseEntity<Test> add(@RequestBody Test test) {
-        System.out.println(JSON.toJSONString(test));
-        return ResponseEntity.ok(test);
-        //Test result = testService.insert(test);
-        //return ResponseEntity.ok(result.getId());
+    @PostMapping("creat")
+    public ResponseEntity<Integer> add(@RequestBody @Validated Datasource datasource) {
+        datasource.setCreatDate(new Date());
+        datasource.setCreatUserId(Utils.getCurrentUserId());
+        Datasource result = datasourceService.insert(datasource);
+        return ResponseEntity.ok(result.getId());
     }
 
     /**
      * 编辑数据
      *
-     * @param test 实体
+     * @param datasource 实体
      * @return 影响行数
      */
     @Operation(summary ="编辑数据")
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody Test test) {
-        return ResponseEntity.ok(this.testService.updateById(test));
+    public ResponseEntity<Integer> edit(@RequestBody Datasource datasource) {
+        return ResponseEntity.ok(this.datasourceService.updateById(datasource));
     }
 
     /**
@@ -104,7 +107,7 @@ public class TestController {
     public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
-        return ResponseEntity.ok(this.testService.deleteById(idList));
+        return ResponseEntity.ok(this.datasourceService.deleteById(idList));
     }
 
 }
