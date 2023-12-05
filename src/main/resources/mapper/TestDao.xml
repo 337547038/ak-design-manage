@@ -8,10 +8,12 @@
                 <result property="content" column="content" jdbcType="VARCHAR"/>
                 <result property="phone" column="phone" jdbcType="VARCHAR"/>
                 <result property="status" column="status" jdbcType="INTEGER"/>
+                <result property="longText123" column="longText123" jdbcType="VARCHAR"/>
+                <result property="text" column="text" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, name, content, phone, status        
+id, name, content, phone, status, longText123, text        
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="TestMap">
@@ -41,6 +43,12 @@ id, name, content, phone, status
                     </if>
                     <if test="query.status != null">
                         and status = #{query.status}
+                    </if>
+                    <if test="query.longText123 != null and query.longText123 != ''">
+                        and longText123 = #{query.longText123}
+                    </if>
+                    <if test="query.text != null and query.text != ''">
+                        and text = #{query.text}
                     </if>
             </where>
             <choose>
@@ -76,14 +84,20 @@ id, name, content, phone, status
                     <if test="status != null">
                         and status = #{status}
                     </if>
+                    <if test="longText123 != null and longText123 != ''">
+                        and longText123 = #{longText123}
+                    </if>
+                    <if test="text != null and text != ''">
+                        and text = #{text}
+                    </if>
             </where>
         </select>
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into test(name, content, phone, status)
+            insert into test(name, content, phone, status, longText123, text)
                 values
-            (#{name}, #{content}, #{phone}, #{status})
+            (#{name}, #{content}, #{phone}, #{status}, #{longText123}, #{text})
         </insert>
 
         <!--通过主键修改数据-->
@@ -101,6 +115,12 @@ id, name, content, phone, status
                     </if>
                     <if test="status != null">
                         status = #{status},
+                    </if>
+                    <if test="longText123 != null and longText123 != ''">
+                        longText123 = #{longText123},
+                    </if>
+                    <if test="text != null and text != ''">
+                        text = #{text},
                     </if>
             </set>
             where id = #{id}
