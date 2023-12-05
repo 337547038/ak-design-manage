@@ -41,14 +41,10 @@ public class DictServiceImpl implements DictService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
-        Object query = pages.get("query");//条件查询信息
-        if(query==null){
-            query = new Object();
-        }
-        Dict dict = JSON.parseObject(JSON.toJSONString(query), Dict.class);//json字符串转java对象
-        Map<String,Object> pageInfo = Utils.Pagination(pages);//分页信息
+        Map<String, Object> map = Utils.pagination(pages);//处理接收参数
+        Dict dict = JSON.parseObject(JSON.toJSONString(map.get("query")), Dict.class);//json字符串转java对象
         long total = this.dictDao.count(dict);
-        List<Dict> list = this.dictDao.queryAllByLimit(dict,pageInfo);
+        List<Dict> list = this.dictDao.queryAllByLimit(dict,map.get("pageInfo"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

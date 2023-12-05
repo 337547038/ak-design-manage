@@ -85,9 +85,9 @@ public class UserController {
      * @return 单条数据
      */
     @Operation(summary = "根据id查询数据")
-    @GetMapping("{id}")
-    public ResponseEntity<User> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.userService.queryById(id));
+    @PostMapping("get")
+    public ResponseEntity<User> queryById(@RequestBody Map<String, Integer> id) {
+        return ResponseEntity.ok(this.userService.queryById(id.get("id")));
     }
 
     /**

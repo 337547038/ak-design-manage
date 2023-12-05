@@ -1,7 +1,9 @@
 package com.design.ak.controller;
 
-import com.design.ak.entity.Menu;
-import com.design.ak.service.MenuService;
+import com.design.ak.entity.Datasource;
+import com.design.ak.entity.Test;
+import com.design.ak.service.DatasourceService;
+import com.design.ak.utils.Utils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
@@ -9,23 +11,25 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
+import java.util.Date;
 import java.util.Map;
 
+
 /**
- * (Menu)表控制层
+ * 数据源表(Datasource)表控制层
  *
- * @author ak.design
- * @since 2023-11-29 10:44:16
+ * @author ak.design 337547038
+ * @since 2023-12-05 16:16:55
  */
-@Tag(name = "Menu相关")
+@Tag(name = "Datasource相关")
 @RestController
-@RequestMapping("system/menu")
-public class MenuController {
+@RequestMapping("datasource")
+public class DatasourceController {
     /**
      * 服务对象
      */
     @Resource
-    private MenuService menuService;
+    private DatasourceService datasourceService;
 
     /**
      * 分页查询
@@ -49,7 +53,7 @@ public class MenuController {
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
-        return ResponseEntity.ok(this.menuService.queryByPage(pages));
+        return ResponseEntity.ok(this.datasourceService.queryByPage(pages));
     }
 
     /**
@@ -60,33 +64,35 @@ public class MenuController {
      */
     @Operation(summary ="根据id查询数据")
     @PostMapping("get")
-    public ResponseEntity<Menu> queryById(@RequestBody Map<String, Integer> id) {
-        return ResponseEntity.ok(this.menuService.queryById(id.get("id")));
+    public ResponseEntity<Datasource> queryById(@RequestBody Map<String, Integer> id) {
+        return ResponseEntity.ok(this.datasourceService.queryById(id.get("id")));
     }
 
     /**
      * 新增数据
      *
-     * @param menu 实体
+     * @param datasource 实体
      * @return 新增结果Id
      */
     @Operation(summary ="新增数据")
-    @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody Menu menu) {
-        Menu result = menuService.insert(menu);
+    @PostMapping("creat")
+    public ResponseEntity<Integer> add(@RequestBody Datasource datasource) {
+        datasource.setCreatUserId(Utils.getCurrentUserId());
+        datasource.setCreatDate(new Date());
+        Datasource result = datasourceService.insert(datasource);
         return ResponseEntity.ok(result.getId());
     }
 
     /**
      * 编辑数据
      *
-     * @param menu 实体
+     * @param datasource 实体
      * @return 影响行数
      */
     @Operation(summary ="编辑数据")
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody Menu menu) {
-        return ResponseEntity.ok(this.menuService.updateById(menu));
+    public ResponseEntity<Integer> edit(@RequestBody Datasource datasource) {
+        return ResponseEntity.ok(this.datasourceService.updateById(datasource));
     }
 
     /**
@@ -101,7 +107,7 @@ public class MenuController {
     public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
-        return ResponseEntity.ok(this.menuService.deleteById(idList));
+        return ResponseEntity.ok(this.datasourceService.deleteById(idList));
     }
 
 }

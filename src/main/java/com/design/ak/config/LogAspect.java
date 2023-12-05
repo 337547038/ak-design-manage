@@ -49,8 +49,8 @@ public class LogAspect {
         if (!logArgs.isEmpty()) {
             params = logArgs.get(0);
         }
-        System.out.println(JSON.toJSONString(logArgs));
-        System.out.println(logArgs.size());
+        //System.out.println(JSON.toJSONString(logArgs));
+        //System.out.println(logArgs.size());
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (Objects.isNull(attributes)) {

@@ -11,7 +11,7 @@ import java.util.Map;
  * (Test)表数据库访问层
  *
  * @author ak.design
- * @since 2023-11-24 14:50:08
+ * @since 2023-12-05 16:12:19
  */
  @Mapper
 public interface TestDao {
@@ -26,11 +26,11 @@ public interface TestDao {
 
     /**
      * 查询指定行数据
-     * test 筛选条件
+     *@param test 筛选条件
      *@param pageInfo 分页对象
      * @return 对象列表
      */
-    List<Test> queryAllByLimit(@Param("query") Test test, @Param("pageInfo") Map<String,Object> pageInfo);
+    List<Test> queryAllByLimit(@Param("query") Test test,@Param("pageInfo") Object pageInfo);
 
     /**
      * 统计总行数

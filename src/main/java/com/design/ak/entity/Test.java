@@ -1,8 +1,7 @@
 package com.design.ak.entity;
 
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import java.io.Serial;
 
 
@@ -10,13 +9,12 @@ import java.io.Serial;
  * (Test)实体类
  *
  * @author ak.design
- * @since 2023-11-24 14:50:08
+ * @since 2023-12-05 16:12:20
  */
-@Getter
-@Setter
+@Data
 public class Test implements Serializable {
     @Serial
-    private static final long serialVersionUID = -84283631014115342L;
+    private static final long serialVersionUID = 818154212551341567L;
 
     private Integer id;
 

@@ -30,7 +30,7 @@ public interface DictDao {
      *@param pageInfo 分页对象
      * @return 对象列表
      */
-    List<Dict> queryAllByLimit(@Param("query") Dict dict,@Param("pageInfo") Map<String,Object> pageInfo);
+    List<Dict> queryAllByLimit(@Param("query") Dict dict,@Param("pageInfo") Object pageInfo);
 
     /**
      * 统计总行数

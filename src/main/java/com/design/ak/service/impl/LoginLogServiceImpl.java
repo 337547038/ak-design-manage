@@ -1,6 +1,7 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.design.ak.entity.Test;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.LoginLog;
 import com.design.ak.dao.LoginLogDao;
@@ -30,14 +31,11 @@ public class LoginLogServiceImpl implements LoginLogService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
-        Object query = pages.get("query");//条件查询信息
-        if(query==null){
-            query = new Object();
-        }
-        LoginLog loginLog = JSON.parseObject(JSON.toJSONString(query), LoginLog.class);//json字符串转java对象
-        Map<String,Object> pageInfo = Utils.Pagination(pages);//分页信息
+        Map<String, Object> map = Utils.pagination(pages);//处理接收参数
+
+        LoginLog loginLog = JSON.parseObject(JSON.toJSONString(map.get("query")), LoginLog.class);//json字符串转java对象
         long total = this.loginLogDao.count(loginLog);
-        List<LoginLog> list = this.loginLogDao.queryAllByLimit(loginLog,pageInfo);
+        List<LoginLog> list = this.loginLogDao.queryAllByLimit(loginLog,map.get("pageInfo"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

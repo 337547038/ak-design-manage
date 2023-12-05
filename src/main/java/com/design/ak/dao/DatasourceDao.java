@@ -1,6 +1,6 @@
 package com.design.ak.dao;
 
-import com.design.ak.entity.User;
+import com.design.ak.entity.Datasource;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * (User)表数据库访问层
+ * 数据源表(Datasource)表数据库访问层
  *
- * @author ak.design
- * @since 2023-11-24 15:03:06
+ * @author ak.design 337547038
+ * @since 2023-12-05 16:16:55
  */
  @Mapper
-public interface UserDao {
+public interface DatasourceDao {
 
     /**
      * 通过ID查询单条数据
@@ -22,39 +22,39 @@ public interface UserDao {
      * @param id 主键
      * @return 实例对象
      */
-    User queryById(Integer id);
+    Datasource queryById(Integer id);
 
     /**
      * 查询指定行数据
-     *@param user 筛选条件
+     *@param datasource 筛选条件
      *@param pageInfo 分页对象
      * @return 对象列表
      */
-    List<User> queryAllByLimit(@Param("query") User user,@Param("pageInfo") Object pageInfo);
+    List<Datasource> queryAllByLimit(@Param("query") Datasource datasource,@Param("pageInfo") Object pageInfo);
 
     /**
      * 统计总行数
      *
-     * @param user 查询条件
+     * @param datasource 查询条件
      * @return 总行数
      */
-    long count(User user);
+    long count(Datasource datasource);
 
     /**
      * 新增数据
      *
-     * @param user 实例对象
+     * @param datasource 实例对象
      * @return 影响行数
      */
-    int insert(User user);
+    int insert(Datasource datasource);
 
     /**
      * 修改数据
      *
-     * @param user 实例对象
+     * @param datasource 实例对象
      * @return 影响行数
      */
-    int updateById(User user);
+    int updateById(Datasource datasource);
 
     /**
      * 通过主键删除数据
@@ -64,6 +64,7 @@ public interface UserDao {
      */
     int deleteById(String[] id);
 
-    int updateLogin(User user);
+    int createTable(String sqlStr);
+
 }
 

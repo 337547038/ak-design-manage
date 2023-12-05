@@ -21,7 +21,7 @@ public interface LoginLogDao {
      *@param pageInfo 分页对象
      * @return 对象列表
      */
-    List<LoginLog> queryAllByLimit(@Param("query") LoginLog loginLog,@Param("pageInfo") Map<String,Object> pageInfo);
+    List<LoginLog> queryAllByLimit(@Param("query") LoginLog loginLog,@Param("pageInfo") Object pageInfo);
 
     /**
      * 统计总行数

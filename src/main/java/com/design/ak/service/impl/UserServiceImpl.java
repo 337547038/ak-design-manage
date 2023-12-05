@@ -3,6 +3,7 @@ package com.design.ak.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.design.ak.dao.LoginLogDao;
 import com.design.ak.entity.LoginLog;
+import com.design.ak.entity.Test;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.User;
 import com.design.ak.dao.UserDao;
@@ -48,14 +49,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Object query = pages.get("query");//条件查询信息
-        if (query == null) {
-            query = new Object();
-        }
-        User user = JSON.parseObject(JSON.toJSONString(query), User.class);//json字符串转java对象
-        Map<String, Object> pageInfo = Utils.Pagination(pages);//分页信息
+        Map<String, Object> map = Utils.pagination(pages);//处理接收参数
+        User user = JSON.parseObject(JSON.toJSONString(map.get("query")), User.class);//json字符串转java对象
         long total = this.userDao.count(user);
-        List<User> list = this.userDao.queryAllByLimit(user, pageInfo);
+        List<User> list = this.userDao.queryAllByLimit(user, map.get("pageInfo"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

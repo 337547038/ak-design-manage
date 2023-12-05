@@ -60,9 +60,9 @@ public class DictController {
      * @return 单条数据
      */
     @Operation(summary = "根据id查询数据")
-    @GetMapping("{id}")
-    public ResponseEntity<Dict> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.dictService.queryById(id));
+    @PostMapping("get")
+    public ResponseEntity<Dict> queryById(@RequestBody Map<String, Integer> id) {
+        return ResponseEntity.ok(this.dictService.queryById(id.get("id")));
     }
 
     /**

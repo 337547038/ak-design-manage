@@ -41,14 +41,10 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
-        Object query = pages.get("query");//条件查询信息
-        if(query==null){
-            query = new Object();
-        }
-        Menu menu = JSON.parseObject(JSON.toJSONString(query), Menu.class);//json字符串转java对象
-        Map<String,Object> pageInfo = Utils.Pagination(pages);//分页信息
+        Map<String, Object> map = Utils.pagination(pages);//处理接收参数
+        Menu menu = JSON.parseObject(JSON.toJSONString(map.get("query")), Menu.class);//json字符串转java对象
         long total = this.menuDao.count(menu);
-        List<Menu> list = this.menuDao.queryAllByLimit(menu,pageInfo);
+        List<Menu> list = this.menuDao.queryAllByLimit(menu,map.get("pageInfo"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

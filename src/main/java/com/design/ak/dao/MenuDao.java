@@ -30,7 +30,7 @@ public interface MenuDao {
      *@param pageInfo 分页对象
      * @return 对象列表
      */
-    List<Menu> queryAllByLimit(@Param("query") Menu menu,@Param("pageInfo") Map<String,Object> pageInfo);
+    List<Menu> queryAllByLimit(@Param("query") Menu menu,@Param("pageInfo") Object pageInfo);
 
     /**
      * 统计总行数
