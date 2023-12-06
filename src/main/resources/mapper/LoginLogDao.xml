@@ -14,12 +14,19 @@
     <sql id="commColumnsItem">
 id, userName, loginIp, remark, dateTime, status        
     </sql>
+        <!--查询单个-->
+        <select id="queryById" resultMap="LoginLogMap">
+            select
+            <include refid="commColumnsItem" />
+            from sys_login_log
+                where id = #{id}
+        </select>
 
         <!--查询指定行数据-->
         <select id="queryAllByLimit" resultMap="LoginLogMap">
             select
             <include refid="commColumnsItem" />
-            from login_log
+            from sys_login_log
             <where>
                     <if test="query.id != null">
                         and id = #{query.id}
@@ -34,7 +41,7 @@ id, userName, loginIp, remark, dateTime, status
                         and remark = #{query.remark}
                     </if>
                     <if test="query.dateTime != null">
-                        and DATE(dateTime) = #{query.dateTime}
+                        and dateTime = #{query.dateTime}
                     </if>
                     <if test="query.status != null">
                         and status = #{query.status}
@@ -56,7 +63,7 @@ id, userName, loginIp, remark, dateTime, status
         <!--统计总行数-->
         <select id="count" resultType="java.lang.Long">
             select count(1)
-            from login_log
+            from sys_login_log
             <where>
                     <if test="id != null">
                         and id = #{id}
@@ -71,7 +78,7 @@ id, userName, loginIp, remark, dateTime, status
                         and remark = #{remark}
                     </if>
                     <if test="dateTime != null">
-                        and DATE(dateTime) = #{dateTime}
+                        and dateTime = #{dateTime}
                     </if>
                     <if test="status != null">
                         and status = #{status}
@@ -81,15 +88,38 @@ id, userName, loginIp, remark, dateTime, status
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into login_log(userName, loginIp, remark, dateTime, status)
+            insert into sys_login_log(userName, loginIp, remark, dateTime, status)
                 values
             (#{userName}, #{loginIp}, #{remark}, #{dateTime}, #{status})
         </insert>
 
+        <!--通过主键修改数据-->
+        <update id="updateById">
+            update sys_login_log
+            <set>
+                    <if test="userName != null and userName != ''">
+                        userName = #{userName},
+                    </if>
+                    <if test="loginIp != null and loginIp != ''">
+                        loginIp = #{loginIp},
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        remark = #{remark},
+                    </if>
+                    <if test="dateTime != null">
+                        dateTime = #{dateTime},
+                    </if>
+                    <if test="status != null">
+                        status = #{status},
+                    </if>
+            </set>
+            where id = #{id}
+        </update>
+
         <!--通过主键删除-->
         <delete id="deleteById">
             delete
-            from login_log where id in
+            from sys_login_log where id in
             <foreach collection="id" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>

@@ -81,6 +81,8 @@ public class Design implements Serializable {
      * 流程图标
      */
     private String icon;
+    private Datasource sourceName;
+    //private String sourceName;
 
 
 }
