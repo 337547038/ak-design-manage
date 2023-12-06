@@ -27,7 +27,7 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
         <select id="queryById" resultMap="UserMap">
             select
             <include refid="commColumnsItem" />
-            from user
+            from sys_user
                 where id = #{id}
         </select>
 
@@ -35,7 +35,7 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
         <select id="queryAllByLimit" resultMap="UserMap">
             select
             <include refid="commColumnsItem" />
-            from user
+            from sys_user
             <where>
                     <if test="query.id != null">
                         and id = #{query.id}
@@ -99,7 +99,7 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
         <!--统计总行数-->
         <select id="count" resultType="java.lang.Long">
             select count(1)
-            from user
+            from sys_user
             <where>
                     <if test="id != null">
                         and id = #{id}
@@ -151,14 +151,14 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into user(userName, nickName, phone, status, roleId, password, departmentId, postId, remark, creatTime, updateTime, lastLoginTime, loginTimer, ip)
+            insert into sys_user(userName, nickName, phone, status, roleId, password, departmentId, postId, remark, creatTime, updateTime, lastLoginTime, loginTimer, ip)
                 values
             (#{userName}, #{nickName}, #{phone}, #{status}, #{roleId}, #{password}, #{departmentId}, #{postId}, #{remark}, #{creatTime}, #{updateTime}, #{lastLoginTime}, #{loginTimer}, #{ip})
         </insert>
 
         <!--通过主键修改数据-->
         <update id="updateById">
-            update user
+            update sys_user
             <set>
                     <if test="userName != null and userName != ''">
                         userName = #{userName},
@@ -209,14 +209,14 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
         <!--通过主键删除-->
         <delete id="deleteById">
             delete
-            from user where id in
+            from sys_user where id in
             <foreach collection="id" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
         </delete>
     <!--更新登录信息-->
     <update id="updateLogin">
-        update user
+        update sys_user
         <set>
             <if test="lastLoginTime != null">
                 lastLoginTime = #{lastLoginTime},

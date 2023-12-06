@@ -22,7 +22,7 @@ id, parentId, name, icon, sort, path, status, remark, type, navShow
         <select id="queryById" resultMap="MenuMap">
             select
             <include refid="commColumnsItem" />
-            from menu
+            from sys_menu
                 where id = #{id}
         </select>
 
@@ -30,7 +30,7 @@ id, parentId, name, icon, sort, path, status, remark, type, navShow
         <select id="queryAllByLimit" resultMap="MenuMap">
             select
             <include refid="commColumnsItem" />
-            from menu
+            from sys_menu
             <where>
                     <if test="query.id != null">
                         and id = #{query.id}
@@ -79,7 +79,7 @@ id, parentId, name, icon, sort, path, status, remark, type, navShow
         <!--统计总行数-->
         <select id="count" resultType="java.lang.Long">
             select count(1)
-            from menu
+            from sys_menu
             <where>
                     <if test="id != null">
                         and id = #{id}
@@ -116,14 +116,14 @@ id, parentId, name, icon, sort, path, status, remark, type, navShow
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into menu(parentId, name, icon, sort, path, status, remark, type, navShow)
+            insert into sys_menu(parentId, name, icon, sort, path, status, remark, type, navShow)
                 values
             (#{parentId}, #{name}, #{icon}, #{sort}, #{path}, #{status}, #{remark}, #{type}, #{navShow})
         </insert>
 
         <!--通过主键修改数据-->
         <update id="updateById">
-            update menu
+            update sys_menu
             <set>
                     <if test="parentId != null">
                         parentId = #{parentId},
@@ -159,7 +159,7 @@ id, parentId, name, icon, sort, path, status, remark, type, navShow
         <!--通过主键删除-->
         <delete id="deleteById">
             delete
-            from menu where id in
+            from sys_menu where id in
             <foreach collection="id" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>

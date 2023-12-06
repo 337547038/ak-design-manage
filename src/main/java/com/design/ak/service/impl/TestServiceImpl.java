@@ -43,9 +43,11 @@ public class TestServiceImpl implements TestService {
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
        Map<String,Object> map = Utils.pagination(pages);//处理分页信息
         Test test = JSON.parseObject(JSON.toJSONString(map.get("query")), Test.class);//json字符串转java对象
-        
+        //Map<String,Object>info=new HashMap<>();
+
+
         long total = this.testDao.count(test);
-        List<Test> list = this.testDao.queryAllByLimit(test,map.get("pageInfo"));
+        List<Test> list = this.testDao.queryAllByLimit(test,new HashMap<>());
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

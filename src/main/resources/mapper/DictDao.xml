@@ -20,7 +20,7 @@ id, name, type, status, remark, children, updateTime, isSystem
         <select id="queryById" resultMap="DictMap">
             select
             <include refid="commColumnsItem" />
-            from dict
+            from sys_dict
                 where id = #{id}
         </select>
 
@@ -28,7 +28,7 @@ id, name, type, status, remark, children, updateTime, isSystem
         <select id="queryAllByLimit" resultMap="DictMap">
             select
             <include refid="commColumnsItem" />
-            from dict
+            from sys_dict
             <where>
                     <if test="query.id != null">
                         and id = #{query.id}
@@ -71,7 +71,7 @@ id, name, type, status, remark, children, updateTime, isSystem
         <!--统计总行数-->
         <select id="count" resultType="java.lang.Long">
             select count(1)
-            from dict
+            from sys_dict
             <where>
                     <if test="id != null">
                         and id = #{id}
@@ -102,14 +102,14 @@ id, name, type, status, remark, children, updateTime, isSystem
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into dict(name, type, status, remark, children, updateTime, isSystem)
+            insert into sys_dict(name, type, status, remark, children, updateTime, isSystem)
                 values
             (#{name}, #{type}, #{status}, #{remark}, #{children}, #{updateTime}, #{isSystem})
         </insert>
 
         <!--通过主键修改数据-->
         <update id="updateById">
-            update dict
+            update sys_dict
             <set>
                     <if test="name != null and name != ''">
                         name = #{name},
@@ -139,7 +139,7 @@ id, name, type, status, remark, children, updateTime, isSystem
         <!--通过主键删除-->
         <delete id="deleteById">
             delete
-            from dict where id in
+            from sys_dict where id in
             <foreach collection="id" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
