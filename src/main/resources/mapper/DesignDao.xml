@@ -19,6 +19,11 @@
                 <result property="roleId" column="roleId" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="icon" column="icon" jdbcType="VARCHAR"/>
+
+            <association property="datasource" javaType="com.design.ak.entity.Datasource">
+                <result column="name" property="name"/>
+                <result column="id" property="id"/>
+            </association>
         </resultMap>
 
     <sql id="commColumnsItem">
@@ -35,8 +40,9 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
         <!--查询指定行数据-->
         <select id="queryAllByLimit" resultMap="DesignMap">
             select
+            (SELECT name FROM `datasource` where id=d.source) as sourceName,
             <include refid="commColumnsItem" />
-            from design
+            from design as d
             <where>
                     <if test="query.id != null">
                         and id = #{query.id}

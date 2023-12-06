@@ -100,7 +100,7 @@ public class DatasourceServiceImpl implements DatasourceService {
                 sqlStr.append(row);
             });
             sqlStr.append("PRIMARY KEY (`id`)");
-            String creatSql = "CREATE TABLE IF NOT EXISTS `ak-" + datasource.getName() + "` (" + sqlStr + ") ENGINE = InnoDB COMMENT =\"" + datasource.getRemark() + "\"";
+            String creatSql = "CREATE TABLE IF NOT EXISTS `ak-" + datasource.getTableName() + "` (" + sqlStr + ") ENGINE = InnoDB COMMENT =\"" + datasource.getRemark() + "\"";
             this.datasourceDao.createTable(creatSql);
             this.datasourceDao.insert(datasource);
             return datasource;
