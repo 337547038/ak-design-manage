@@ -1,5 +1,6 @@
 package com.design.ak.controller;
 
+import com.design.ak.config.PassToken;
 import com.design.ak.entity.Test;
 import com.design.ak.service.TestService;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -53,6 +55,14 @@ public class TestController {
         return ResponseEntity.ok(this.testService.queryByPage(pages));
     }
 
+
+    @PassToken
+    @GetMapping("getList")
+    public ResponseEntity<Map<String, Object>> queryByPage() {
+        Map<String,Object>pages=  new HashMap<>();
+        pages.put("column_fields",new HashMap<>());
+        return ResponseEntity.ok(this.testService.queryByPage(pages));
+    }
     /**
      * 通过主键查询单条数据
      *

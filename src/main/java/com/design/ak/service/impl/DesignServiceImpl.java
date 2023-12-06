@@ -2,9 +2,9 @@ package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.design.ak.utils.Utils;
-import com.design.ak.entity.Test;
-import com.design.ak.dao.TestDao;
-import com.design.ak.service.TestService;
+import com.design.ak.entity.Design;
+import com.design.ak.dao.DesignDao;
+import com.design.ak.service.DesignService;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -12,15 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 /**
- * (Test)表服务实现类
+ * 设计的表单(Design)表服务实现类
  *
- * @author ak.design
- * @since 2023-12-05 16:12:21
+ * @author ak.design 337547038
+ * @since 2023-12-06 17:46:18
  */
-@Service("testService")
-public class TestServiceImpl implements TestService {
+@Service("designService")
+public class DesignServiceImpl implements DesignService {
     @Resource
-    private TestDao testDao;
+    private DesignDao designDao;
 
     /**
      * 通过ID查询单条数据
@@ -29,8 +29,8 @@ public class TestServiceImpl implements TestService {
      * @return 实例对象
      */
     @Override
-    public Test queryById(Integer id) {
-        return this.testDao.queryById(id);
+    public Design queryById(Integer id) {
+        return this.designDao.queryById(id);
     }
 
     /**
@@ -42,14 +42,10 @@ public class TestServiceImpl implements TestService {
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
        Map<String,Object> map = Utils.pagination(pages);//处理分页信息
-        Test test = JSON.parseObject(JSON.toJSONString(map.get("query")), Test.class);//json字符串转java对象
-        //Map<String,Object>info=new HashMap<>();
-
-
-        long total = this.testDao.count(test);
-        List<Map<String,Object>> list = this.testDao.queryAllByLimit(test,new HashMap<>());
-        System.out.println("list");
-        System.out.println(list);
+        Design design = JSON.parseObject(JSON.toJSONString(map.get("query")), Design.class);//json字符串转java对象
+        
+        long total = this.designDao.count(design);
+        List<Design> list = this.designDao.queryAllByLimit(design,map.get("pageInfo"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
@@ -59,25 +55,25 @@ public class TestServiceImpl implements TestService {
     /**
      * 新增数据
      *
-     * @param test 实例对象
+     * @param design 实例对象
      * @return 实例对象
      */
     @Override
-    public Test insert(Test test) {
-        this.testDao.insert(test);
-        return test;
+    public Design insert(Design design) {
+        this.designDao.insert(design);
+        return design;
     }
 
     /**
      * 修改数据
      *
-     * @param test 实例对象
+     * @param design 实例对象
      * @return 影响的行数
      */
     @Override
-    public Integer updateById(Test test) {
-        return this.testDao.updateById(test);
-        //return this.queryById(test.getId());
+    public Integer updateById(Design design) {
+        return this.designDao.updateById(design);
+        //return this.queryById(design.getId());
     }
 
     /**
@@ -88,6 +84,6 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     public boolean deleteById(String[] id) {
-        return this.testDao.deleteById(id) > 0;
+        return this.designDao.deleteById(id) > 0;
     }
 }

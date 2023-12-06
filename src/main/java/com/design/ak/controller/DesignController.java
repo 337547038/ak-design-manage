@@ -1,8 +1,7 @@
 package com.design.ak.controller;
 
-import com.design.ak.entity.Datasource;
-import com.design.ak.entity.Test;
-import com.design.ak.service.DatasourceService;
+import com.design.ak.entity.Design;
+import com.design.ak.service.DesignService;
 import com.design.ak.utils.Utils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,22 +13,21 @@ import jakarta.annotation.Resource;
 import java.util.Date;
 import java.util.Map;
 
-
 /**
- * 数据源表(Datasource)表控制层
+ * 设计的表单(Design)表控制层
  *
  * @author ak.design 337547038
- * @since 2023-12-05 16:16:55
+ * @since 2023-12-06 17:46:18
  */
-@Tag(name = "Datasource相关")
+@Tag(name = "Design相关")
 @RestController
-@RequestMapping("datasource")
-public class DatasourceController {
+@RequestMapping("design")
+public class DesignController {
     /**
      * 服务对象
      */
     @Resource
-    private DatasourceService datasourceService;
+    private DesignService designService;
 
     /**
      * 分页查询
@@ -53,7 +51,7 @@ public class DatasourceController {
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
-        return ResponseEntity.ok(this.datasourceService.queryByPage(pages));
+        return ResponseEntity.ok(this.designService.queryByPage(pages));
     }
 
     /**
@@ -63,39 +61,39 @@ public class DatasourceController {
      * @return 单条数据
      */
     @Operation(summary ="根据id查询数据")
-    @PostMapping("get")
-    public ResponseEntity<Datasource> queryById(@RequestBody Map<String, Integer> id) {
-        return ResponseEntity.ok(this.datasourceService.queryById(id.get("id")));
+    @GetMapping("{id}")
+    public ResponseEntity<Design> queryById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.designService.queryById(id));
     }
 
     /**
      * 新增数据
      *
-     * @param datasource 实体
+     * @param design 实体
      * @return 新增结果Id
      */
     @Operation(summary ="新增数据")
-    @PostMapping("creat")
-    public ResponseEntity<Integer> add(@RequestBody Datasource datasource) {
-        datasource.setCreatUserId(Utils.getCurrentUserId());
-        datasource.setCreatDate(new Date());
-        datasource.setUpdateDate(new Date());
-        Datasource result = datasourceService.insert(datasource);
+    @PostMapping("save")
+    public ResponseEntity<Integer> add(@RequestBody Design design) {
+        design.setUpdateDate(new Date());
+        design.setCreatDate(new Date());
+        design.setCreatUserId(Utils.getCurrentUserId());
+        Design result = designService.insert(design);
         return ResponseEntity.ok(result.getId());
     }
 
     /**
      * 编辑数据
      *
-     * @param datasource 实体
+     * @param design 实体
      * @return 影响行数
      */
     @Operation(summary ="编辑数据")
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody Datasource datasource) {
-        datasource.setUpdateUserId(Utils.getCurrentUserId());
-        datasource.setUpdateDate(new Date());
-        return ResponseEntity.ok(this.datasourceService.updateById(datasource));
+    public ResponseEntity<Integer> edit(@RequestBody Design design) {
+        design.setUpdateDate(new Date());
+        design.setEditUserId(Utils.getCurrentUserId());
+        return ResponseEntity.ok(this.designService.updateById(design));
     }
 
     /**
@@ -110,7 +108,7 @@ public class DatasourceController {
     public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
-        return ResponseEntity.ok(this.datasourceService.deleteById(idList));
+        return ResponseEntity.ok(this.designService.deleteById(idList));
     }
 
 }

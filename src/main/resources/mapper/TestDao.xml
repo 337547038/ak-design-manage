@@ -24,7 +24,7 @@ id, name, content, phone, status
         <!--查询指定行数据-->
         <select id="queryAllByLimit" resultMap="TestMap">
             select
-            <include refid="commColumnsItem" />
+            id,name
             from test
             <where>
                     <if test="query.id != null">
@@ -52,7 +52,7 @@ id, name, content, phone, status
                 </otherwise>
             </choose>
             <if test="pageInfo.pageSize >0">
-            limit #{pageInfo.pageIndex}, #{pageInfo.pageSize}
+            limit #{pageInfo.pageIndex}, 2
             </if>
         </select>
 

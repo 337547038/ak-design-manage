@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.design.ak.dao.DesignDao">
+
+        <resultMap type="com.design.ak.entity.Design" id="DesignMap">
+                <result property="id" column="id" jdbcType="INTEGER"/>
+                <result property="source" column="source" jdbcType="INTEGER"/>
+                <result property="name" column="name" jdbcType="VARCHAR"/>
+                <result property="type" column="type" jdbcType="INTEGER"/>
+                <result property="data" column="data" jdbcType="VARCHAR"/>
+                <result property="listData" column="listData" jdbcType="VARCHAR"/>
+                <result property="status" column="status" jdbcType="INTEGER"/>
+                <result property="updateDate" column="updateDate" jdbcType="TIMESTAMP"/>
+                <result property="creatDate" column="creatDate" jdbcType="TIMESTAMP"/>
+                <result property="dict" column="dict" jdbcType="VARCHAR"/>
+                <result property="category" column="category" jdbcType="INTEGER"/>
+                <result property="creatUserId" column="creatUserId" jdbcType="INTEGER"/>
+                <result property="editUserId" column="editUserId" jdbcType="INTEGER"/>
+                <result property="roleId" column="roleId" jdbcType="INTEGER"/>
+                <result property="remark" column="remark" jdbcType="VARCHAR"/>
+                <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        </resultMap>
+
+    <sql id="commColumnsItem">
+id, source, name, type, data, listData, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon        
+    </sql>
+        <!--查询单个-->
+        <select id="queryById" resultMap="DesignMap">
+            select
+            <include refid="commColumnsItem" />
+            from design
+                where id = #{id}
+        </select>
+
+        <!--查询指定行数据-->
+        <select id="queryAllByLimit" resultMap="DesignMap">
+            select
+            <include refid="commColumnsItem" />
+            from design
+            <where>
+                    <if test="query.id != null">
+                        and id = #{query.id}
+                    </if>
+                    <if test="query.source != null">
+                        and source = #{query.source}
+                    </if>
+                    <if test="query.name != null and query.name != ''">
+                        and name = #{query.name}
+                    </if>
+                    <if test="query.type != null">
+                        and type = #{query.type}
+                    </if>
+                    <if test="query.data != null and query.data != ''">
+                        and data = #{query.data}
+                    </if>
+                    <if test="query.listData != null and query.listData != ''">
+                        and listData = #{query.listData}
+                    </if>
+                    <if test="query.status != null">
+                        and status = #{query.status}
+                    </if>
+                    <if test="query.updateDate != null">
+                        and updateDate = #{query.updateDate}
+                    </if>
+                    <if test="query.creatDate != null">
+                        and creatDate = #{query.creatDate}
+                    </if>
+                    <if test="query.dict != null and query.dict != ''">
+                        and dict = #{query.dict}
+                    </if>
+                    <if test="query.category != null">
+                        and category = #{query.category}
+                    </if>
+                    <if test="query.creatUserId != null">
+                        and creatUserId = #{query.creatUserId}
+                    </if>
+                    <if test="query.editUserId != null">
+                        and editUserId = #{query.editUserId}
+                    </if>
+                    <if test="query.roleId != null">
+                        and roleId = #{query.roleId}
+                    </if>
+                    <if test="query.remark != null and query.remark != ''">
+                        and remark = #{query.remark}
+                    </if>
+                    <if test="query.icon != null and query.icon != ''">
+                        and icon = #{query.icon}
+                    </if>
+            </where>
+            <choose>
+                <when test="pageInfo.sort != null and pageInfo.sort!=''">
+                    order by ${pageInfo.sort}
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="pageInfo.pageSize >0">
+            limit #{pageInfo.pageIndex}, #{pageInfo.pageSize}
+            </if>
+        </select>
+
+        <!--统计总行数-->
+        <select id="count" resultType="java.lang.Long">
+            select count(1)
+            from design
+            <where>
+                    <if test="id != null">
+                        and id = #{id}
+                    </if>
+                    <if test="source != null">
+                        and source = #{source}
+                    </if>
+                    <if test="name != null and name != ''">
+                        and name = #{name}
+                    </if>
+                    <if test="type != null">
+                        and type = #{type}
+                    </if>
+                    <if test="data != null and data != ''">
+                        and data = #{data}
+                    </if>
+                    <if test="listData != null and listData != ''">
+                        and listData = #{listData}
+                    </if>
+                    <if test="status != null">
+                        and status = #{status}
+                    </if>
+                    <if test="updateDate != null">
+                        and updateDate = #{updateDate}
+                    </if>
+                    <if test="creatDate != null">
+                        and creatDate = #{creatDate}
+                    </if>
+                    <if test="dict != null and dict != ''">
+                        and dict = #{dict}
+                    </if>
+                    <if test="category != null">
+                        and category = #{category}
+                    </if>
+                    <if test="creatUserId != null">
+                        and creatUserId = #{creatUserId}
+                    </if>
+                    <if test="editUserId != null">
+                        and editUserId = #{editUserId}
+                    </if>
+                    <if test="roleId != null">
+                        and roleId = #{roleId}
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        and remark = #{remark}
+                    </if>
+                    <if test="icon != null and icon != ''">
+                        and icon = #{icon}
+                    </if>
+            </where>
+        </select>
+
+        <!--新增所有列-->
+        <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+            insert into design(source, name, type, data, listData, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon)
+                values
+            (#{source}, #{name}, #{type}, #{data}, #{listData}, #{status}, #{updateDate}, #{creatDate}, #{dict}, #{category}, #{creatUserId}, #{editUserId}, #{roleId}, #{remark}, #{icon})
+        </insert>
+
+        <!--通过主键修改数据-->
+        <update id="updateById">
+            update design
+            <set>
+                    <if test="source != null">
+                        source = #{source},
+                    </if>
+                    <if test="name != null and name != ''">
+                        name = #{name},
+                    </if>
+                    <if test="type != null">
+                        type = #{type},
+                    </if>
+                    <if test="data != null and data != ''">
+                        data = #{data},
+                    </if>
+                    <if test="listData != null and listData != ''">
+                        listData = #{listData},
+                    </if>
+                    <if test="status != null">
+                        status = #{status},
+                    </if>
+                    <if test="updateDate != null">
+                        updateDate = #{updateDate},
+                    </if>
+                    <if test="creatDate != null">
+                        creatDate = #{creatDate},
+                    </if>
+                    <if test="dict != null and dict != ''">
+                        dict = #{dict},
+                    </if>
+                    <if test="category != null">
+                        category = #{category},
+                    </if>
+                    <if test="creatUserId != null">
+                        creatUserId = #{creatUserId},
+                    </if>
+                    <if test="editUserId != null">
+                        editUserId = #{editUserId},
+                    </if>
+                    <if test="roleId != null">
+                        roleId = #{roleId},
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        remark = #{remark},
+                    </if>
+                    <if test="icon != null and icon != ''">
+                        icon = #{icon},
+                    </if>
+            </set>
+            where id = #{id}
+        </update>
+
+        <!--通过主键删除-->
+        <delete id="deleteById">
+            delete
+            from design where id in
+            <foreach collection="id" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        </delete>
+
+    </mapper>
