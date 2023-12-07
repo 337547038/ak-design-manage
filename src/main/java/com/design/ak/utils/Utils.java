@@ -28,7 +28,7 @@ public class Utils {
      */
     public static Map<String, Object> pagination(Map<String, Object> pages) {
         //其他参数包含了pageNum当前第几页,pageSize每页分几条,sort排序,columns指定字段
-        Object params = pages.get("params");
+        Object params = pages.get("pageInfo");
         Object query = pages.get("query");//查询条件
         if (params == null) {
             params = new Object();
