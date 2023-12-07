@@ -15,7 +15,7 @@ import java.util.Map;
  * (Test)表控制层
  *
  * @author ak.design 337547038
- * @since 2023-12-07 18:05:45
+ * @since 2023-12-07 18:28:31
  */
 @Tag(name = "Test相关")
 @RestController
@@ -36,7 +36,8 @@ public class TestController {
      *     extendParams:{
      *         pageNum:1,//当前第几页
      *         pageSize:20,//每页多少条记录，默认20。小于0返回全部
-     *         order:"id desc"//排序
+     *         sort:"id desc"//排序
+     *         columns:""//返回指定查询字段，如'id,name'
      *     }
      * }
      * @return 查询结果

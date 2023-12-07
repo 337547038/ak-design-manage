@@ -15,7 +15,7 @@ import java.util.Map;
  * (Test)表服务实现类
  *
  * @author ak.design 337547038
- * @since 2023-12-07 18:05:49
+ * @since 2023-12-07 18:28:34
  */
 @Service("testService")
 public class TestServiceImpl implements TestService {
@@ -45,7 +45,7 @@ public class TestServiceImpl implements TestService {
         Test test = JSON.parseObject(JSON.toJSONString(map.get("query")), Test.class);//json字符串转java对象
         
         long total = this.testDao.count(test);
-        List<Map<String,Object>> list = this.testDao.queryAllByLimit(test,map.get("pageInfo"));
+        List<Map<String,Object>> list = this.testDao.queryAllByLimit(test,map.get("extendParams"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
