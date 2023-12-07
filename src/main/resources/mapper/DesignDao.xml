@@ -19,20 +19,15 @@
         <result property="roleId" column="roleId" jdbcType="INTEGER"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
-        <!--查询正确：property和column为空也行-->
-        <!--<association property="" javaType="com.design.ak.entity.Datasource" column=""
-                     select="queryById">
-        </association>-->
-         <association property="sourceName" javaType="com.design.ak.entity.Datasource">
-             <result property="name" column="name"/>
-             <result property="id" column="id"/>
-         </association>
+        <!--同时返回数据源名称-->
+        <result column="sourceName" property="sourceName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="commColumnsItem">
         id
         , source, name, type, data, listData, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon
     </sql>
+
     <!--查询单个-->
     <select id="queryById" resultMap="DesignMap">
         select

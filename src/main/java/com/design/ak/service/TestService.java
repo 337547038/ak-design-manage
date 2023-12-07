@@ -6,8 +6,8 @@ import java.util.Map;
 /**
  * (Test)表服务接口
  *
- * @author ak.design
- * @since 2023-12-05 16:12:21
+ * @author ak.design 337547038
+ * @since 2023-12-07 18:05:48
  */
 public interface TestService {
 

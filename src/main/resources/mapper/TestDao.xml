@@ -22,9 +22,16 @@ id, name, content, phone, status
         </select>
 
         <!--查询指定行数据-->
-        <select id="queryAllByLimit" resultMap="TestMap">
+        <select id="queryAllByLimit">
             select
-            id,name
+            <choose>
+                <when test="extend.columns != null and extend.columns!=''">
+                    ${extend.columns}
+                </when>
+                <otherwise>
+                    <include refid="commColumnsItem" />
+                </otherwise>
+            </choose>
             from test
             <where>
                     <if test="query.id != null">
@@ -44,15 +51,15 @@ id, name, content, phone, status
                     </if>
             </where>
             <choose>
-                <when test="pageInfo.sort != null and pageInfo.sort!=''">
-                    order by ${pageInfo.sort}
+                <when test="extend.sort != null and extend.sort!=''">
+                    order by ${extend.sort}
                 </when>
                 <otherwise>
                     order by id desc
                 </otherwise>
             </choose>
-            <if test="pageInfo.pageSize >0">
-            limit #{pageInfo.pageIndex}, 2
+            <if test="extend.pageSize >0">
+            limit #{extend.pageIndex}, #{extend.pageSize}
             </if>
         </select>
 

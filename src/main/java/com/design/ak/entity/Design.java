@@ -3,6 +3,7 @@ package com.design.ak.entity;
 import java.util.Date;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -81,9 +82,9 @@ public class Design implements Serializable {
      * 流程图标
      */
     private String icon;
-    private Datasource sourceName;
-    //private String sourceName;
 
-
+    /**
+     * 数据源名称*/
+    private String sourceName;
 }
 

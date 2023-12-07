@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * (Test)表数据库访问层
  *
- * @author ak.design
- * @since 2023-12-05 16:12:19
+ * @author ak.design 337547038
+ * @since 2023-12-07 18:05:46
  */
  @Mapper
 public interface TestDao {
@@ -27,11 +27,10 @@ public interface TestDao {
     /**
      * 查询指定行数据
      *@param test 筛选条件
-     *@param pageInfo 分页对象
+     *@param extend 扩展参数
      * @return 对象列表
      */
-    //List<Test> queryAllByLimit(@Param("query") Test test,@Param("pageInfo") Object pageInfo);
-    List<Map<String,Object>> queryAllByLimit(@Param("query") Test test,@Param("pageInfo") Object pageInfo);
+    List<Map<String,Object>> queryAllByLimit(@Param("query") Test test,@Param("extend") Object extend);
 
     /**
      * 统计总行数
