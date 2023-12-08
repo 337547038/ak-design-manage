@@ -7,17 +7,17 @@ import java.util.Map;
  * (Test)表服务接口
  *
  * @author ak.design 337547038
- * @since 2023-12-08 10:42:11
+ * @since 2023-12-08 17:30:02
  */
 public interface TestService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param query 主键和请求的列
+     * @param id 主键
      * @return 实例对象
      */
-    Map<String,Object> queryById(Map<String,String> query);
+    Test queryById(Integer id);
     
     /**
      * 分页查询

@@ -14,16 +14,9 @@
 id, name, content, phone, status        
     </sql>
         <!--查询单个-->
-        <select id="queryById">
+        <select id="queryById" resultMap="TestMap">
             select
-            <choose>
-                <when test="extendColumns != null and extendColumns!=''">
-                    ${extendColumns}
-                </when>
-                <otherwise>
-                    <include refid="commColumnsItem" />
-                </otherwise>
-            </choose>
+            <include refid="commColumnsItem" />
             from test
                 where id = #{id}
         </select>

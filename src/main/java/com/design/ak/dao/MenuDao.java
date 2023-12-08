@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * (Menu)表数据库访问层
  *
- * @author ak.design
- * @since 2023-11-29 10:44:16
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:57
  */
  @Mapper
 public interface MenuDao {
@@ -27,10 +27,10 @@ public interface MenuDao {
     /**
      * 查询指定行数据
      *@param menu 筛选条件
-     *@param pageInfo 分页对象
+     *@param extend 扩展参数
      * @return 对象列表
      */
-    List<Menu> queryAllByLimit(@Param("query") Menu menu,@Param("pageInfo") Object pageInfo);
+    List<Map<String,Object>> queryAllByLimit(@Param("query") Menu menu,@Param("extend") Object extend);
 
     /**
      * 统计总行数

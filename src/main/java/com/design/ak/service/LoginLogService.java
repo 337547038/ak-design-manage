@@ -6,10 +6,18 @@ import java.util.Map;
 /**
  * (LoginLog)表服务接口
  *
- * @author ak.design
- * @since 2023-11-29 15:32:23
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:53
  */
 public interface LoginLogService {
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param id 主键
+     * @return 实例对象
+     */
+    LoginLog queryById(Integer id);
     
     /**
      * 分页查询
@@ -25,6 +33,13 @@ public interface LoginLogService {
      */
     LoginLog insert(LoginLog loginLog);
 
+    /**
+     * 修改数据
+     *
+     * @param loginLog 实例对象
+     * @return 实例对象
+     */
+    Integer updateById(LoginLog loginLog);
 
     /**
      * 通过主键删除数据

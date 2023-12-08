@@ -1,7 +1,6 @@
 package com.design.ak.controller;
 
 import com.design.ak.entity.Datasource;
-import com.design.ak.entity.Test;
 import com.design.ak.service.DatasourceService;
 import com.design.ak.utils.Utils;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +13,11 @@ import jakarta.annotation.Resource;
 import java.util.Date;
 import java.util.Map;
 
-
 /**
  * 数据源表(Datasource)表控制层
  *
  * @author ak.design 337547038
- * @since 2023-12-05 16:16:55
+ * @since 2023-12-08 17:33:40
  */
 @Tag(name = "Datasource相关")
 @RestController
@@ -34,21 +32,24 @@ public class DatasourceController {
     /**
      * 分页查询
      * 前端传参:
+     * * @param pages 筛选条件分页对象
      * {
      *     query:{},//查询条件
-     *     pageInfo:{
+     *     extend:{
      *         pageNum:1,//当前第几页
      *         pageSize:20,//每页多少条记录，默认20。小于0返回全部
-     *         order:"id desc"//排序
+     *         sort:"id desc"//排序
+     *         columns:""//返回指定查询字段，如'id,name'
      *     }
      * }
-     * @param pages 筛选条件分页对象
      * @return 查询结果
      */
     @Operation(summary ="分页列表")
     @Parameters({
-            @Parameter(name = "pageInfo.pageNum",description = "当前第几页"),
-            @Parameter(name = "pageInfo.pageSize",description = "每页显示多少条"),
+            @Parameter(name = "extend.pageNum",description = "当前第几页"),
+            @Parameter(name = "extend.pageSize",description = "每页显示多少条"),
+            @Parameter(name = "extend.sort",description = "排序"),
+            @Parameter(name = "extend.columns",description = "返回指定查询字段"),
             @Parameter(name = "query",description = "查询条件")
     })
     @PostMapping("list")
@@ -59,14 +60,13 @@ public class DatasourceController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     *@param query 主键
      * @return 单条数据
      */
     @Operation(summary ="根据id查询数据")
     @PostMapping("get")
-    public ResponseEntity<Datasource> queryById(@RequestBody Map<String, Integer> id) {
-
-        return ResponseEntity.ok(this.datasourceService.queryById(id.get("id")));
+    public ResponseEntity<Datasource> queryById(@RequestBody Map<String, Integer> query) {
+        return ResponseEntity.ok(this.datasourceService.queryById(query.get("id")));
     }
 
     /**

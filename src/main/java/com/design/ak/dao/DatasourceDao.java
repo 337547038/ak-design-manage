@@ -11,7 +11,7 @@ import java.util.Map;
  * 数据源表(Datasource)表数据库访问层
  *
  * @author ak.design 337547038
- * @since 2023-12-05 16:16:55
+ * @since 2023-12-08 17:33:41
  */
  @Mapper
 public interface DatasourceDao {
@@ -27,10 +27,10 @@ public interface DatasourceDao {
     /**
      * 查询指定行数据
      *@param datasource 筛选条件
-     *@param pageInfo 分页对象
+     *@param extend 扩展参数
      * @return 对象列表
      */
-    List<Datasource> queryAllByLimit(@Param("query") Datasource datasource,@Param("pageInfo") Object pageInfo);
+    List<Map<String,Object>> queryAllByLimit(@Param("query") Datasource datasource,@Param("extend") Object extend);
 
     /**
      * 统计总行数
@@ -64,7 +64,7 @@ public interface DatasourceDao {
      */
     int deleteById(String[] id);
 
-    int createTable(String sqlStr);
+    void createTable(String sqlStr);
 
 }
 

@@ -15,7 +15,7 @@ import java.util.Map;
  * (Test)表控制层
  *
  * @author ak.design 337547038
- * @since 2023-12-08 10:42:09
+ * @since 2023-12-08 17:29:59
  */
 @Tag(name = "Test相关")
 @RestController
@@ -58,21 +58,13 @@ public class TestController {
     /**
      * 通过主键查询单条数据
      *
-     * @param query 主键和请求的列
-     * {
-     *   id:xx,
-     *   extendColumns:"id,name"
-     * }
+     *@param query 主键
      * @return 单条数据
      */
     @Operation(summary ="根据id查询数据")
-    @Parameters({
-            @Parameter(name = "query.id", description = "主键"),
-            @Parameter(name = "query.extendColumns", description = "返回指定查询字段"),
-    })
     @PostMapping("get")
-    public ResponseEntity<Map<String,Object>> queryById(@RequestBody Map<String, String> query) {
-        return ResponseEntity.ok(this.testService.queryById(query));
+    public ResponseEntity<Test> queryById(@RequestBody Map<String, Integer> query) {
+        return ResponseEntity.ok(this.testService.queryById(query.get("id")));
     }
 
     /**

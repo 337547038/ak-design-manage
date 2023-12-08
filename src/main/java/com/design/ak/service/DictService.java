@@ -6,8 +6,8 @@ import java.util.Map;
 /**
  * 数据字典表(Dict)表服务接口
  *
- * @author ak.design
- * @since 2023-11-28 16:47:47
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:49
  */
 public interface DictService {
 

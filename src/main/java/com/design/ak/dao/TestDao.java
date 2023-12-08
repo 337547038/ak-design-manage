@@ -11,7 +11,7 @@ import java.util.Map;
  * (Test)表数据库访问层
  *
  * @author ak.design 337547038
- * @since 2023-12-08 10:42:10
+ * @since 2023-12-08 17:30:00
  */
  @Mapper
 public interface TestDao {
@@ -19,10 +19,10 @@ public interface TestDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param query 主键和请求的列
+     * @param id 主键
      * @return 实例对象
      */
-    Map<String,Object> queryById(Map<String,String> query);
+    Test queryById(Integer id);
 
     /**
      * 查询指定行数据

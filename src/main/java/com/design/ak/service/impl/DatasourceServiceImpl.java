@@ -11,7 +11,6 @@ import com.design.ak.service.DatasourceService;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ import java.util.Objects;
  * 数据源表(Datasource)表服务实现类
  *
  * @author ak.design 337547038
- * @since 2023-12-05 16:16:55
+ * @since 2023-12-08 17:33:43
  */
 @Service("datasourceService")
 public class DatasourceServiceImpl implements DatasourceService {
@@ -42,16 +41,16 @@ public class DatasourceServiceImpl implements DatasourceService {
     /**
      * 分页查询
      *
-     * @param pages 筛选条件分页对象
+     * @param pages  筛选条件分页对象
      * @return 查询结果
      */
     @Override
-    public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Map<String, Object> map = Utils.pagination(pages);//处理分页信息
+    public Map<String, Object> queryByPage(Map<String,Object> pages) {
+       Map<String,Object> map = Utils.pagination(pages);//处理分页信息
         Datasource datasource = JSON.parseObject(JSON.toJSONString(map.get("query")), Datasource.class);//json字符串转java对象
-
+        
         long total = this.datasourceDao.count(datasource);
-        List<Datasource> list = this.datasourceDao.queryAllByLimit(datasource, map.get("pageInfo"));
+        List<Map<String,Object>> list = this.datasourceDao.queryAllByLimit(datasource,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

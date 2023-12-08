@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * (User)表数据库访问层
  *
- * @author ak.design
- * @since 2023-11-24 15:03:06
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:34:01
  */
  @Mapper
 public interface UserDao {
@@ -27,10 +27,10 @@ public interface UserDao {
     /**
      * 查询指定行数据
      *@param user 筛选条件
-     *@param pageInfo 分页对象
+     *@param extend 扩展参数
      * @return 对象列表
      */
-    List<User> queryAllByLimit(@Param("query") User user,@Param("pageInfo") Object pageInfo);
+    List<Map<String,Object>> queryAllByLimit(@Param("query") User user,@Param("extend") Object extend);
 
     /**
      * 统计总行数
@@ -64,6 +64,8 @@ public interface UserDao {
      */
     int deleteById(String[] id);
 
-    int updateLogin(User user);
+
+    void updateLogin(User user);
+
 }
 

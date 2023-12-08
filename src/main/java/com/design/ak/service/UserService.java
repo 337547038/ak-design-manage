@@ -7,8 +7,8 @@ import java.util.Map;
 /**
  * (User)表服务接口
  *
- * @author ak.design
- * @since 2023-11-24 15:03:08
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:34:02
  */
 public interface UserService {
 
@@ -50,6 +50,6 @@ public interface UserService {
      */
     boolean deleteById(String[] id);
 
-    List<User> login(User user,String ipAddress);
+    List<Map<String, Object>> login(User user,String ipAddress);
 
 }

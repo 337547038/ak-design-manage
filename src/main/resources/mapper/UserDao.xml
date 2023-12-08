@@ -32,9 +32,16 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
         </select>
 
         <!--查询指定行数据-->
-        <select id="queryAllByLimit" resultMap="UserMap">
+        <select id="queryAllByLimit">
             select
-            <include refid="commColumnsItem" />
+            <choose>
+                <when test="extend.columns != null and extend.columns!=''">
+                    ${extend.columns}
+                </when>
+                <otherwise>
+                    <include refid="commColumnsItem" />
+                </otherwise>
+            </choose>
             from sys_user
             <where>
                     <if test="query.id != null">
@@ -84,15 +91,15 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
                     </if>
             </where>
             <choose>
-                <when test="pageInfo.sort != null and pageInfo.sort!=''">
-                    order by ${pageInfo.sort}
+                <when test="extend.sort != null and extend.sort!=''">
+                    order by ${extend.sort}
                 </when>
                 <otherwise>
                     order by id desc
                 </otherwise>
             </choose>
-            <if test="pageInfo.pageSize >0">
-            limit #{pageInfo.pageIndex}, #{pageInfo.pageSize}
+            <if test="extend.pageSize >0">
+            limit #{extend.pageIndex}, #{extend.pageSize}
             </if>
         </select>
 
@@ -214,6 +221,7 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
             #{item}
         </foreach>
         </delete>
+
     <!--更新登录信息-->
     <update id="updateLogin">
         update sys_user
@@ -230,4 +238,5 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
         </set>
         where id = #{id}
     </update>
+
     </mapper>

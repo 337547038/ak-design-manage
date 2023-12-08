@@ -3,23 +3,21 @@ package com.design.ak.entity;
 import java.util.Date;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
 import java.io.Serial;
 
 
 /**
  * (User)实体类
  *
- * @author ak.design
- * @since 2023-11-29 10:25:17
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:34:01
  */
 @Data
 public class User implements Serializable {
     @Serial
-    private static final long serialVersionUID = 222877400311911429L;
+    private static final long serialVersionUID = -94352921520517330L;
 
     private Integer id;
 
@@ -31,10 +29,11 @@ public class User implements Serializable {
     private String phone;
 
     private Integer status;
-    /**
+/**
      * 权限角色id
      */
     private String roleId;
+
     @NotBlank(message = "密码不能为空")
     private String password;
 
@@ -43,26 +42,25 @@ public class User implements Serializable {
     private Integer postId;
 
     private String remark;
-    /**
+/**
      * 创建时间
      */
     private Date creatTime;
-    /**
+/**
      * 修改时间
      */
     private Date updateTime;
-    /**
+/**
      * 最后登录
      */
     private Date lastLoginTime;
-    /**
+/**
      * 登录次数
      */
     private Integer loginTimer;
-    /**
+/**
      * 登录ip地址
      */
-    @JsonIgnore
     private String ip;
 
 

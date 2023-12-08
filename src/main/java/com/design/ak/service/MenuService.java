@@ -6,8 +6,8 @@ import java.util.Map;
 /**
  * (Menu)表服务接口
  *
- * @author ak.design
- * @since 2023-11-29 10:44:16
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:59
  */
 public interface MenuService {
 

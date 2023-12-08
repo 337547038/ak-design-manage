@@ -15,7 +15,7 @@ import java.util.Map;
  * (Test)表服务实现类
  *
  * @author ak.design 337547038
- * @since 2023-12-08 10:42:12
+ * @since 2023-12-08 17:30:02
  */
 @Service("testService")
 public class TestServiceImpl implements TestService {
@@ -25,12 +25,12 @@ public class TestServiceImpl implements TestService {
     /**
      * 通过ID查询单条数据
      *
-     * @param query 主键和请求的列
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public Map<String,Object> queryById(Map<String, String> query) {
-        return this.testDao.queryById(query);
+    public Test queryById(Integer id) {
+        return this.testDao.queryById(id);
     }
 
     /**

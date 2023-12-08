@@ -11,18 +11,17 @@ import java.io.Serial;
 /**
  * (Menu)实体类
  *
- * @author ak.design
- * @since 2023-11-30 10:55:37
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:58
  */
 @Data
 public class Menu implements Serializable {
     @Serial
-    private static final long serialVersionUID = -31537121538862048L;
+    private static final long serialVersionUID = -40228030138568278L;
 
     private Integer id;
 
     private Integer parentId;
-
     @NotBlank(message = "名称不能为空")
     private String name;
 

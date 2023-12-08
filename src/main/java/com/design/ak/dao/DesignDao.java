@@ -11,7 +11,7 @@ import java.util.Map;
  * 设计的表单(Design)表数据库访问层
  *
  * @author ak.design 337547038
- * @since 2023-12-06 17:46:18
+ * @since 2023-12-08 17:33:44
  */
  @Mapper
 public interface DesignDao {
@@ -27,10 +27,10 @@ public interface DesignDao {
     /**
      * 查询指定行数据
      *@param design 筛选条件
-     *@param pageInfo 分页对象
+     *@param extend 扩展参数
      * @return 对象列表
      */
-    List<Design> queryAllByLimit(@Param("query") Design design,@Param("pageInfo") Object pageInfo);
+    List<Map<String,Object>> queryAllByLimit(@Param("query") Design design,@Param("extend") Object extend);
 
     /**
      * 统计总行数

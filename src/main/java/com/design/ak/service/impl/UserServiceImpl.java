@@ -3,7 +3,6 @@ package com.design.ak.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.design.ak.dao.LoginLogDao;
 import com.design.ak.entity.LoginLog;
-import com.design.ak.entity.Test;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.User;
 import com.design.ak.dao.UserDao;
@@ -16,12 +15,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 /**
  * (User)表服务实现类
  *
- * @author ak.design
- * @since 2023-11-24 15:05:28
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:34:03
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -44,15 +42,16 @@ public class UserServiceImpl implements UserService {
     /**
      * 分页查询
      *
-     * @param pages 筛选条件分页对象
+     * @param pages  筛选条件分页对象
      * @return 查询结果
      */
     @Override
-    public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Map<String, Object> map = Utils.pagination(pages);//处理接收参数
+    public Map<String, Object> queryByPage(Map<String,Object> pages) {
+       Map<String,Object> map = Utils.pagination(pages);//处理分页信息
         User user = JSON.parseObject(JSON.toJSONString(map.get("query")), User.class);//json字符串转java对象
+        
         long total = this.userDao.count(user);
-        List<User> list = this.userDao.queryAllByLimit(user, map.get("pageInfo"));
+        List<Map<String,Object>> list = this.userDao.queryAllByLimit(user,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
@@ -94,20 +93,27 @@ public class UserServiceImpl implements UserService {
         return this.userDao.deleteById(id) > 0;
     }
 
-    @Override
-    public List<User> login(User user,String ipAddress) {
-        List<User> list = this.userDao.queryAllByLimit(user, new HashMap<>());
+    /**
+     * 根据用户名和密码登录
+     * @param user 实体
+     * @param ipAddress 登录时的ip地址
+     */
+    public List<Map<String, Object>> login(User user, String ipAddress) {
+        List<Map<String,Object>> list = this.userDao.queryAllByLimit(user, new HashMap<>());
         LoginLog log = new LoginLog();
         log.setUserName(user.getUserName());
         log.setLoginIp(ipAddress);
         log.setDateTime(new Date());
         if (!list.isEmpty()) {
             //更新登录信息
-            User updateUser = list.get(0);
+            Integer loginTime = (Integer) list.get(0).get("loginTimer");
+            Integer id = (Integer) list.get(0).get("id");
+            User updateUser = new User();
+            updateUser.setId(id);
             updateUser.setLastLoginTime(new Date());
-            updateUser.setLoginTimer(updateUser.getLoginTimer()+1);
+            updateUser.setLoginTimer(loginTime+1);
             updateUser.setIp(ipAddress);
-            int bool = userDao.updateLogin(updateUser);
+            userDao.updateLogin(updateUser);
             //添加登录日志
             log.setStatus(1);
         }else {

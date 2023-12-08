@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * 数据字典表(Dict)表服务实现类
  *
- * @author ak.design
- * @since 2023-11-28 16:47:47
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:50
  */
 @Service("dictService")
 public class DictServiceImpl implements DictService {
@@ -41,10 +41,11 @@ public class DictServiceImpl implements DictService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
-        Map<String, Object> map = Utils.pagination(pages);//处理接收参数
+       Map<String,Object> map = Utils.pagination(pages);//处理分页信息
         Dict dict = JSON.parseObject(JSON.toJSONString(map.get("query")), Dict.class);//json字符串转java对象
+        
         long total = this.dictDao.count(dict);
-        List<Dict> list = this.dictDao.queryAllByLimit(dict,map.get("pageInfo"));
+        List<Map<String,Object>> list = this.dictDao.queryAllByLimit(dict,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

@@ -13,12 +13,12 @@ import java.io.Serial;
  * 数据源表(Datasource)实体类
  *
  * @author ak.design 337547038
- * @since 2023-12-05 16:16:55
+ * @since 2023-12-08 17:33:42
  */
 @Data
 public class Datasource implements Serializable {
     @Serial
-    private static final long serialVersionUID = -55938615676147511L;
+    private static final long serialVersionUID = -18781499019562785L;
 
     private Integer id;
     /**

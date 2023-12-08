@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * (Menu)表服务实现类
  *
- * @author ak.design
- * @since 2023-11-29 10:44:16
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:34:00
  */
 @Service("menuService")
 public class MenuServiceImpl implements MenuService {
@@ -41,10 +41,11 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
-        Map<String, Object> map = Utils.pagination(pages);//处理接收参数
+       Map<String,Object> map = Utils.pagination(pages);//处理分页信息
         Menu menu = JSON.parseObject(JSON.toJSONString(map.get("query")), Menu.class);//json字符串转java对象
+        
         long total = this.menuDao.count(menu);
-        List<Menu> list = this.menuDao.queryAllByLimit(menu,map.get("pageInfo"));
+        List<Map<String,Object>> list = this.menuDao.queryAllByLimit(menu,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

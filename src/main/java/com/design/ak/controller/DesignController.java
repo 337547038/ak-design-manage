@@ -17,7 +17,7 @@ import java.util.Map;
  * 设计的表单(Design)表控制层
  *
  * @author ak.design 337547038
- * @since 2023-12-06 17:46:18
+ * @since 2023-12-08 17:33:44
  */
 @Tag(name = "Design相关")
 @RestController
@@ -32,21 +32,24 @@ public class DesignController {
     /**
      * 分页查询
      * 前端传参:
+     * * @param pages 筛选条件分页对象
      * {
      *     query:{},//查询条件
-     *     pageInfo:{
+     *     extend:{
      *         pageNum:1,//当前第几页
      *         pageSize:20,//每页多少条记录，默认20。小于0返回全部
-     *         order:"id desc"//排序
+     *         sort:"id desc"//排序
+     *         columns:""//返回指定查询字段，如'id,name'
      *     }
      * }
-     * @param pages 筛选条件分页对象
      * @return 查询结果
      */
     @Operation(summary ="分页列表")
     @Parameters({
-            @Parameter(name = "pageInfo.pageNum",description = "当前第几页"),
-            @Parameter(name = "pageInfo.pageSize",description = "每页显示多少条"),
+            @Parameter(name = "extend.pageNum",description = "当前第几页"),
+            @Parameter(name = "extend.pageSize",description = "每页显示多少条"),
+            @Parameter(name = "extend.sort",description = "排序"),
+            @Parameter(name = "extend.columns",description = "返回指定查询字段"),
             @Parameter(name = "query",description = "查询条件")
     })
     @PostMapping("list")
@@ -57,13 +60,13 @@ public class DesignController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     *@param query 主键
      * @return 单条数据
      */
     @Operation(summary ="根据id查询数据")
-    @GetMapping("{id}")
-    public ResponseEntity<Design> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.designService.queryById(id));
+    @PostMapping("get")
+    public ResponseEntity<Design> queryById(@RequestBody Map<String, Integer> query) {
+        return ResponseEntity.ok(this.designService.queryById(query.get("id")));
     }
 
     /**

@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * 数据字典表(Dict)表数据库访问层
  *
- * @author ak.design
- * @since 2023-11-28 16:47:47
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:47
  */
  @Mapper
 public interface DictDao {
@@ -27,10 +27,10 @@ public interface DictDao {
     /**
      * 查询指定行数据
      *@param dict 筛选条件
-     *@param pageInfo 分页对象
+     *@param extend 扩展参数
      * @return 对象列表
      */
-    List<Dict> queryAllByLimit(@Param("query") Dict dict,@Param("pageInfo") Object pageInfo);
+    List<Map<String,Object>> queryAllByLimit(@Param("query") Dict dict,@Param("extend") Object extend);
 
     /**
      * 统计总行数

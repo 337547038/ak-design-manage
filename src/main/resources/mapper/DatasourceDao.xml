@@ -28,9 +28,16 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
         </select>
 
         <!--查询指定行数据-->
-        <select id="queryAllByLimit" resultMap="DatasourceMap">
+        <select id="queryAllByLimit">
             select
-            <include refid="commColumnsItem" />
+            <choose>
+                <when test="extend.columns != null and extend.columns!=''">
+                    ${extend.columns}
+                </when>
+                <otherwise>
+                    <include refid="commColumnsItem" />
+                </otherwise>
+            </choose>
             from datasource
             <where>
                     <if test="query.id != null">
@@ -68,15 +75,15 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     </if>
             </where>
             <choose>
-                <when test="pageInfo.sort != null and pageInfo.sort!=''">
-                    order by ${pageInfo.sort}
+                <when test="extend.sort != null and extend.sort!=''">
+                    order by ${extend.sort}
                 </when>
                 <otherwise>
                     order by id desc
                 </otherwise>
             </choose>
-            <if test="pageInfo.pageSize >0">
-            limit #{pageInfo.pageIndex}, #{pageInfo.pageSize}
+            <if test="extend.pageSize >0">
+            limit #{extend.pageIndex}, #{extend.pageSize}
             </if>
         </select>
 

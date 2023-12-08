@@ -3,7 +3,6 @@ package com.design.ak.entity;
 import java.util.Date;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -14,12 +13,12 @@ import java.io.Serial;
  * 设计的表单(Design)实体类
  *
  * @author ak.design 337547038
- * @since 2023-12-06 17:46:18
+ * @since 2023-12-08 17:33:45
  */
 @Data
 public class Design implements Serializable {
     @Serial
-    private static final long serialVersionUID = -61189232557607860L;
+    private static final long serialVersionUID = 374035687056417144L;
 
     private Integer id;
     /**
@@ -82,9 +81,10 @@ public class Design implements Serializable {
      * 流程图标
      */
     private String icon;
-
     /**
-     * 数据源名称*/
+     * 数据源名称
+     */
     private String sourceName;
+
 }
 

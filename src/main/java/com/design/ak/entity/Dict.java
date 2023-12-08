@@ -9,13 +9,13 @@ import java.io.Serial;
 /**
  * 数据字典表(Dict)实体类
  *
- * @author ak.design
- * @since 2023-11-29 09:53:30
+ * @author ak.design 337547038
+ * @since 2023-12-08 17:33:48
  */
 @Data
 public class Dict implements Serializable {
     @Serial
-    private static final long serialVersionUID = 700238362468939932L;
+    private static final long serialVersionUID = -25420845380295640L;
 
     private Integer id;
 

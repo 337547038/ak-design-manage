@@ -15,7 +15,7 @@ import java.util.Map;
  * 设计的表单(Design)表服务实现类
  *
  * @author ak.design 337547038
- * @since 2023-12-06 17:46:18
+ * @since 2023-12-08 17:33:46
  */
 @Service("designService")
 public class DesignServiceImpl implements DesignService {
@@ -45,7 +45,7 @@ public class DesignServiceImpl implements DesignService {
         Design design = JSON.parseObject(JSON.toJSONString(map.get("query")), Design.class);//json字符串转java对象
         
         long total = this.designDao.count(design);
-        List<Design> list = this.designDao.queryAllByLimit(design,map.get("pageInfo"));
+        List<Map<String,Object>> list = this.designDao.queryAllByLimit(design,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
