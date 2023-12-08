@@ -106,8 +106,9 @@ public class UserServiceImpl implements UserService {
         log.setDateTime(new Date());
         if (!list.isEmpty()) {
             //更新登录信息
-            Integer loginTime = (Integer) list.get(0).get("loginTimer");
-            Integer id = (Integer) list.get(0).get("id");
+            Map<String, Object> listObj = list.get(0);
+            Integer loginTime = (Integer) listObj.get("loginTimer");
+            Integer id = (Integer) listObj.get("id");
             User updateUser = new User();
             updateUser.setId(id);
             updateUser.setLastLoginTime(new Date());
