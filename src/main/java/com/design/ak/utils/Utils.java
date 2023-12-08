@@ -28,7 +28,7 @@ public class Utils {
      */
     public static Map<String, Object> pagination(Map<String, Object> pages) {
         //其他参数包含了pageNum当前第几页,pageSize每页分几条,sort排序,columns指定字段
-        Object params = pages.get("extendParams");
+        Object params = pages.get("extend");
         Object query = pages.get("query");//查询条件
         if (params == null) {
             params = new Object();
@@ -44,7 +44,7 @@ public class Utils {
         obj.put("pageIndex", pageIndex);
         obj.put("pageSize", pageSize);
         Map<String, Object> map = new HashMap<>();
-        map.put("extendParams", obj);
+        map.put("extend", obj);
         map.put("query", query);
         return map;
     }
