@@ -15,7 +15,7 @@ import java.util.Map;
  * (Test)表服务实现类
  *
  * @author ak.design 337547038
- * @since 2023-12-07 18:28:34
+ * @since 2023-12-08 10:42:12
  */
 @Service("testService")
 public class TestServiceImpl implements TestService {
@@ -25,12 +25,12 @@ public class TestServiceImpl implements TestService {
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param query 主键和请求的列
      * @return 实例对象
      */
     @Override
-    public Test queryById(Integer id) {
-        return this.testDao.queryById(id);
+    public Map<String,Object> queryById(Map<String, String> query) {
+        return this.testDao.queryById(query);
     }
 
     /**
@@ -45,7 +45,7 @@ public class TestServiceImpl implements TestService {
         Test test = JSON.parseObject(JSON.toJSONString(map.get("query")), Test.class);//json字符串转java对象
         
         long total = this.testDao.count(test);
-        List<Map<String,Object>> list = this.testDao.queryAllByLimit(test,map.get("extendParams"));
+        List<Map<String,Object>> list = this.testDao.queryAllByLimit(test,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);

@@ -15,7 +15,7 @@ import java.util.Map;
  * (Test)表控制层
  *
  * @author ak.design 337547038
- * @since 2023-12-07 18:28:31
+ * @since 2023-12-08 10:42:09
  */
 @Tag(name = "Test相关")
 @RestController
@@ -33,7 +33,7 @@ public class TestController {
      * * @param pages 筛选条件分页对象
      * {
      *     query:{},//查询条件
-     *     extendParams:{
+     *     extend:{
      *         pageNum:1,//当前第几页
      *         pageSize:20,//每页多少条记录，默认20。小于0返回全部
      *         sort:"id desc"//排序
@@ -44,10 +44,10 @@ public class TestController {
      */
     @Operation(summary ="分页列表")
     @Parameters({
-            @Parameter(name = "extendParams.pageNum",description = "当前第几页"),
-            @Parameter(name = "extendParams.pageSize",description = "每页显示多少条"),
-            @Parameter(name = "extendParams.sort",description = "排序"),
-            @Parameter(name = "extendParams.columns",description = "返回指定查询字段"),
+            @Parameter(name = "extend.pageNum",description = "当前第几页"),
+            @Parameter(name = "extend.pageSize",description = "每页显示多少条"),
+            @Parameter(name = "extend.sort",description = "排序"),
+            @Parameter(name = "extend.columns",description = "返回指定查询字段"),
             @Parameter(name = "query",description = "查询条件")
     })
     @PostMapping("list")
@@ -58,13 +58,21 @@ public class TestController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param query 主键和请求的列
+     * {
+     *   id:xx,
+     *   extendColumns:"id,name"
+     * }
      * @return 单条数据
      */
     @Operation(summary ="根据id查询数据")
-    @GetMapping("{id}")
-    public ResponseEntity<Test> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.testService.queryById(id));
+    @Parameters({
+            @Parameter(name = "query.id", description = "主键"),
+            @Parameter(name = "query.extendColumns", description = "返回指定查询字段"),
+    })
+    @PostMapping("get")
+    public ResponseEntity<Map<String,Object>> queryById(@RequestBody Map<String, String> query) {
+        return ResponseEntity.ok(this.testService.queryById(query));
     }
 
     /**

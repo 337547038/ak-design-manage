@@ -65,6 +65,7 @@ public class DatasourceController {
     @Operation(summary ="根据id查询数据")
     @PostMapping("get")
     public ResponseEntity<Datasource> queryById(@RequestBody Map<String, Integer> id) {
+
         return ResponseEntity.ok(this.datasourceService.queryById(id.get("id")));
     }
 
