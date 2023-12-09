@@ -145,9 +145,7 @@ public class UserController {
         }
         // 获取IP地址
         String ipAddress = request.getRemoteAddr();
-        System.out.println("ok1");
         List<Map<String, Object>> list = this.userService.login(user,ipAddress);
-        System.out.println("ok2");
         if (list.isEmpty()) {
             return ResponseResult.fail("用户名或密码错误");
         }
