@@ -3,8 +3,10 @@ package com.design.ak.entity;
 import java.util.Date;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+
 import java.io.Serial;
 
 
@@ -29,7 +31,7 @@ public class User implements Serializable {
     private String phone;
 
     private Integer status;
-/**
+    /**
      * 权限角色id
      */
     private String roleId;
@@ -42,27 +44,31 @@ public class User implements Serializable {
     private Integer postId;
 
     private String remark;
-/**
+    /**
      * 创建时间
      */
     private Date creatTime;
-/**
+    /**
      * 修改时间
      */
     private Date updateTime;
-/**
+    /**
      * 最后登录
      */
     private Date lastLoginTime;
-/**
+    /**
      * 登录次数
      */
     private Integer loginTimer;
-/**
+    /**
      * 登录ip地址
      */
     private String ip;
 
-
+    /**
+     * 仅用于查询包含的id
+     */
+    @JsonIgnore
+    private String idList;
 }
 

@@ -73,6 +73,9 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     <if test="query.tableData != null and query.tableData != ''">
                         and tableData = #{query.tableData}
                     </if>
+                <if test="query.idList != null and query.idList != ''">
+                    and id in (${query.idList})
+                </if>
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">

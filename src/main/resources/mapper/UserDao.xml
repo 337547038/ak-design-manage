@@ -89,6 +89,9 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
                     <if test="query.ip != null and query.ip != ''">
                         and ip = #{query.ip}
                     </if>
+                <if test="query.idList != null and query.idList != ''">
+                    and id in (${query.idList})
+                </if>
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">

@@ -3,6 +3,7 @@ package com.design.ak.entity;
 import java.util.Date;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -57,6 +58,10 @@ public class Datasource implements Serializable {
     @NotBlank(message = "表结构数据不能为空")
     private String tableData;
 
-
+    /**
+     * 仅用于查询包含的id
+     */
+    @JsonIgnore
+    private String idList;
 }
 

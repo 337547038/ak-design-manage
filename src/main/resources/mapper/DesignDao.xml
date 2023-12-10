@@ -20,7 +20,7 @@
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="icon" column="icon" jdbcType="VARCHAR"/>
             <!--同时返回数据源名称-->
-            <result column="sourceName" property="sourceName" jdbcType="VARCHAR"/>
+            <!--<result column="sourceName" property="sourceName" jdbcType="VARCHAR"/>-->
         </resultMap>
 
     <sql id="commColumnsItem">
@@ -37,7 +37,6 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
         <!--查询指定行数据-->
         <select id="queryAllByLimit">
             select
-            (SELECT name FROM `datasource` where id=d.source) as sourceName,
             <choose>
                 <when test="extend.columns != null and extend.columns!=''">
                     ${extend.columns}
@@ -96,6 +95,9 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
                     <if test="query.icon != null and query.icon != ''">
                         and icon = #{query.icon}
                     </if>
+                <if test="query.idList != null and query.idList != ''">
+                    and id in (${query.idList})
+                </if>
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">
