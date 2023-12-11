@@ -19,6 +19,7 @@ public class SQLController {
     @Resource
     private SqlService sqlService;
 
+    // todo
     @PassToken
     @GetMapping("import/sql")
     public Boolean resetDatabase() throws SQLException {

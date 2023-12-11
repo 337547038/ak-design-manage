@@ -14,6 +14,7 @@
                 <result property="updateUserId" column="updateUserId" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="tableData" column="tableData" jdbcType="VARCHAR"/>
+                <result property="creatUser" column="creatUser" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
@@ -30,6 +31,7 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
         <!--查询指定行数据-->
         <select id="queryAllByLimit">
             select
+                (select userName from `sys_user` where d.creatUserId=id) as creatUser,
             <choose>
                 <when test="extend.columns != null and extend.columns!=''">
                     ${extend.columns}
@@ -38,7 +40,7 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     <include refid="commColumnsItem" />
                 </otherwise>
             </choose>
-            from datasource
+            from datasource as d
             <where>
                     <if test="query.id != null">
                         and id = #{query.id}

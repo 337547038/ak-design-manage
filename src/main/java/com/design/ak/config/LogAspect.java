@@ -58,14 +58,13 @@ public class LogAspect {
         }
 
         HttpServletRequest request = attributes.getRequest();
+        UUID uuid = UUID.randomUUID(); //用于关联响应结果，否则同时多个请求分不清响应是属于哪个请求
         if (log.isDebugEnabled()) {
-            log.debug("请求URL：{}", request.getRequestURL());
-            log.debug("请求头信息：{}", JSON.toJSONString(getHeaders(request.getHeaderNames(), request)));
-            log.debug("请求方法类型：{}", request.getMethod());
-            // 打印调用 controller 的全路径以及执行方法
-            log.debug("请求方法全路径：{}", methodName);
-            log.debug("请求IP：{}", request.getRemoteAddr());
-            log.debug("请求参数：{}", JSON.toJSONString(params));
+            log.info("请求URL：{},\n 请求头信息：{},\n 请求方法全路径：{},\n 请求方法类型：{}, 请求IP：{}, 请求参数：{},\n UUID：{}",
+                    request.getRequestURL(),
+                    JSON.toJSONString(getHeaders(request.getHeaderNames(), request)),
+                    methodName,
+                    request.getMethod(), request.getRemoteAddr(), JSON.toJSONString(params),uuid);
         }
         Object result;
         try {
@@ -75,8 +74,7 @@ public class LogAspect {
             throw new RuntimeException(e);
         }
         if (log.isDebugEnabled()) {
-            log.debug("响应 :{}", JSON.toJSONString(result));
-            log.debug("请求方法类型 : {}", methodName);
+            log.debug("{}响应 :{}", uuid,JSON.toJSONString(result));
         }
         return result;
     }

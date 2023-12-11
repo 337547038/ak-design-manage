@@ -70,19 +70,22 @@ public class DesignServiceImpl implements DesignService {
         queryUser.setIdList(userIdList);
         List<Map<String, Object>> userList = this.userDao.queryAllByLimit(queryUser, new HashMap<>());
         dict.put("creatUser", getObjKeyValue(userList, "id", "userName"));
-
+        System.out.println("extend");
+        System.out.println(extend);
         JSONObject obj = JSON.parseObject(JSON.toJSONString(extend));
+        System.out.println("obj");
+        System.out.println(obj);
         //表单列表时返回数据源
-        /*if (obj.getBoolean("source")) {
+        if (obj.getBoolean("source")!=null) {
             String sourceIdList = getStringKey(list, "source");
             Datasource queryDataSource = new Datasource();
             queryDataSource.setIdList(sourceIdList);
             List<Map<String, Object>> dataSourceList = this.datasourceDao.queryAllByLimit(queryDataSource, new HashMap<>());
             dict.put("source", getObjKeyValue(dataSourceList, "id", "name"));
-        }*/
+        }
 
         //列表页时返回表单数据源
-        if (obj.getBoolean("formName")) {
+        if (obj.getBoolean("formName")!=null) {
             String sourceIdList = getStringKey(list, "source");
             Design queryDesign = new Design();
             queryDesign.setIdList(sourceIdList);
