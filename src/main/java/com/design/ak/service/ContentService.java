@@ -12,10 +12,11 @@ public interface ContentService {
     /**
      * 通过ID查询单条数据
      *
+     * @param formId 表单id
      * @param id 主键
      * @return 实例对象
      */
-    Map<String, Object> queryById(Integer id);
+    Map<String, Object> queryById(Integer formId,Integer id);
     
     /**
      * 分页查询

@@ -11,6 +11,7 @@ import com.design.ak.entity.Design;
 import com.design.ak.dao.DesignDao;
 import com.design.ak.service.DesignService;
 import org.springframework.stereotype.Service;
+import com.design.ak.service.UserService;
 
 import jakarta.annotation.Resource;
 
@@ -35,6 +36,7 @@ public class DesignServiceImpl implements DesignService {
 
     @Resource
     private DatasourceDao datasourceDao;
+
 
     /**
      * 通过ID查询单条数据
@@ -70,11 +72,7 @@ public class DesignServiceImpl implements DesignService {
         queryUser.setIdList(userIdList);
         List<Map<String, Object>> userList = this.userDao.queryAllByLimit(queryUser, new HashMap<>());
         dict.put("creatUser", getObjKeyValue(userList, "id", "userName"));
-        System.out.println("extend");
-        System.out.println(extend);
         JSONObject obj = JSON.parseObject(JSON.toJSONString(extend));
-        System.out.println("obj");
-        System.out.println(obj);
         //表单列表时返回数据源
         if (obj.getBoolean("source")!=null) {
             String sourceIdList = getStringKey(list, "source");

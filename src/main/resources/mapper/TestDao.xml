@@ -121,5 +121,15 @@ id, name, content, phone, status
             #{item}
         </foreach>
         </delete>
+        
+            <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into test(namecontentphonestatus)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}#{entity.content}#{entity.phone}#{entity.status})
+        </foreach>
+        on duplicate key update
+name = values(name)content = values(content)phone = values(phone)status = values(status)
+    </insert>
 
     </mapper>
