@@ -3,12 +3,14 @@ package com.design.ak.controller;
 import com.design.ak.entity.Dict;
 import com.design.ak.service.DictService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -75,7 +77,8 @@ public class DictController {
      */
     @Operation(summary ="新增数据")
     @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody Dict dict) {
+    public ResponseEntity<Integer> add(@RequestBody @Validated({Dict.Save.class}) Dict dict) {
+        dict.setUpdateTime(new Date());
         Dict result = dictService.insert(dict);
         return ResponseEntity.ok(result.getId());
     }
@@ -88,7 +91,8 @@ public class DictController {
      */
     @Operation(summary ="编辑数据")
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody Dict dict) {
+    public ResponseEntity<Integer> edit(@RequestBody @Validated(Dict.Update.class) Dict dict) {
+        dict.setUpdateTime(new Date());
         return ResponseEntity.ok(this.dictService.updateById(dict));
     }
 

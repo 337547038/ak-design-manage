@@ -1,5 +1,6 @@
 package com.design.ak.controller;
 
+import com.design.ak.config.PassToken;
 import com.design.ak.entity.Test;
 import com.design.ak.service.TestService;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,12 @@ public class TestController {
     @Resource
     private TestService testService;
 
+
+    @PassToken
+    @PostMapping("/t")
+    public String queryByPage11() {
+        return "ResponseEntity.ok(this.testService.queryByPage(pages))";
+    }
     /**
      * 分页查询
      * 前端传参:

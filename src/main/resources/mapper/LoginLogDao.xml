@@ -101,7 +101,7 @@ id, userName, loginIp, remark, dateTime, status
         </insert>
 
         <!--通过主键修改数据-->
-        <update id="updateById">
+        <!--<update id="updateById">
             update sys_login_log
             <set>
                     <if test="userName != null and userName != ''">
@@ -121,7 +121,7 @@ id, userName, loginIp, remark, dateTime, status
                     </if>
             </set>
             where id = #{id}
-        </update>
+        </update>-->
 
         <!--通过主键删除-->
         <delete id="deleteById">

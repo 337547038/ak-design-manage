@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Tag(name = "LoginLog相关")
 @RestController
-@RequestMapping("loginLog")
+@RequestMapping("system/loginLog")
 public class LoginLogController {
     /**
      * 服务对象
