@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2023-12-10 15:42:09
+-- 生成日期： 2023-12-18 16:44:32
 -- 服务器版本： 10.4.27-MariaDB
 -- PHP 版本： 8.2.0
 
@@ -209,25 +209,26 @@ CREATE TABLE `sys_department` (
   `id` int(4) NOT NULL,
   `parentId` int(4) DEFAULT NULL,
   `name` varchar(50) NOT NULL,
-  `sort` int(2) NOT NULL DEFAULT 0,
-  `status` int(2) NOT NULL,
-  `remark` text DEFAULT NULL
+  `sort` int(2) DEFAULT 0,
+  `status` int(2) DEFAULT NULL,
+  `remark` text DEFAULT NULL,
+  `updateTime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='部门';
 
 --
 -- 转存表中的数据 `sys_department`
 --
 
-INSERT INTO `sys_department` (`id`, `parentId`, `name`, `sort`, `status`, `remark`) VALUES
-(1, 0, '广州分公司', 0, 1, ''),
-(2, 0, '北京分公司', 0, 1, ''),
-(3, 0, '上海分公司', 0, 1, ''),
-(4, 1, '业务部', 0, 1, ''),
-(5, 1, '技术开发部', 0, 1, ''),
-(6, 1, '设计部', 0, 1, '设计部'),
-(7, 3, '客服部', 0, 1, ''),
-(9, 7, '客服1部', 0, 1, ''),
-(10, 7, '客服2部', 0, 1, '');
+INSERT INTO `sys_department` (`id`, `parentId`, `name`, `sort`, `status`, `remark`, `updateTime`) VALUES
+(1, 0, '广州分公司', 0, 1, '', NULL),
+(2, 0, '北京分公司', 0, 1, '', NULL),
+(3, 0, '上海分公司', 0, 1, '', NULL),
+(4, 1, '业务部', 0, 1, '', NULL),
+(5, 1, '技术开发部', 0, 1, '', NULL),
+(6, 1, '设计部', 0, 1, '设计部', NULL),
+(7, 3, '客服部', 0, 1, '', NULL),
+(9, 7, '客服1部', 0, 1, '', NULL),
+(10, 7, '客服2部', 0, 1, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -239,11 +240,11 @@ CREATE TABLE `sys_dict` (
   `id` int(4) NOT NULL,
   `name` varchar(50) NOT NULL,
   `type` varchar(50) NOT NULL COMMENT '唯一标识类型',
-  `status` int(2) NOT NULL COMMENT '1启用0禁用',
+  `status` int(2) DEFAULT NULL COMMENT '1启用0禁用',
   `remark` varchar(50) DEFAULT NULL,
   `children` text DEFAULT NULL,
-  `updateTime` datetime NOT NULL,
-  `isSystem` int(2) NOT NULL COMMENT '1系统类型不能删除'
+  `updateTime` datetime DEFAULT NULL,
+  `isSystem` int(2) DEFAULT NULL COMMENT '1系统类型不能删除'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='数据字典表';
 
 --
@@ -317,7 +318,33 @@ INSERT INTO `sys_login_log` (`id`, `userName`, `loginIp`, `remark`, `dateTime`, 
 (16, 'admin', '127.0.0.1', NULL, '2023-12-06 11:30:14', 1),
 (17, 'admin', '127.0.0.1', NULL, '2023-12-07 09:51:39', 1),
 (18, 'admin', '127.0.0.1', NULL, '2023-12-10 13:06:27', 1),
-(19, 'admin', '127.0.0.1', NULL, '2023-12-10 13:49:10', 1);
+(19, 'admin', '127.0.0.1', NULL, '2023-12-10 13:49:10', 1),
+(20, 'admin', '127.0.0.1', NULL, '2023-12-11 21:30:10', 1),
+(21, 'admin', '127.0.0.1', NULL, '2023-12-17 17:11:05', 1),
+(22, 'admin', '127.0.0.1', NULL, '2023-12-17 17:13:28', 1),
+(23, 'admin', '127.0.0.1', NULL, '2023-12-17 17:16:29', 1),
+(24, 'admin', '127.0.0.1', NULL, '2023-12-17 17:17:02', 1),
+(25, 'admin', '127.0.0.1', NULL, '2023-12-17 17:18:35', 1),
+(26, 'admin', '127.0.0.1', NULL, '2023-12-17 17:20:37', 1),
+(27, 'admin', '127.0.0.1', NULL, '2023-12-17 17:22:49', 1),
+(28, 'admin', '127.0.0.1', NULL, '2023-12-17 17:23:49', 1),
+(29, 'admin', '127.0.0.1', NULL, '2023-12-17 17:24:53', 1),
+(30, 'admin', '127.0.0.1', NULL, '2023-12-17 17:25:16', 1),
+(31, 'admin', '127.0.0.1', NULL, '2023-12-17 18:12:41', 1),
+(32, 'admin', '127.0.0.1', NULL, '2023-12-17 18:13:16', 1),
+(33, 'admin', '127.0.0.1', NULL, '2023-12-17 18:13:43', 1),
+(34, 'admin', '127.0.0.1', NULL, '2023-12-17 18:15:13', 1),
+(35, 'admin', '127.0.0.1', NULL, '2023-12-17 18:15:57', 1),
+(36, 'admin', '127.0.0.1', NULL, '2023-12-17 18:18:51', 1),
+(37, 'admin', '127.0.0.1', NULL, '2023-12-17 18:19:12', 1),
+(38, 'admin', '127.0.0.1', NULL, '2023-12-17 18:20:24', 1),
+(39, 'admin', '127.0.0.1', NULL, '2023-12-17 18:20:57', 1),
+(40, 'admin', '127.0.0.1', NULL, '2023-12-17 18:21:28', 1),
+(41, 'admin', '127.0.0.1', NULL, '2023-12-17 18:24:15', 1),
+(42, 'admin', '127.0.0.1', NULL, '2023-12-17 18:25:06', 1),
+(43, 'admin', '127.0.0.1', NULL, '2023-12-17 21:23:43', 1),
+(44, 'admin', '127.0.0.1', NULL, '2023-12-17 21:25:25', 1),
+(45, 'admin', '127.0.0.1', NULL, '2023-12-18 20:35:34', 1);
 
 -- --------------------------------------------------------
 
@@ -423,7 +450,7 @@ CREATE TABLE `sys_user` (
 --
 
 INSERT INTO `sys_user` (`id`, `userName`, `nickName`, `phone`, `status`, `roleId`, `password`, `departmentId`, `postId`, `remark`, `creatTime`, `updateTime`, `lastLoginTime`, `loginTimer`, `ip`) VALUES
-(1, 'admin', '管理员', '13800138000', 1, '1', '123456', 2, 0, '', NULL, NULL, '2023-12-10 13:49:10', 41, '127.0.0.1'),
+(1, 'admin', '管理员', '13800138000', 1, '1', '123456', 2, 0, '', NULL, NULL, '2023-12-18 20:35:34', 67, '127.0.0.1'),
 (2, 'user', '会员', '', 1, '1', '123456', 10, 0, '', NULL, NULL, '2023-11-29 16:13:38', 18, '127.0.0.1');
 
 -- --------------------------------------------------------
@@ -646,7 +673,7 @@ ALTER TABLE `sys_department`
 -- 使用表AUTO_INCREMENT `sys_dict`
 --
 ALTER TABLE `sys_dict`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- 使用表AUTO_INCREMENT `sys_flow`
@@ -658,7 +685,7 @@ ALTER TABLE `sys_flow`
 -- 使用表AUTO_INCREMENT `sys_login_log`
 --
 ALTER TABLE `sys_login_log`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- 使用表AUTO_INCREMENT `sys_menu`
