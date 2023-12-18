@@ -22,7 +22,7 @@ public class CommonExceptionHandler {
      * 处理CustomException.java自定义错误抛出的异常
      */
     @ExceptionHandler(CustomException.class) //就是定义处理什么异常。自定的类名
-    @ResponseStatus(HttpStatus.OK) // 以异常形式返回
+    @ResponseStatus(HttpStatus.OK) // 以200正常形式返回
     //在这个方法里定义我们需要返回的格式
     public Map<String, Object> handleUserNotExistException(CustomException ex) {
         Map<String, Object> result = new HashMap<>();

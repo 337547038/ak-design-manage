@@ -64,7 +64,13 @@ public interface DatasourceDao {
      */
     int deleteById(String[] id);
 
+    /**
+     * 创建数据库
+     * @param sqlStr sql语句
+     */
     void createTable(String sqlStr);
+
+    String getTableNameByFormId(Integer formId);
 
 }
 

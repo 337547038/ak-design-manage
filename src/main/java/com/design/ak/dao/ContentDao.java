@@ -12,24 +12,26 @@ import java.util.Map;
  * @author ak.design 337547038
  * @since 2023-12-11 13:43:13
  */
- @Mapper
+@Mapper
 public interface ContentDao {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param id 主键
+     * @param tableName 表名
+     * @param id        主键
      * @return 实例对象
      */
-    Map<String,Object> queryById(Integer id);
+    Map<String, Object> queryById(@Param("tableName") String tableName, @Param("id") Integer id);
 
     /**
      * 查询指定行数据
-     *@param query 筛选条件
-     *@param extend 扩展参数
+     *
+     * @param query  筛选条件
+     * @param extend 扩展参数
      * @return 对象列表
      */
-    List<Map<String,Object>> queryAllByLimit(@Param("query") Object query,@Param("extend") Object extend);
+    List<Map<String, Object>> queryAllByLimit(@Param("query") Object query, @Param("extend") Object extend);
 
     /**
      * 统计总行数
@@ -37,7 +39,7 @@ public interface ContentDao {
      * @param query 查询条件
      * @return 总行数
      */
-    long count(Object query);
+    long count(@Param("tableName") String tableName, @Param("query") Object query);
 
     /**
      * 新增数据
@@ -45,7 +47,7 @@ public interface ContentDao {
      * @param content 实例对象
      * @return 影响行数
      */
-    int insert(Map<String,Object> content);
+    int insert(Map<String, Object> content);
 
     /**
      * 修改数据
@@ -53,7 +55,7 @@ public interface ContentDao {
      * @param content 实例对象
      * @return 影响行数
      */
-    int updateById(Map<String,Object> content);
+    int updateById(Map<String, Object> content);
 
     /**
      * 通过主键删除数据

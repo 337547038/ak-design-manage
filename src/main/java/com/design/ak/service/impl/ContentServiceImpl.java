@@ -1,6 +1,10 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import com.design.ak.config.CustomException;
+import com.design.ak.dao.DatasourceDao;
 import com.design.ak.utils.Utils;
 import com.design.ak.dao.ContentDao;
 import com.design.ak.service.ContentService;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,20 +23,27 @@ import java.util.Map;
  * @author ak.design 337547038
  * @since 2023-12-11 13:43:14
  */
-@Service("akCustomerService")
+@Service("contentService")
 public class ContentServiceImpl implements ContentService {
     @Resource
     private ContentDao contentDao;
+    @Resource
+    private DatasourceDao datasourceDao;
 
     /**
      * 通过ID查询单条数据
      *
+     * @param formId 表单id
      * @param id 主键
      * @return 实例对象
      */
     @Override
-    public Map<String, Object> queryById(Integer id) {
-        return this.contentDao.queryById(id);
+    public Map<String, Object> queryById(Integer formId,Integer id) {
+        String tableName = this.datasourceDao.getTableNameByFormId(formId);
+        if (tableName == null || tableName.isEmpty()) {
+            throw new CustomException("当前列表未配置有表单数据源");
+        }
+        return this.contentDao.queryById(tableName,id);
     }
 
     /**
@@ -43,9 +55,24 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
         Map<String, Object> map = Utils.pagination(pages);//处理分页信息
+        JSONObject extend = JSON.parseObject(JSON.toJSONString(map.get("extend")));
+        JSONObject query = JSON.parseObject(JSON.toJSONString(map.get("query")));
+        Integer formId = extend.getInteger("formId");
+        //1.先找出对应的数据库表名
+        if (formId == null) {
+            throw new CustomException("表单id不能为空");
+        }
+        String tableName = this.datasourceDao.getTableNameByFormId(formId);
+        if (tableName == null || tableName.isEmpty()) {
+            throw new CustomException("当前列表未配置有表单数据源");
+        }
+        //查询总条数
+        List<Map<String, String>> queryList = convertMapToList(query);
+        long total = this.contentDao.count(tableName, queryList);
+        //将表名添加到extend传过去
+        extend.put("tableName", tableName);
 
-        long total = this.contentDao.count(map.get("query"));
-        List<Map<String, Object>> list = this.contentDao.queryAllByLimit(map.get("query"), map.get("extend"));
+        List<Map<String, Object>> list = contentDao.queryAllByLimit(queryList, extend);
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
@@ -85,8 +112,22 @@ public class ContentServiceImpl implements ContentService {
         return this.contentDao.deleteById(id) > 0;
     }
 
-    private String getTableNameByFormId(Integer formId) {
-        // List<Map<String,Object>> list = this.contentDao.queryAllByLimit(map.get("query"),map.get("extend"));
-        return "";
+    /**
+     * 将查询参数转换以适应contentDao.xml使用foreach拼接查询条件
+     * {name:"name1",id:1}转换为
+     * [{key:"name",value:"name1"},{key:"id",value:1}]
+     *
+     * @param map 查询参数
+     * @return 转换后的数据
+     */
+    private static List<Map<String, String>> convertMapToList(Map<String, Object> map) {
+        List<Map<String, String>> list = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            Map<String, String> item = new HashMap<>();
+            item.put("key", entry.getKey());
+            item.put("value", entry.getValue().toString());
+            list.add(item);
+        }
+        return list;
     }
 }

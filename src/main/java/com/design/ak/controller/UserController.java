@@ -165,7 +165,7 @@ public class UserController {
         JSONObject obj = JSONObject.parseObject(params);
         String token = obj.getString("refreshToken");
         if (token == null) {
-            throw new CustomException(0, "登录超时，token刷新失败");
+            throw new CustomException("登录超时，token刷新失败");
         }
         System.out.println(obj);
         String userId;
@@ -173,19 +173,19 @@ public class UserController {
             userId = JWT.decode(token).getAudience().get(0);
         } catch (JWTDecodeException e) {
             //log.error("token 解码失败");
-            throw new CustomException(0, "登录超时，请重新登录.");
+            throw new CustomException("登录超时，请重新登录.");
         }
         User user = userService.queryById(Integer.valueOf(userId));
         if (user == null || user.getStatus() == 0) {
             log.error("用户不存在，请重新登录。用户信息:{}", JSON.toJSONString(user));
-            throw new CustomException(0, "用户不存在，请重新登录");
+            throw new CustomException("用户不存在，请重新登录");
         }
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
         try {
             jwtVerifier.verify(token);
         } catch (JWTVerificationException e) {
             //log.error("token 校验失败");
-            throw new CustomException(0, "登录超时，请重新登录");
+            throw new CustomException("登录超时，请重新登录");
         }
         //生成新token
         Map<String, Object> newToken = new HashMap<>();

@@ -190,4 +190,8 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
     <insert id="createTable" parameterType="string">
         ${sqlStrl}
     </insert>
+    <!--根据表单id查询数据库表名-->
+    <select id="getTableNameByFormId" resultType="string">
+        SELECT tableName FROM `datasource` WHERE id = (SELECT source FROM `design` WHERE id=#{id})
+    </select>
     </mapper>

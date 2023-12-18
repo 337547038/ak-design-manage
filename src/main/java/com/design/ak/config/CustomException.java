@@ -20,4 +20,8 @@ public class CustomException extends RuntimeException {
         this.code = code;
         this.msg = msg;
     }
+    public CustomException(String msg) {
+        this.code = 0;
+        this.msg = msg;
+    }
 }
