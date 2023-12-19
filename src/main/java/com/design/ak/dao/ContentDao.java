@@ -43,11 +43,11 @@ public interface ContentDao {
 
     /**
      * 新增数据
-     *
-     * @param content 实例对象
+     * @param tableName 表名
+     * @param params 实例对象
      * @return 影响行数
      */
-    int insert(Map<String, Object> content);
+    int insert(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params);
 
     /**
      * 修改数据

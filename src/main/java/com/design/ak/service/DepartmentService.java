@@ -1,22 +1,23 @@
 package com.design.ak.service;
 
+import com.design.ak.entity.Department;
+
 import java.util.Map;
 /**
- * 通用内容
+ * 部门(Department)表服务接口
  *
  * @author ak.design 337547038
- * @since 2023-12-11 13:43:14
+ * @since 2023-12-19 15:03:19
  */
-public interface ContentService {
+public interface DepartmentService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param formId 表单id
      * @param id 主键
      * @return 实例对象
      */
-    Map<String, Object> queryById(Integer formId,Integer id);
+    Department queryById(Integer id);
     
     /**
      * 分页查询
@@ -27,18 +28,18 @@ public interface ContentService {
     /**
      * 新增数据
      *
-     * @param content 实例对象
+     * @param department 实例对象
      * @return 实例对象
      */
-    Integer insert(Map<String,String> content);
+    Department insert(Department department);
 
     /**
      * 修改数据
      *
-     * @param content 实例对象
+     * @param department 实例对象
      * @return 实例对象
      */
-    Integer updateById(Map<String,Object> content);
+    Integer updateById(Department department);
 
     /**
      * 通过主键删除数据

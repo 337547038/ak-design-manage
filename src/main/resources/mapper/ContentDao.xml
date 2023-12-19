@@ -46,6 +46,18 @@
         </if>
     </select>
 
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into `${tableName}`
+        <foreach item="item" index="index" collection="params" open="(" separator="," close=")">
+            ${item.key}
+        </foreach>
+        values
+        <foreach item="item" index="index" collection="params" open="(" separator="," close=")">
+            #{item.value}
+        </foreach>
+    </insert>
+
     <!--查询单个-->
     <select id="queryById">
         select * from `${tableName}` where id = #{id}

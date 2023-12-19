@@ -34,16 +34,17 @@ public class ContentServiceImpl implements ContentService {
      * 通过ID查询单条数据
      *
      * @param formId 表单id
-     * @param id 主键
+     * @param id     主键
      * @return 实例对象
      */
     @Override
-    public Map<String, Object> queryById(Integer formId,Integer id) {
-        String tableName = this.datasourceDao.getTableNameByFormId(formId);
+    public Map<String, Object> queryById(Integer formId, Integer id) {
+        Map<String, String> dataSource = getTableNameByFormId(String.valueOf(formId));
+        String tableName = dataSource.get("tableName");
         if (tableName == null || tableName.isEmpty()) {
             throw new CustomException("当前列表未配置有表单数据源");
         }
-        return this.contentDao.queryById(tableName,id);
+        return this.contentDao.queryById(tableName, id);
     }
 
     /**
@@ -62,7 +63,8 @@ public class ContentServiceImpl implements ContentService {
         if (formId == null) {
             throw new CustomException("表单id不能为空");
         }
-        String tableName = this.datasourceDao.getTableNameByFormId(formId);
+        Map<String, String> dataSource = getTableNameByFormId(String.valueOf(formId));
+        String tableName = dataSource.get("tableName");
         if (tableName == null || tableName.isEmpty()) {
             throw new CustomException("当前列表未配置有表单数据源");
         }
@@ -86,8 +88,26 @@ public class ContentServiceImpl implements ContentService {
      * @return 实例对象
      */
     @Override
-    public Integer insert(Map<String, Object> content) {
-        return this.contentDao.insert(content);
+    public Integer insert(Map<String, String> content) {
+        String formId = content.get("formId");
+        Map<String, String> dataSource = getTableNameByFormId(formId);
+        String tableName = dataSource.get("tableName");
+        String tableData = dataSource.get("tableData");
+        if (tableName == null || tableName.isEmpty()) {
+            throw new CustomException("当前列表未配置有表单数据源");
+        }
+        //根据创建数据源时的配置提取字段
+        JSONArray jsonArray = JSON.parseArray(tableData);
+        List<Map<String, String>> list = new ArrayList<>();
+        jsonArray.forEach(item -> {
+            JSONObject obj = JSON.parseObject(item.toString());
+            Map<String, String> map = new HashMap<>();
+            String name = obj.getString("name");
+            map.put("key",name); //配置的字段名
+            map.put("value", content.get(name)); // 表单提交对应的值
+            list.add(map);
+        });
+        return this.contentDao.insert(tableName,list);
     }
 
     /**
@@ -110,6 +130,16 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public boolean deleteById(String[] id) {
         return this.contentDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 根据表单id返回数据源信息
+     *
+     * @param formId 表单id
+     * @return 当前数据源信息
+     */
+    private Map<String, String> getTableNameByFormId(String formId) {
+        return this.datasourceDao.getTableNameByFormId(Integer.valueOf(formId));
     }
 
     /**

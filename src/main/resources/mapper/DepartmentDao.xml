@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.design.ak.dao.DepartmentDao">
+
+        <resultMap type="com.design.ak.entity.Department" id="DepartmentMap">
+                <result property="id" column="id" jdbcType="INTEGER"/>
+                <result property="parentId" column="parentId" jdbcType="INTEGER"/>
+                <result property="name" column="name" jdbcType="VARCHAR"/>
+                <result property="sort" column="sort" jdbcType="INTEGER"/>
+                <result property="status" column="status" jdbcType="INTEGER"/>
+                <result property="remark" column="remark" jdbcType="VARCHAR"/>
+                <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+        </resultMap>
+
+    <sql id="commColumnsItem">
+id, parentId, name, sort, status, remark, updateTime        
+    </sql>
+        <!--查询单个-->
+        <select id="queryById" resultMap="DepartmentMap">
+            select
+            <include refid="commColumnsItem" />
+            from sys_department
+                where id = #{id}
+        </select>
+
+        <!--查询指定行数据-->
+        <select id="queryAllByLimit">
+            select
+            <choose>
+                <when test="extend.columns != null and extend.columns!=''">
+                    ${extend.columns}
+                </when>
+                <otherwise>
+                    <include refid="commColumnsItem" />
+                </otherwise>
+            </choose>
+            from sys_department
+            <where>
+                    <if test="query.id != null">
+                        and id = #{query.id}
+                    </if>
+                    <if test="query.parentId != null">
+                        and parentId = #{query.parentId}
+                    </if>
+                    <if test="query.name != null and query.name != ''">
+                        and name = #{query.name}
+                    </if>
+                    <if test="query.sort != null">
+                        and sort = #{query.sort}
+                    </if>
+                    <if test="query.status != null">
+                        and status = #{query.status}
+                    </if>
+                    <if test="query.remark != null and query.remark != ''">
+                        and remark = #{query.remark}
+                    </if>
+                    <if test="query.updateTime != null">
+                        and updateTime = #{query.updateTime}
+                    </if>
+            </where>
+            <choose>
+                <when test="extend.sort != null and extend.sort!=''">
+                    order by ${extend.sort}
+                </when>
+                <otherwise>
+                    order by id desc
+                </otherwise>
+            </choose>
+            <if test="extend.pageSize >0">
+            limit #{extend.pageIndex}, #{extend.pageSize}
+            </if>
+        </select>
+
+        <!--统计总行数-->
+        <select id="count" resultType="java.lang.Long">
+            select count(1)
+            from sys_department
+            <where>
+                    <if test="id != null">
+                        and id = #{id}
+                    </if>
+                    <if test="parentId != null">
+                        and parentId = #{parentId}
+                    </if>
+                    <if test="name != null and name != ''">
+                        and name = #{name}
+                    </if>
+                    <if test="sort != null">
+                        and sort = #{sort}
+                    </if>
+                    <if test="status != null">
+                        and status = #{status}
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        and remark = #{remark}
+                    </if>
+                    <if test="updateTime != null">
+                        and updateTime = #{updateTime}
+                    </if>
+            </where>
+        </select>
+
+        <!--新增所有列-->
+        <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+            insert into sys_department(parentId, name, sort, status, remark, updateTime)
+                values
+            (#{parentId}, #{name}, #{sort}, #{status}, #{remark}, #{updateTime})
+        </insert>
+
+        <!--通过主键修改数据-->
+        <update id="updateById">
+            update sys_department
+            <set>
+                    <if test="parentId != null">
+                        parentId = #{parentId},
+                    </if>
+                    <if test="name != null and name != ''">
+                        name = #{name},
+                    </if>
+                    <if test="sort != null">
+                        sort = #{sort},
+                    </if>
+                    <if test="status != null">
+                        status = #{status},
+                    </if>
+                    <if test="remark != null and remark != ''">
+                        remark = #{remark},
+                    </if>
+                    <if test="updateTime != null">
+                        updateTime = #{updateTime},
+                    </if>
+            </set>
+            where id = #{id}
+        </update>
+
+        <!--通过主键删除-->
+        <delete id="deleteById">
+            delete
+            from sys_department where id in
+            <foreach collection="id" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        </delete>
+        
+            <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into sys_department(parentIdnamesortstatusremarkupdateTime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.parentid}#{entity.name}#{entity.sort}#{entity.status}#{entity.remark}#{entity.updatetime})
+        </foreach>
+        on duplicate key update
+parentId = values(parentId)name = values(name)sort = values(sort)status = values(status)remark = values(remark)updateTime = values(updateTime)
+    </insert>
+
+    </mapper>

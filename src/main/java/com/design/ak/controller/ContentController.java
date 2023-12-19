@@ -82,7 +82,11 @@ public class ContentController {
      */
     @Operation(summary = "新增数据")
     @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody Map<String, Object> params) {
+    public ResponseEntity<Integer> add(@RequestBody Map<String, String> params) {
+        String formId = params.get("formId"); // 表单id，在表单字段中不能用这字段
+        if (formId == null) {
+            throw new CustomException("表单id不能为空");
+        }
         return ResponseEntity.ok(contentService.insert(params));
     }
 
