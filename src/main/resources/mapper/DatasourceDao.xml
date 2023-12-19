@@ -156,9 +156,9 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     <if test="status != null">
                         status = #{status},
                     </if>
-                    <if test="creatDate != null">
+                    <!--<if test="creatDate != null">
                         creatDate = #{creatDate},
-                    </if>
+                    </if>-->
                     <if test="updateDate != null">
                         updateDate = #{updateDate},
                     </if>

@@ -197,18 +197,18 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
                     <if test="remark != null and remark != ''">
                         remark = #{remark},
                     </if>
-                    <if test="creatTime != null">
+                    <!--<if test="creatTime != null">
                         creatTime = #{creatTime},
-                    </if>
+                    </if>-->
                     <if test="updateTime != null">
                         updateTime = #{updateTime},
                     </if>
-                    <if test="lastLoginTime != null">
+                    <!--<if test="lastLoginTime != null">
                         lastLoginTime = #{lastLoginTime},
                     </if>
                     <if test="loginTimer != null">
                         loginTimer = #{loginTimer},
-                    </if>
+                    </if>-->
                     <if test="ip != null and ip != ''">
                         ip = #{ip},
                     </if>

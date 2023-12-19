@@ -133,9 +133,9 @@ id, name, type, status, remark, children, updateTime, isSystem
                     <if test="children != null and children != ''">
                         children = #{children},
                     </if>
-                    <if test="updateTime != null">
+                    <!--<if test="updateTime != null">
                         updateTime = #{updateTime},
-                    </if>
+                    </if>-->
                     <if test="isSystem != null">
                         isSystem = #{isSystem},
                     </if>

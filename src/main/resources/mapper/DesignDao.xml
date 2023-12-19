@@ -200,9 +200,9 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
                     <if test="updateDate != null">
                         updateDate = #{updateDate},
                     </if>
-                    <if test="creatDate != null">
+                    <!--<if test="creatDate != null">
                         creatDate = #{creatDate},
-                    </if>
+                    </if>-->
                     <if test="dict != null and dict != ''">
                         dict = #{dict},
                     </if>
