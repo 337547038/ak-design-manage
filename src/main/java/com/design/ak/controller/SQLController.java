@@ -2,6 +2,7 @@ package com.design.ak.controller;
 
 import com.design.ak.config.PassToken;
 import com.design.ak.service.SqlService;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ public class SQLController {
     private SqlService sqlService;
 
     // todo
+    @Hidden
     @PassToken
     @GetMapping("import/sql")
     public Boolean resetDatabase() throws SQLException {

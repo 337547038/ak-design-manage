@@ -66,5 +66,17 @@ public class Datasource implements Serializable {
     //创建用户，根据id查询返回名称
     @JsonIgnore
     private String creatUser;
+
+    /**
+     * 用于保存提取出来的表头字段
+     */
+    @JsonIgnore
+    private String tableColumns;
+
+    /**
+     * 用于保存提取出来的支持模糊条件查询字段
+     */
+    @JsonIgnore
+    private String searchColumns;
 }
 

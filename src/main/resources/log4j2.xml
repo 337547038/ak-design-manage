@@ -19,16 +19,16 @@
         <!--fileName:当前日志输出的文件名称 -->
         <!--filePattern:备份日志文件名称，备份目录为logs下面以年月命名的目录，备份时使用gz格式压缩 -->
         <RollingFile name="RollingFile" fileName="${LOG_HOME}/${date:yyyy-MM-dd}.log"
-                     filePattern="${LOG_HOME}/${date:yyyy-MM}/${date:yyyy-MM-dd}-%i.log">
+                     filePattern="${LOG_HOME}/${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log">
             <!-- 输出日志事件调用者的完全限定名、源文件名和行号，注意可能会影响性能，请谨慎使用。 %d{HH:mm:ss.SSS} [%t] %-5level [%l] - %msg%n -->
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} - %msg%n" />
+            <PatternLayout pattern="%d{dd HH:mm:ss.SSS} - %msg%n" />
             <!--Policies:触发策略决定何时执行备份 -->
             <Policies>
                 <!--TimeBasedTriggeringPolicy:日志文件按照时间备份 -->
                 <!--interval:每1天分钟生成一个新文件，需要结合filePattern时间%d{yyyy-MM-dd} -->
                 <!--同理，如果要每1小时生成一个新文件，则改成%d{yyyy-MM-ddHH} -->
                 <!--modulate:对备份日志的生成时间纠偏，纠偏以0为基准进行，"0+interval"决定启动后第一次备份时间 -->
-                <TimeBasedTriggeringPolicy interval="1"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
                 <!--SizeBasedTriggeringPolicy:日志文件按照大小备份 -->
                 <!--size:指定日志文件最大为100MB，单位可以为KB、MB或GB -->
                 <SizeBasedTriggeringPolicy size="10MB" />

@@ -47,7 +47,7 @@ public interface ContentDao {
      * @param params 实例对象
      * @return 影响行数
      */
-    int insert(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params);
+    Integer insert(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params);
 
     /**
      * 修改数据

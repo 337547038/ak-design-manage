@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 通用内容
@@ -68,8 +65,10 @@ public class ContentServiceImpl implements ContentService {
         if (tableName == null || tableName.isEmpty()) {
             throw new CustomException("当前列表未配置有表单数据源");
         }
+        // 从数据源里提取需要模糊搜索匹配的值
+        String searchColumns = dataSource.get("searchColumns");
         //查询总条数
-        List<Map<String, String>> queryList = convertMapToList(query);
+        List<Map<String, String>> queryList = convertMapToList(query, searchColumns);
         long total = this.contentDao.count(tableName, queryList);
         //将表名添加到extend传过去
         extend.put("tableName", tableName);
@@ -92,7 +91,7 @@ public class ContentServiceImpl implements ContentService {
         String formId = content.get("formId");
         Map<String, String> dataSource = getTableNameByFormId(formId);
         String tableName = dataSource.get("tableName");
-        String tableData = dataSource.get("tableData");
+        String tableData = dataSource.get("tableColumns");
         if (tableName == null || tableName.isEmpty()) {
             throw new CustomException("当前列表未配置有表单数据源");
         }
@@ -103,11 +102,15 @@ public class ContentServiceImpl implements ContentService {
             JSONObject obj = JSON.parseObject(item.toString());
             Map<String, String> map = new HashMap<>();
             String name = obj.getString("name");
-            map.put("key",name); //配置的字段名
+            map.put("key", name); //配置的字段名
             map.put("value", content.get(name)); // 表单提交对应的值
             list.add(map);
         });
-        return this.contentDao.insert(tableName,list);
+
+        this.contentDao.insert(tableName, list);
+        //System.out.println(in);
+        System.out.println("inn");
+        return 1;
     }
 
     /**
@@ -147,15 +150,22 @@ public class ContentServiceImpl implements ContentService {
      * {name:"name1",id:1}转换为
      * [{key:"name",value:"name1"},{key:"id",value:1}]
      *
-     * @param map 查询参数
+     * @param map           查询参数
+     * @param searchColumns 支持模糊查询字段
      * @return 转换后的数据
      */
-    private static List<Map<String, String>> convertMapToList(Map<String, Object> map) {
+    private static List<Map<String, String>> convertMapToList(Map<String, Object> map, String searchColumns) {
         List<Map<String, String>> list = new ArrayList<>();
+        String[] arraySplit = searchColumns.split(",");
+
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Map<String, String> item = new HashMap<>();
-            item.put("key", entry.getKey());
+            String keyName = entry.getKey();
+            item.put("key", keyName);
             item.put("value", entry.getValue().toString());
+            if (Arrays.asList(arraySplit).contains(keyName)) {
+                item.put("search", "1"); // 添加个标识即可
+            }
             list.add(item);
         }
         return list;

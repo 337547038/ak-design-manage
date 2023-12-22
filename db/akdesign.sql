@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2023-12-18 16:44:32
+-- 生成日期： 2023-12-21 04:02:10
 -- 服务器版本： 10.4.27-MariaDB
 -- PHP 版本： 8.2.0
 
@@ -44,7 +44,7 @@ CREATE TABLE `ak-customer` (
 --
 
 INSERT INTO `ak-customer` (`id`, `name`, `phone`, `weixin`, `creatTime`, `company`, `status`, `remark`, `intention`) VALUES
-(1, '客户名称', '13800138000', '337547038', '0000-00-00 00:00:00', '', 1, '', 1);
+(1, '客户名称', '13800138000', '337547038', '2030-01-01 00:00:00', '', 1, '', 1);
 
 -- --------------------------------------------------------
 
@@ -81,7 +81,7 @@ CREATE TABLE `ak-holidays` (
 --
 
 INSERT INTO `ak-holidays` (`id`, `type`, `startTime`, `endTime`, `duration`, `remark`, `files`, `creatTime`) VALUES
-(9, 1, '2023-09-30 16:00:00', '2023-10-04 16:00:00', '4天', '请假事由', '', '0000-00-00 00:00:00'),
+(9, 1, '2023-09-30 16:00:00', '2023-10-04 16:00:00', '4天', '请假事由', '', '2030-01-01 00:00:00'),
 (10, 2, '2023-09-30 08:00:00', '2023-10-06 08:00:00', '6天', '请假事由请假事由', '', '2023-10-09 01:44:04');
 
 -- --------------------------------------------------------
@@ -123,7 +123,30 @@ CREATE TABLE `ak-test` (
 --
 
 INSERT INTO `ak-test` (`id`, `text`, `textarea`, `radio`, `checkbox`, `select1`, `creatTime`, `color`, `status`, `number`, `cascader`, `rate`, `slider`, `tree`, `table`, `components`, `upload`, `tinymce`, `flex`, `userName`, `prepend`, `append`, `password`, `input1`, `input2`) VALUES
-(1, '单行文本', '多行文本', 1, '1', '10', '2024-11-29 08:00:00', '#741010', 1, 1, '[]', 3, '30', '', '[]', '广东省广州市越秀区北京街道广州市人民政府', '/uploads/1681437452608-data.png', '<p>富文本内容</p>', '[{\"f1\":\"姓名1\",\"f2\":\"13800138000\"}]', 'user,admin', '1', '', '123', '1', 0);
+(1, '单行文本', '多行文本', 1, '1', '10', '2024-11-29 08:00:00', '#741010', 1, 1, '[]', 3, '30', '', '[]', '广东省广州市越秀区北京街道广州市人民政府', '/uploads/1681437452608-data.png', '<p>富文本内容</p>', '[{\"f1\":\"姓名1\",\"f2\":\"13800138000\"}]', 'user,admin', '1', '', '123', '1', 0),
+(6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(18, '', '', 1, '', '', '2023-11-15 00:00:00', '', 1, 1, '', 1, '', '', '', '', '', '', '', '', '', '', '', '', 1),
+(19, 'text', 'textarea', 1, 'checkbox', 'select1', '2023-11-15 00:00:00', 'color', 1, 1, 'cascader', 1, 'slider', 'tree', 'table', 'components', 'upload', 'tinymce', 'flex', 'userName', 'prepend', 'append', 'password', 'input1', 1),
+(20, 'text', 'textarea', 1, 'checkbox', 'select1', '2023-11-15 00:00:00', 'color', 1, 1, 'cascader', 1, 'slider', 'tree', 'table', 'components', 'upload', 'tinymce', 'flex', 'userName', 'prepend', 'append', 'password', 'input1', 1),
+(21, 'text', 'textarea', 1, 'checkbox', 'select1', '2023-11-15 00:00:00', 'color', 1, 1, 'cascader', 1, 'slider', 'tree', 'table', 'components', 'upload', 'tinymce', 'flex', 'userName', 'prepend', 'append', 'password', 'input1', 1),
+(22, 'text', 'textarea', 1, 'checkbox', 'select1', '2023-11-15 00:00:00', 'color', 1, 1, 'cascader', 1, 'slider', 'tree', 'table', 'components', 'upload', 'tinymce', 'flex', 'userName', 'prepend', 'append', 'password', 'input1', 1),
+(23, 'text', 'textarea', 1, 'checkbox', 'select1', '2023-11-15 00:00:00', 'color', 1, 1, 'cascader', 1, 'slider', 'tree', 'table', 'components', 'upload', 'tinymce', 'flex', 'userName', 'prepend', 'append', 'password', 'input1', 1),
+(24, 'text', 'textarea', 1, 'checkbox', 'select1', '2023-11-15 00:00:00', 'color', 1, 1, 'cascader', 1, 'slider', 'tree', 'table', 'components', 'upload', 'tinymce', 'flex', 'userName', 'prepend', 'append', 'password', 'input1', 1),
+(25, 'text', 'textarea', 1, 'checkbox', 'select1', '2023-11-15 00:00:00', 'color', 1, 1, 'cascader', 1, 'slider', 'tree', 'table', 'components', 'upload', 'tinymce', 'flex', 'userName', 'prepend', 'append', 'password', 'input1', 1),
+(26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -150,7 +173,7 @@ CREATE TABLE `datasource` (
 --
 
 INSERT INTO `datasource` (`id`, `name`, `tableName`, `category`, `status`, `creatDate`, `updateDate`, `creatUserId`, `updateUserId`, `remark`, `tableData`) VALUES
-(12, '组件字段示例', 'ak-test', 0, 1, NULL, NULL, 0, 0, '组件字段示例', '[\r\n  {\r\n    \"label\": \"单行文本\",\r\n    \"name\": \"text\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"多行文本\",\r\n    \"name\": \"textarea\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"单选组\",\r\n    \"name\": \"radio\",\r\n    \"type\": \"INT\",\r\n    \"length\": \"1\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"多选组\",\r\n    \"name\": \"checkbox\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"下拉选择\",\r\n    \"name\": \"select1\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"时间\",\r\n    \"name\": \"creatTime\",\r\n    \"type\": \"DATETIME\",\r\n    \"length\": \"\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"取色器\",\r\n    \"name\": \"color\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"10\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"状态开关\",\r\n    \"name\": \"status\",\r\n    \"type\": \"INT\",\r\n    \"length\": \"1\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"计时器\",\r\n    \"name\": \"number\",\r\n    \"type\": \"INT\",\r\n    \"length\": \"1\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"级联\",\r\n    \"name\": \"cascader\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"评分\",\r\n    \"name\": \"rate\",\r\n    \"type\": \"INT\",\r\n    \"length\": \"2\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"滑块\",\r\n    \"name\": \"slider\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"10\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"树形控件\",\r\n    \"name\": \"tree\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"10\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"表格\",\r\n    \"name\": \"table\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"自定义组件\",\r\n    \"name\": \"components\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"上传图片\",\r\n    \"name\": \"upload\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"100\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"富文本\",\r\n    \"name\": \"tinymce\",\r\n    \"type\": \"TEXT\",\r\n    \"length\": \"\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"弹性布局\",\r\n    \"name\": \"flex\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"选择用户\",\r\n    \"name\": \"userName\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"前缀\",\r\n    \"name\": \"prepend\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"后缀\",\r\n    \"name\": \"append\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"密码框\",\r\n    \"name\": \"password\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"文本框2\",\r\n    \"name\": \"input1\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  },\r\n  {\r\n    \"label\": \"文本框1\",\r\n    \"name\": \"input1\",\r\n    \"type\": \"VARCHAR\",\r\n    \"length\": \"50\",\r\n    \"default\": \"\",\r\n    \"empty\": false,\r\n    \"remark\": \"\",\r\n    \"enterable\": true\r\n  }\r\n]\r\n'),
+(12, '组件字段示例', 'ak-test', 0, 1, NULL, NULL, 0, 0, '组件字段示例', '[\n  {\n    \"label\": \"单行文本\",\n    \"name\": \"text\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"多行文本\",\n    \"name\": \"textarea\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"单选组\",\n    \"name\": \"radio\",\n    \"type\": \"INT\",\n    \"length\": \"1\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"多选组\",\n    \"name\": \"checkbox\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"下拉选择\",\n    \"name\": \"select1\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"时间\",\n    \"name\": \"creatTime\",\n    \"type\": \"DATETIME\",\n    \"length\": \"\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"取色器\",\n    \"name\": \"color\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"10\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"状态开关\",\n    \"name\": \"status\",\n    \"type\": \"INT\",\n    \"length\": \"1\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"计时器\",\n    \"name\": \"number\",\n    \"type\": \"INT\",\n    \"length\": \"1\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"级联\",\n    \"name\": \"cascader\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"评分\",\n    \"name\": \"rate\",\n    \"type\": \"INT\",\n    \"length\": \"2\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"滑块\",\n    \"name\": \"slider\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"10\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"树形控件\",\n    \"name\": \"tree\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"10\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"表格\",\n    \"name\": \"table\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"自定义组件\",\n    \"name\": \"components\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"上传图片\",\n    \"name\": \"upload\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"100\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"富文本\",\n    \"name\": \"tinymce\",\n    \"type\": \"TEXT\",\n    \"length\": \"\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"弹性布局\",\n    \"name\": \"flex\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"选择用户\",\n    \"name\": \"userName\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"前缀\",\n    \"name\": \"prepend\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"后缀\",\n    \"name\": \"append\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"密码框\",\n    \"name\": \"password\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"文本框2\",\n    \"name\": \"input1\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  },\n  {\n    \"label\": \"文本框2\",\n    \"name\": \"input2\",\n    \"type\": \"VARCHAR\",\n    \"length\": \"50\",\n    \"default\": \"\",\n    \"empty\": false,\n    \"remark\": \"\",\n    \"enterable\": true\n  }\n]\n'),
 (13, '客户信息管理', 'ak-customer', 0, 1, NULL, NULL, 0, 0, '客户信息管理', '[{\"label\":\"客户名称\",\"name\":\"name\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"手机号码\",\"name\":\"phone\",\"type\":\"INT\",\"length\":\"11\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"微信\",\"name\":\"weixin\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"添加时间\",\"name\":\"creatTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":false},{\"label\":\"公司名称\",\"name\":\"company\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"类型\",\"name\":\"status\",\"type\":\"INT\",\"length\":\"2\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"备注\",\"name\":\"remark\",\"type\":\"VARCHAR\",\"length\":\"100\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"合作意向\",\"name\":\"intention\",\"type\":\"INT\",\"length\":\"2\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true}]'),
 (14, '请假', 'ak-holidays', 1, 1, NULL, '2023-12-06 16:21:52', 0, 1, '请假流程', '[{\"label\":\"类型\",\"name\":\"type\",\"type\":\"INT\",\"length\":\"2\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"开始时间\",\"name\":\"startTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"结束时间\",\"name\":\"endTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"时长\",\"name\":\"duration\",\"type\":\"VARCHAR\",\"length\":\"4\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"请假事由\",\"name\":\"remark\",\"type\":\"VARCHAR\",\"length\":\"200\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"图片附件\",\"name\":\"files\",\"type\":\"VARCHAR\",\"length\":\"200\",\"default\":\"\",\"empty\":true,\"remark\":\"\",\"enterable\":true},{\"label\":\"创建时间\",\"name\":\"creatTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"current_timestamp()\",\"empty\":false,\"remark\":\"\",\"enterable\":false}]'),
 (19, '示例测试', 'demo-test', 0, 1, '2023-12-06 16:29:34', '2023-12-10 13:07:49', 1, 1, '', '[{\"label\":\"名称标题\",\"name\":\"name\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"内容\",\"name\":\"content\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":true,\"remark\":\"\",\"enterable\":true},{\"label\":\"时间\",\"name\":\"dateTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":true,\"remark\":\"\",\"enterable\":true}]');
@@ -281,7 +304,7 @@ CREATE TABLE `sys_flow` (
 --
 
 INSERT INTO `sys_flow` (`id`, `userId`, `title`, `creatTime`, `status`, `endTime`, `formId`, `flowId`) VALUES
-(3, 0, 'user提交的请假审批', '2023-10-09 09:29:04', '', '0000-00-00 00:00:00', 9, 30),
+(3, 0, 'user提交的请假审批', '2023-10-09 09:29:04', '', '2030-01-01 00:00:00', 9, 30),
 (4, 0, 'user提交的请假审批', '2023-10-09 09:44:04', NULL, NULL, 10, 30);
 
 -- --------------------------------------------------------
@@ -344,7 +367,8 @@ INSERT INTO `sys_login_log` (`id`, `userName`, `loginIp`, `remark`, `dateTime`, 
 (42, 'admin', '127.0.0.1', NULL, '2023-12-17 18:25:06', 1),
 (43, 'admin', '127.0.0.1', NULL, '2023-12-17 21:23:43', 1),
 (44, 'admin', '127.0.0.1', NULL, '2023-12-17 21:25:25', 1),
-(45, 'admin', '127.0.0.1', NULL, '2023-12-18 20:35:34', 1);
+(45, 'admin', '127.0.0.1', NULL, '2023-12-18 20:35:34', 1),
+(46, 'admin', '127.0.0.1', NULL, '2023-12-20 09:29:26', 1);
 
 -- --------------------------------------------------------
 
@@ -450,7 +474,7 @@ CREATE TABLE `sys_user` (
 --
 
 INSERT INTO `sys_user` (`id`, `userName`, `nickName`, `phone`, `status`, `roleId`, `password`, `departmentId`, `postId`, `remark`, `creatTime`, `updateTime`, `lastLoginTime`, `loginTimer`, `ip`) VALUES
-(1, 'admin', '管理员', '13800138000', 1, '1', '123456', 2, 0, '', NULL, NULL, '2023-12-18 20:35:34', 67, '127.0.0.1'),
+(1, 'admin', '管理员', '13800138000', 1, '1', '123456', 2, 0, '', NULL, NULL, '2023-12-20 09:29:26', 68, '127.0.0.1'),
 (2, 'user', '会员', '', 1, '1', '123456', 10, 0, '', NULL, NULL, '2023-11-29 16:13:38', 18, '127.0.0.1');
 
 -- --------------------------------------------------------
@@ -649,7 +673,7 @@ ALTER TABLE `ak-holidays`
 -- 使用表AUTO_INCREMENT `ak-test`
 --
 ALTER TABLE `ak-test`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- 使用表AUTO_INCREMENT `datasource`
@@ -685,7 +709,7 @@ ALTER TABLE `sys_flow`
 -- 使用表AUTO_INCREMENT `sys_login_log`
 --
 ALTER TABLE `sys_login_log`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- 使用表AUTO_INCREMENT `sys_menu`

@@ -140,4 +140,18 @@ public class Utils {
         }
         return null;
     }
+
+    /**
+     * 移除字符串最后一个豆号
+     *
+     * @param str 字符串
+     * @return 移除后的内容
+     */
+    public static String removeLastStr(String str) {
+        if (str == null) {
+            return null;
+        }
+        int lastIndex = str.lastIndexOf(",");
+        return str.substring(0, lastIndex);
+    }
 }
