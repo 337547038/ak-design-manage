@@ -1,7 +1,6 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.design.ak.dao.DatasourceDao;
 import com.design.ak.dao.UserDao;
 import com.design.ak.entity.Datasource;
@@ -11,7 +10,6 @@ import com.design.ak.entity.Design;
 import com.design.ak.dao.DesignDao;
 import com.design.ak.service.DesignService;
 import org.springframework.stereotype.Service;
-import com.design.ak.service.UserService;
 
 import jakarta.annotation.Resource;
 
@@ -71,24 +69,26 @@ public class DesignServiceImpl implements DesignService {
         User queryUser = new User();
         queryUser.setIdList(userIdList);
         List<Map<String, Object>> userList = this.userDao.queryAllByLimit(queryUser, new HashMap<>());
-        dict.put("creatUser", getObjKeyValue(userList, "id", "userName"));
-        JSONObject obj = JSON.parseObject(JSON.toJSONString(extend));
-        //表单列表时返回数据源
-        if (obj.getBoolean("source")!=null) {
+        dict.put("creatUser", getObjKeyValue(userList, "userName"));
+
+        //表单列表时返回数据源字典
+        if (design.getType() == 1) {
             String sourceIdList = getStringKey(list, "source");
-            Datasource queryDataSource = new Datasource();
-            queryDataSource.setIdList(sourceIdList);
-            List<Map<String, Object>> dataSourceList = this.datasourceDao.queryAllByLimit(queryDataSource, new HashMap<>());
-            dict.put("source", getObjKeyValue(dataSourceList, "id", "name"));
+            if (!sourceIdList.isEmpty()) {
+                Datasource queryDataSource = new Datasource();
+                queryDataSource.setIdList(sourceIdList);
+                List<Map<String, Object>> dataSourceList = this.datasourceDao.queryAllByLimit(queryDataSource, new HashMap<>());
+                dict.put("source", getObjKeyValue(dataSourceList, "name"));
+            }
         }
 
-        //列表页时返回表单数据源
-        if (obj.getBoolean("formName")!=null) {
+        //2列表页时返回表单数据源字典;3流程列表
+        if (design.getType() == 2||design.getType() == 3) {
             String sourceIdList = getStringKey(list, "source");
             Design queryDesign = new Design();
             queryDesign.setIdList(sourceIdList);
             List<Map<String, Object>> sourceList = this.designDao.queryAllByLimit(queryDesign, new HashMap<>());
-            dict.put("formName", getObjKeyValue(sourceList, "id", "name"));
+            dict.put("formName", getObjKeyValue(sourceList, "name"));
         }
 
         response.put("list", list);
@@ -110,7 +110,7 @@ public class DesignServiceImpl implements DesignService {
             return "";
         }
         Set<String> ids = list.stream()
-                .map(obj -> obj.get(key).toString()) // 提取id并转换为字符串
+                .map(obj -> obj.get(key) + "") // 提取id并转换为字符串
                 .collect(Collectors.toSet()); // 使用Set来过滤重复的id
         return String.join(",", ids);
     }
@@ -120,14 +120,15 @@ public class DesignServiceImpl implements DesignService {
      * * [{id:1,name:"n1"},{id:3,name:"n3"}]转为{1:"n1",3:"n3"}
      *
      * @param list  列表数据
-     * @param key   指定的key
      * @param value 指定的value
      * @return {1:"n1",3:"n3"}
      */
-    private Map<Integer, String> getObjKeyValue(List<Map<String, Object>> list, String key, String value) {
+    private Map<Integer, String> getObjKeyValue(List<Map<String, Object>> list, String value) {
         Map<Integer, String> result = new HashMap<>();
-        for (Map<String, Object> obj : list) {
-            result.put((Integer) obj.get(key), (String) obj.get(value));
+        if (!list.isEmpty()) {
+            for (Map<String, Object> obj : list) {
+                result.put((Integer) obj.get("id"), (String) obj.get(value));
+            }
         }
         return result;
     }
