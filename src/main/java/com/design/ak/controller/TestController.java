@@ -1,5 +1,6 @@
 package com.design.ak.controller;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.design.ak.config.PassToken;
 import com.design.ak.entity.Test;
 import com.design.ak.service.TestService;
@@ -32,6 +33,13 @@ public class TestController {
     @PassToken
     @PostMapping("/t")
     public String queryByPage11() {
+        JSONArray array = new JSONArray();
+        array.add("1");
+        array.add("a");
+        array.add("b");
+        System.out.println(array);
+        System.out.println(array.contains("a"));
+        System.out.println(array.contains("aa"));
         return "ResponseEntity.ok(this.testService.queryByPage(pages))";
     }
     /**

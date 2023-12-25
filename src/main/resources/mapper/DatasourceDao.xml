@@ -14,9 +14,6 @@
                 <result property="updateUserId" column="updateUserId" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="tableData" column="tableData" jdbcType="VARCHAR"/>
-                <result property="creatUser" column="creatUser" jdbcType="VARCHAR"/>
-                <result property="tableColumns" column="tableColumns" jdbcType="VARCHAR"/>
-                <result property="searchColumns" column="searchColumns" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
@@ -200,6 +197,6 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
     </insert>
     <!--根据表单id查询数据库表名-->
     <select id="getTableNameByFormId">
-        SELECT tableName,tableColumns,searchColumns FROM `datasource` WHERE id = (SELECT source FROM `design` WHERE id=#{id})
+        SELECT tableName,tableData FROM `datasource` WHERE id = (SELECT source FROM `design` WHERE id=#{id})
     </select>
     </mapper>

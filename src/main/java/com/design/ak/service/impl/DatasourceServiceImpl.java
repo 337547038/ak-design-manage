@@ -74,8 +74,6 @@ public class DatasourceServiceImpl implements DatasourceService {
             String sqlStr = map.get("sqlStr") + "PRIMARY KEY (`id`)";
             String creatSql = "CREATE TABLE IF NOT EXISTS `ak-" + datasource.getTableName() + "` (" + sqlStr + ") ENGINE = InnoDB COMMENT =\"" + datasource.getRemark() + "\"";
             this.datasourceDao.createTable(creatSql);
-            datasource.setTableColumns(map.get("tableColumns"));
-            datasource.setSearchColumns(map.get("searchColumns"));
             this.datasourceDao.insert(datasource);
             return datasource;
         } catch (Exception e) {
@@ -97,8 +95,6 @@ public class DatasourceServiceImpl implements DatasourceService {
             String sqlStr = "ALTER TABLE `ak-" + datasource.getTableName() + "`" +
                     map.get("sqlStr");
             this.datasourceDao.createTable(removeLastStr(sqlStr));
-            datasource.setTableColumns(map.get("tableColumns"));
-            datasource.setSearchColumns(map.get("searchColumns"));
             return this.datasourceDao.updateById(datasource);
         } catch (Exception e) {
             throw new CustomException(500, "数据库新增字段失败:" + e);
@@ -115,8 +111,6 @@ public class DatasourceServiceImpl implements DatasourceService {
      */
     private Map<String, String> stringBuilderSql(Datasource datasource, Boolean isAdd) {
         StringBuilder sqlStr = new StringBuilder();
-        StringBuilder tableColumns = new StringBuilder();
-        StringBuilder searchColumns = new StringBuilder();
         if (isAdd) {
             sqlStr.append("`id` INT(10) NOT NULL AUTO_INCREMENT,");
         }
@@ -124,10 +118,6 @@ public class DatasourceServiceImpl implements DatasourceService {
         array.forEach(item -> {
             JSONObject obj = JSON.parseObject(item.toString());
             String name = obj.getString("name");
-            tableColumns.append(name).append(",");
-            if (obj.getBoolean("search")) {
-                searchColumns.append(name).append(",");
-            }
             if (isAdd || obj.getInteger("isNew") == 1) {
                 String type = obj.getString("type");
                 String row = "";
@@ -162,8 +152,6 @@ public class DatasourceServiceImpl implements DatasourceService {
         });
         Map<String, String> res = new HashMap<>();
         res.put("sqlStr", sqlStr.toString());
-        res.put("tableColumns", removeLastStr(tableColumns.toString())); //所有表头字段
-        res.put("searchColumns", removeLastStr(searchColumns.toString())); // 支持模糊查询的字段
         return res;
     }
 

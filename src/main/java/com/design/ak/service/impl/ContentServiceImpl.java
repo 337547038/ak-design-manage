@@ -66,7 +66,17 @@ public class ContentServiceImpl implements ContentService {
             throw new CustomException("当前列表未配置有表单数据源");
         }
         // 从数据源里提取需要模糊搜索匹配的值
-        String searchColumns = dataSource.get("searchColumns");
+        JSONArray searchColumns = new JSONArray();
+        if (!query.isEmpty()) {
+            String tableData = dataSource.get("tableData");
+            JSONArray jsonArray = JSON.parseArray(tableData);
+            jsonArray.forEach(item -> {
+                JSONObject obj = JSON.parseObject(item.toString());
+                if (obj.getBoolean("search")) {
+                    searchColumns.add(obj.getString("name"));
+                }
+            });
+        }
         //查询总条数
         List<Map<String, String>> queryList = convertMapToList(query, searchColumns);
         long total = this.contentDao.count(tableName, queryList);
@@ -91,26 +101,13 @@ public class ContentServiceImpl implements ContentService {
         String formId = content.get("formId");
         Map<String, String> dataSource = getTableNameByFormId(formId);
         String tableName = dataSource.get("tableName");
-        String tableData = dataSource.get("tableColumns");
+        String tableData = dataSource.get("tableData");
         if (tableName == null || tableName.isEmpty()) {
             throw new CustomException("当前列表未配置有表单数据源");
         }
-        //根据创建数据源时的配置提取字段
-        JSONArray jsonArray = JSON.parseArray(tableData);
-        List<Map<String, String>> list = new ArrayList<>();
-        jsonArray.forEach(item -> {
-            JSONObject obj = JSON.parseObject(item.toString());
-            Map<String, String> map = new HashMap<>();
-            String name = obj.getString("name");
-            map.put("key", name); //配置的字段名
-            map.put("value", content.get(name)); // 表单提交对应的值
-            list.add(map);
-        });
-
+        List<Map<String, String>> list = getFiledList(tableData, content);
         this.contentDao.insert(tableName, list);
-        //System.out.println(in);
-        System.out.println("inn");
-        return 1;
+        return 1;//todo
     }
 
     /**
@@ -121,6 +118,7 @@ public class ContentServiceImpl implements ContentService {
      */
     @Override
     public Integer updateById(Map<String, Object> content) {
+
         return this.contentDao.updateById(content);
     }
 
@@ -154,20 +152,41 @@ public class ContentServiceImpl implements ContentService {
      * @param searchColumns 支持模糊查询字段
      * @return 转换后的数据
      */
-    private static List<Map<String, String>> convertMapToList(Map<String, Object> map, String searchColumns) {
+    private static List<Map<String, String>> convertMapToList(Map<String, Object> map, JSONArray searchColumns) {
         List<Map<String, String>> list = new ArrayList<>();
-        String[] arraySplit = searchColumns.split(",");
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Map<String, String> item = new HashMap<>();
             String keyName = entry.getKey();
             item.put("key", keyName);
             item.put("value", entry.getValue().toString());
-            if (Arrays.asList(arraySplit).contains(keyName)) {
+            if (searchColumns.contains(keyName)) {
                 item.put("search", "1"); // 添加个标识即可
             }
             list.add(item);
         }
+        return list;
+    }
+
+    /**
+     * 从设计的表单数据里提取所有录入字段，组装成添加和编辑所需的数据
+     *
+     * @param tableData 设计生成的数据源
+     * @param content   表单提交的内容
+     * @return 组装成添加和编辑所需的数据
+     */
+    private static List<Map<String, String>> getFiledList(String tableData, Map<String, String> content) {
+        //根据创建数据源时的配置提取字段
+        JSONArray jsonArray = JSON.parseArray(tableData);
+        List<Map<String, String>> list = new ArrayList<>();
+        jsonArray.forEach(item -> {
+            JSONObject obj = JSON.parseObject(item.toString());
+            Map<String, String> map = new HashMap<>();
+            String name = obj.getString("name");
+            map.put("key", name); //配置的字段名
+            map.put("value", content.get(name)); // 表单提交对应的值
+            list.add(map);
+        });
         return list;
     }
 }
