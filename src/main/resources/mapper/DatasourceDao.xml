@@ -14,7 +14,6 @@
                 <result property="updateUserId" column="updateUserId" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="tableData" column="tableData" jdbcType="VARCHAR"/>
-                <result property="creatUser" column="creatUser" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
@@ -135,9 +134,9 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into datasource(name, tableName, category, status, creatDate, updateDate, creatUserId, updateUserId, remark, tableData)
+            insert into datasource(name, tableName, category, status, creatDate, updateDate, creatUserId, updateUserId, remark, tableData,tableColumns,searchColumns)
                 values
-            (#{name}, #{tableName}, #{category}, #{status}, #{creatDate}, #{updateDate}, #{creatUserId}, #{updateUserId}, #{remark}, #{tableData})
+            (#{name}, #{tableName}, #{category}, #{status}, #{creatDate}, #{updateDate}, #{creatUserId}, #{updateUserId}, #{remark}, #{tableData},#{tableColumns},#{searchColumns})
         </insert>
 
         <!--通过主键修改数据-->
@@ -162,9 +161,9 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     <if test="updateDate != null">
                         updateDate = #{updateDate},
                     </if>
-                    <if test="creatUserId != null">
+                    <!--<if test="creatUserId != null">
                         creatUserId = #{creatUserId},
-                    </if>
+                    </if>-->
                     <if test="updateUserId != null">
                         updateUserId = #{updateUserId},
                     </if>
@@ -174,6 +173,12 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     <if test="tableData != null and tableData != ''">
                         tableData = #{tableData},
                     </if>
+                <if test="tableColumns != null and tableColumns != ''">
+                    tableColumns = #{tableColumns},
+                </if>
+                <if test="searchColumns != null and searchColumns != ''">
+                    searchColumns = #{searchColumns},
+                </if>
             </set>
             where id = #{id}
         </update>

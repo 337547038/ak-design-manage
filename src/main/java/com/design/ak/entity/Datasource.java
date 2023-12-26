@@ -63,8 +63,5 @@ public class Datasource implements Serializable {
      */
     @JsonIgnore
     private String idList;
-    //创建用户，根据id查询返回名称
-    @JsonIgnore
-    private String creatUser;
 }
 
