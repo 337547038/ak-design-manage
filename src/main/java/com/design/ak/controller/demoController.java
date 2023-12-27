@@ -43,7 +43,7 @@ public class demoController {
         String pie3 = "[{\"value\": 1048,\"name\": \"Search Engine\"},{\"value\": 735,\"name\": \"Direct\"},{\"value\": 580,\"name\": \"Email\"},{\"value\": 484,\"name\": \"Union Ads\"},{\"value\": 300,\"name\": \"Video Ads\"}]";
         list.put("pie3", JSON.parseArray(pie3));
         String bar = "{\"xAxis\":[\"1月\",\"2月\",\"3月\",\"4月\",\"5月\",\"6月\",\"7月\",\"8月\",\"9月\",\"10月\",\"11月\",\"12月\"]," +
-                "\"data1\":"+Arrays.toString(randomArray(12))+",\"data2\":"+Arrays.toString(randomArray(12))+",\"data3\":\"+Arrays.toString(randomArray(12))+\"}";
+                "\"data1\":"+Arrays.toString(randomArray(12))+",\"data2\":"+Arrays.toString(randomArray(12))+",\"data3\":"+Arrays.toString(randomArray(12))+"}";
         list.put("bar",JSON.parseObject(bar));
         return list;
     }
