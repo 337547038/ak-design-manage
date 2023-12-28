@@ -21,7 +21,7 @@
         <RollingFile name="RollingFile" fileName="${LOG_HOME}/${date:yyyy-MM-dd}.log"
                      filePattern="${LOG_HOME}/${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log">
             <!-- 输出日志事件调用者的完全限定名、源文件名和行号，注意可能会影响性能，请谨慎使用。 %d{HH:mm:ss.SSS} [%t] %-5level [%l] - %msg%n -->
-            <PatternLayout pattern="%d{dd HH:mm:ss.SSS} - %msg%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n" />
             <!--Policies:触发策略决定何时执行备份 -->
             <Policies>
                 <!--TimeBasedTriggeringPolicy:日志文件按照时间备份 -->

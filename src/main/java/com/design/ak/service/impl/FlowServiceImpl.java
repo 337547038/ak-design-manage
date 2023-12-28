@@ -6,11 +6,15 @@ import com.design.ak.entity.Flow;
 import com.design.ak.dao.FlowDao;
 import com.design.ak.service.FlowService;
 import org.springframework.stereotype.Service;
+import com.design.ak.entity.Design;
+import com.design.ak.dao.DesignDao;
 
 import jakarta.annotation.Resource;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * 流程表(Flow)表服务实现类
  *
@@ -21,6 +25,9 @@ import java.util.Map;
 public class FlowServiceImpl implements FlowService {
     @Resource
     private FlowDao flowDao;
+
+    @Resource
+    private DesignDao designDao;
 
     /**
      * 通过ID查询单条数据
@@ -36,16 +43,16 @@ public class FlowServiceImpl implements FlowService {
     /**
      * 分页查询
      *
-     * @param pages  筛选条件分页对象
+     * @param pages 筛选条件分页对象
      * @return 查询结果
      */
     @Override
-    public Map<String, Object> queryByPage(Map<String,Object> pages) {
-       Map<String,Object> map = Utils.pagination(pages);//处理分页信息
+    public Map<String, Object> queryByPage(Map<String, Object> pages) {
+        Map<String, Object> map = Utils.pagination(pages);//处理分页信息
         Flow flow = JSON.parseObject(JSON.toJSONString(map.get("query")), Flow.class);//json字符串转java对象
-        
+
         long total = this.flowDao.count(flow);
-        List<Map<String,Object>> list = this.flowDao.queryAllByLimit(flow,map.get("extend"));
+        List<Map<String, Object>> list = this.flowDao.queryAllByLimit(flow, map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
@@ -55,13 +62,14 @@ public class FlowServiceImpl implements FlowService {
     /**
      * 新增数据
      *
-     * @param flow 实例对象
+     * @param params 实例对象
      * @return 实例对象
      */
     @Override
-    public Flow insert(Flow flow) {
-        this.flowDao.insert(flow);
-        return flow;
+    public Integer insert(Map<String,Object> params) {
+        //this.flowDao.insert(flow);
+        //return flow;
+        return null;
     }
 
     /**
@@ -73,7 +81,6 @@ public class FlowServiceImpl implements FlowService {
     @Override
     public Integer updateById(Flow flow) {
         return this.flowDao.updateById(flow);
-        //return this.queryById(flow.getId());
     }
 
     /**
@@ -85,5 +92,20 @@ public class FlowServiceImpl implements FlowService {
     @Override
     public boolean deleteById(String[] id) {
         return this.flowDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 返回流程表单及流程设计
+     *
+     * @param id 对应表单id
+     * @return 返回流程表单及流程设计数据
+     */
+    @Override
+    public Map<String, Object> queryByFromId(Integer id) {
+        Map<String, Object> map = new HashMap<>();
+        Design design = this.designDao.queryById(id);
+        map.put("flow", design);
+        map.put("form", this.designDao.queryById(design.getSource()));
+        return map;
     }
 }

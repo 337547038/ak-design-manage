@@ -28,10 +28,10 @@ public interface FlowService {
     /**
      * 新增数据
      *
-     * @param flow 实例对象
+     * @param params 对象
      * @return 实例对象
      */
-    Flow insert(Flow flow);
+    Integer insert(Map<String,Object> params);
 
     /**
      * 修改数据
@@ -49,4 +49,5 @@ public interface FlowService {
      */
     boolean deleteById(String[] id);
 
+    Map<String, Object> queryByFromId(Integer id);
 }
