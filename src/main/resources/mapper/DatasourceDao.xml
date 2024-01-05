@@ -134,9 +134,9 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into datasource(name, tableName, category, status, creatDate, updateDate, creatUserId, updateUserId, remark, tableData,tableColumns,searchColumns)
+            insert into datasource(name, tableName, category, status, creatDate, updateDate, creatUserId, updateUserId, remark, tableData)
                 values
-            (#{name}, #{tableName}, #{category}, #{status}, #{creatDate}, #{updateDate}, #{creatUserId}, #{updateUserId}, #{remark}, #{tableData},#{tableColumns},#{searchColumns})
+            (#{name}, #{tableName}, #{category}, #{status}, #{creatDate}, #{updateDate}, #{creatUserId}, #{updateUserId}, #{remark}, #{tableData})
         </insert>
 
         <!--通过主键修改数据-->
@@ -173,12 +173,6 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     <if test="tableData != null and tableData != ''">
                         tableData = #{tableData},
                     </if>
-                <if test="tableColumns != null and tableColumns != ''">
-                    tableColumns = #{tableColumns},
-                </if>
-                <if test="searchColumns != null and searchColumns != ''">
-                    searchColumns = #{searchColumns},
-                </if>
             </set>
             where id = #{id}
         </update>

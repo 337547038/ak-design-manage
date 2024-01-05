@@ -91,10 +91,13 @@ public class DatasourceServiceImpl implements DatasourceService {
     public Integer updateById(Datasource datasource) {
         //提取出新增的数据字段，追加到数据库
         try {
+            System.out.println("map.get(sqlStr)123");
             Map<String, String> map = stringBuilderSql(datasource, false);
-            String sqlStr = "ALTER TABLE `ak-" + datasource.getTableName() + "`" +
-                    map.get("sqlStr");
-            this.datasourceDao.createTable(removeLastStr(sqlStr));
+            String sqlStr = map.get("sqlStr");
+            if (!Objects.equals(sqlStr, "")) {
+                String sql = "ALTER TABLE `ak-" + datasource.getTableName() + "`" + sqlStr;
+                this.datasourceDao.createTable(removeLastStr(sql));
+            }
             return this.datasourceDao.updateById(datasource);
         } catch (Exception e) {
             throw new CustomException(500, "数据库新增字段失败:" + e);
@@ -118,7 +121,8 @@ public class DatasourceServiceImpl implements DatasourceService {
         array.forEach(item -> {
             JSONObject obj = JSON.parseObject(item.toString());
             String name = obj.getString("name");
-            if (isAdd || obj.getInteger("isNew") == 1) {
+            Boolean isNew = obj.getInteger("isNew") != null && obj.getInteger("isNew") == 1;
+            if (isAdd || isNew) {
                 String type = obj.getString("type");
                 String row = "";
                 if (!isAdd) {
@@ -128,13 +132,13 @@ public class DatasourceServiceImpl implements DatasourceService {
                 if (Objects.equals(type, "INT") || Objects.equals(type, "VARCHAR")) {
                     row += "(" + obj.getString("length") + ")";
                 }
-                if (obj.getBoolean("empty")) {
-                    row += " NULL";
-                } else {
+                if (obj.getBoolean("empty") == null || !obj.getBoolean("empty")) {
                     row += " NOT NULL";
+                } else {
+                    row += " NULL";
                 }
                 String defaultVal = obj.getString("default");
-                if (!Objects.equals(defaultVal, "")) {
+                if (!Objects.equals(defaultVal, "") && defaultVal != null) {
                     row += " DEFAULT ";
                     if (Objects.equals(type, "DATETIME")) {
                         row += "current_timestamp()";
