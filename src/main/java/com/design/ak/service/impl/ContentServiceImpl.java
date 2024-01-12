@@ -62,9 +62,7 @@ public class ContentServiceImpl implements ContentService {
         }
         Map<String, String> dataSource = getTableNameByFormId(String.valueOf(formId));
         String tableName = dataSource.get("tableName");
-        if (tableName == null || tableName.isEmpty()) {
-            throw new CustomException("当前列表未配置有表单数据源");
-        }
+
         // 从数据源里提取需要模糊搜索匹配的值
         JSONArray searchColumns = new JSONArray();
         if (!query.isEmpty()) {
@@ -107,7 +105,7 @@ public class ContentServiceImpl implements ContentService {
         }
         List<Map<String, String>> list = getFiledList(tableData, content);
         this.contentDao.insert(tableName, list);
-        return 1;//todo
+        return 1;
     }
 
     /**
@@ -117,20 +115,28 @@ public class ContentServiceImpl implements ContentService {
      * @return 影响的行数
      */
     @Override
-    public Integer updateById(Map<String, Object> content) {
-
-        return this.contentDao.updateById(content);
+    public Integer updateById(Map<String, String> content) {
+        String formId = content.get("formId");
+        Map<String, String> dataSource = getTableNameByFormId(formId);
+        String tableName = dataSource.get("tableName");
+        String tableData = dataSource.get("tableData");
+        List<Map<String, String>> list = getFiledList(tableData, content);
+        System.out.println(list);
+        return this.contentDao.updateById(tableName, list, content.get("id"));
     }
 
     /**
      * 通过主键删除数据
      *
      * @param id 主键
+     * @param formId 表单id
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String[] id) {
-        return this.contentDao.deleteById(id) > 0;
+    public boolean deleteById(String formId,String[] id) {
+        Map<String, String> dataSource = getTableNameByFormId(formId);
+        String tableName = dataSource.get("tableName");
+        return this.contentDao.deleteById(tableName,id) > 0;
     }
 
     /**
@@ -140,8 +146,12 @@ public class ContentServiceImpl implements ContentService {
      * @return 当前数据源信息
      */
     private Map<String, String> getTableNameByFormId(String formId) {
-
-        return this.datasourceDao.getTableNameByFormId(Integer.valueOf(formId));
+        Map<String, String> dataSource = this.datasourceDao.getTableNameByFormId(Integer.valueOf(formId));
+        String tableName = dataSource.get("tableName");
+        if (tableName == null || tableName.isEmpty()) {
+            throw new CustomException("当前列表未配置有表单数据源");
+        }
+        return dataSource;
     }
 
     /**

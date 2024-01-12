@@ -38,14 +38,15 @@ public interface ContentService {
      * @param content 实例对象
      * @return 实例对象
      */
-    Integer updateById(Map<String,Object> content);
+    Integer updateById(Map<String,String> content);
 
     /**
      * 通过主键删除数据
      *
      * @param id 主键
+     * @param formId 所属表单id
      * @return 是否成功
      */
-    boolean deleteById(String[] id);
+    boolean deleteById(String formId,String[] id);
 
 }

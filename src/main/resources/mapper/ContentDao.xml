@@ -50,7 +50,7 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insert">
         insert into `${tableName}`
         <foreach item="item" index="index" collection="params" open="(" separator="," close=")">
             `${item.key}`
@@ -60,12 +60,18 @@
             #{item.value}
         </foreach>
     </insert>
-<!--    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into `ak-test`
-        (`text`, `textarea`, `radio`, `checkbox`, `select1`, `creatTime`, `color`, `status`, `number`, `cascader`, `rate`, `slider`, `tree`, `table`, `components`, `upload`, `tinymce`, `flex`, `userName`, `prepend`, `append`, `password`, `input1`, `input2`)
-        values
-            ('text','textarea', 1,'checkbox','select1','2023-11-15','color',1,1,'cascader',1,'slider','tree','table','components','upload','tinymce','flex','userName','prepend','append','password','input1', 1)
-    </insert>-->
+
+    <update id="updateById">
+        UPDATE `${tableName}`
+        <set>
+            <foreach item="item" index="index" collection="params" open="" separator="," close="">
+                <if test="item.value != null and item.value!=''">
+                    ${item.key} = #{item.value}
+                </if>
+            </foreach>
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <!--查询单个-->
     <select id="queryById">
@@ -75,7 +81,7 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete
-        from ak-customer where id in
+        from `${tableName}` where id in
         <foreach collection="id" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>

@@ -45,25 +45,25 @@ public interface ContentDao {
      * 新增数据
      * @param tableName 表名
      * @param params 实例对象
-     * @return 影响行数
      */
-    Integer insert(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params);
+    void insert(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params);
 
     /**
      * 修改数据
      *
-     * @param content 实例对象
-     * @return 影响行数
+     * @param tableName 表名
+     * @param params 实例对象
      */
-    int updateById(Map<String, Object> content);
+    int updateById(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params,@Param("id") String id);
 
     /**
      * 通过主键删除数据
      *
+     * @param tableName 数据库表名
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(String[] id);
+    int deleteById(@Param("tableName") String tableName,@Param("id") String[] id);
 
 }
 

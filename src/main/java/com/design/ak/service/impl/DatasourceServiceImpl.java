@@ -72,7 +72,7 @@ public class DatasourceServiceImpl implements DatasourceService {
         try {
             Map<String, String> map = stringBuilderSql(datasource, true);
             String sqlStr = map.get("sqlStr") + "PRIMARY KEY (`id`)";
-            String creatSql = "CREATE TABLE IF NOT EXISTS `ak-" + datasource.getTableName() + "` (" + sqlStr + ") ENGINE = InnoDB COMMENT =\"" + datasource.getRemark() + "\"";
+            String creatSql = "CREATE TABLE IF NOT EXISTS `" + datasource.getTableName() + "` (" + sqlStr + ") ENGINE = InnoDB COMMENT =\"" + datasource.getRemark() + "\"";
             this.datasourceDao.createTable(creatSql);
             this.datasourceDao.insert(datasource);
             return datasource;
