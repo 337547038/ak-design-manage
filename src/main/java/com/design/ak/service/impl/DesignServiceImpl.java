@@ -123,11 +123,11 @@ public class DesignServiceImpl implements DesignService {
      * @param value 指定的value
      * @return {1:"n1",3:"n3"}
      */
-    private Map<Integer, String> getObjKeyValue(List<Map<String, Object>> list, String value) {
-        Map<Integer, String> result = new HashMap<>();
+    private Map<String, Object> getObjKeyValue(List<Map<String, Object>> list, String value) {
+        Map<String, Object> result = new HashMap<>();
         if (!list.isEmpty()) {
             for (Map<String, Object> obj : list) {
-                result.put((Integer) obj.get("id"), (String) obj.get(value));
+                result.put(obj.get("id").toString(), obj.get(value));
             }
         }
         return result;
