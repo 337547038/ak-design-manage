@@ -27,7 +27,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     }
 
     //跨域请求设置
-    @Override
+/*    @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 //是否发送Cookie
@@ -37,5 +37,5 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .allowedMethods(new String[]{"GET", "POST", "PUT", "DELETE"})
                 .allowedHeaders("*")
                 .exposedHeaders("*");
-    }
+    }*/
 }

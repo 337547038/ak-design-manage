@@ -1,6 +1,8 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.design.ak.service.ContentService;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.Flow;
 import com.design.ak.dao.FlowDao;
@@ -28,6 +30,9 @@ public class FlowServiceImpl implements FlowService {
 
     @Resource
     private DesignDao designDao;
+
+    @Resource
+    private ContentService contentService;
 
     /**
      * 通过ID查询单条数据
@@ -67,9 +72,17 @@ public class FlowServiceImpl implements FlowService {
      */
     @Override
     public Integer insert(Map<String,Object> params) {
-        //this.flowDao.insert(flow);
-        //return flow;
-        return null;
+        // 添加一条流程记录
+        Flow flow = JSON.parseObject(JSON.toJSONString(params.get("flow")), Flow.class);
+        this.flowDao.insert(flow);
+        // 将流程表单填写的数据保存
+        Object obj = params.get("form");
+        if (obj instanceof Map) {
+            Map<String,String> map = (Map<String, String>) obj;
+            map.put("formId",flow.getFormId().toString());
+            this.contentService.insert(map);
+        }
+        return 1;
     }
 
     /**

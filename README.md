@@ -2,7 +2,7 @@
 ak低代码快速开发平台管理端
 
 ## 技术关键词
-java、Springboot、Maven、Mybatis、Mybatis-Plus、lombok、easyCode、aop、Slf4j2、mysql、Swagger、Jwt
+java、Springboot、Maven、Mybatis、Mybatis-Plus、lombok、easyCode、aop、Slf4j2、mysql、Swagger、Jwt、Fastjson、Redis
 
 ## 功能
 - 集成`Mybatis`

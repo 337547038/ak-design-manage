@@ -81,6 +81,7 @@ public class DatasourceController {
         datasource.setCreatUserId(Utils.getCurrentUserId());
         datasource.setCreatDate(new Date());
         datasource.setUpdateDate(new Date());
+        datasource.setTableName("ak-"+datasource.getTableName()); // 添加表名前缀
         Datasource result = datasourceService.insert(datasource);
         return ResponseEntity.ok(result.getId());
     }

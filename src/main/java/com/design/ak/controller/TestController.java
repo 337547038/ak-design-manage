@@ -1,6 +1,7 @@
 package com.design.ak.controller;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.design.ak.config.PassToken;
 import com.design.ak.entity.Test;
 import com.design.ak.service.TestService;
@@ -33,14 +34,21 @@ public class TestController {
     @PassToken
     @PostMapping("/t")
     public String queryByPage11() {
-        JSONArray array = new JSONArray();
+        /*JSONArray array = new JSONArray();
         array.add("1");
         array.add("a");
         array.add("b");
         System.out.println(array);
         System.out.println(array.contains("a"));
         System.out.println(array.contains("aa"));
-        return "ResponseEntity.ok(this.testService.queryByPage(pages))";
+        return "ResponseEntity.ok(this.testService.queryByPage(pages))";*/
+        JSONObject obj = new JSONObject();
+        obj.put("isNew",1);
+        obj.put("isEmpty",true);
+        obj.put("name","name");
+        System.out.println(obj.getInteger("isNew1")!=null&&obj.getInteger("isNew1")==1);
+        System.out.println(obj.getString("isNew"));
+        return "a";
     }
     /**
      * 分页查询

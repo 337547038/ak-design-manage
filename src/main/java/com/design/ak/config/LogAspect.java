@@ -1,6 +1,7 @@
 package com.design.ak.config;
 
 import com.alibaba.fastjson2.JSON;
+import com.design.ak.utils.CreatJsonFile;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +76,7 @@ public class LogAspect {
         }
         if (log.isDebugEnabled()) {
             log.debug("{}响应 :{}", uuid,JSON.toJSONString(result));
+            CreatJsonFile.JsonFile(String.valueOf(request.getRequestURL()),JSON.toJSONString(result),params);
         }
         return result;
     }

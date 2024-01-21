@@ -100,10 +100,10 @@ public class ContentController {
     @Parameter(name = "id", description = "编辑id", required = true)
     @Parameter(name = "formId", description = "当前表单id", required = true)
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody Map<String, Object> params) {
-        Integer id = (Integer) params.get("id");
-        Integer formId = (Integer) params.get("formId");
-        if (formId==null||id == null) {
+    public ResponseEntity<Integer> edit(@RequestBody Map<String, String> params) {
+        String id = params.get("id");
+        String formId = params.get("formId");
+        if (formId==null || id == null) {
             throw new CustomException("参数异常");
         }
         return ResponseEntity.ok(this.contentService.updateById(params));
@@ -112,16 +112,16 @@ public class ContentController {
     /**
      * 删除数据，删除多个时使用豆号分隔
      *
-     * @param ids 主键
+     * @param params 提交的参数
      * @return 删除是否成功
      */
     @Operation(summary = "根据id删除")
-    @Parameter(name = "id", description = "多个id时使用豆号隔开", required = true)
     @PostMapping("delete")
-    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String, Object> ids) {
-        String string = ids.get("id").toString();
-        String[] idList = string.split(",");
-        return ResponseEntity.ok(this.contentService.deleteById(idList));
+    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String, Object> params) {
+        String ids = (String) params.get("id");
+        String formId = params.get("formId").toString();
+        String[] idList = ids.split(",");
+        return ResponseEntity.ok(this.contentService.deleteById(formId,idList));
     }
 
 }
