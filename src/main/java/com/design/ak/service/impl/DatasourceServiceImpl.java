@@ -68,6 +68,13 @@ public class DatasourceServiceImpl implements DatasourceService {
      */
     @Override
     public Datasource insert(Datasource datasource) {
+        //查询数据库表是否存在
+        Datasource ds = new Datasource();
+        ds.setTableName(datasource.getTableName());
+        long count = this.datasourceDao.count(ds);
+        if (count > 0) {
+            throw new CustomException(500, "数据表创建失败:表名" + datasource.getTableName() + "已存在");
+        }
         // 将tableData转换为sql语句创建数据表
         try {
             Map<String, String> map = stringBuilderSql(datasource, true);
@@ -91,11 +98,10 @@ public class DatasourceServiceImpl implements DatasourceService {
     public Integer updateById(Datasource datasource) {
         //提取出新增的数据字段，追加到数据库
         try {
-            System.out.println("map.get(sqlStr)123");
             Map<String, String> map = stringBuilderSql(datasource, false);
             String sqlStr = map.get("sqlStr");
             if (!Objects.equals(sqlStr, "")) {
-                String sql = "ALTER TABLE `ak-" + datasource.getTableName() + "`" + sqlStr;
+                String sql = "ALTER TABLE `" + datasource.getTableName() + "`" + sqlStr;
                 this.datasourceDao.createTable(removeLastStr(sql));
             }
             return this.datasourceDao.updateById(datasource);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2024-01-26 09:28:27
+-- 生成日期： 2024-02-02 09:36:32
 -- 服务器版本： 10.4.27-MariaDB
 -- PHP 版本： 8.2.0
 
@@ -54,10 +54,31 @@ INSERT INTO `ak-customer` (`id`, `name`, `phone`, `weixin`, `creatTime`, `compan
 
 CREATE TABLE `ak-demo-test` (
   `id` int(10) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `content` varchar(50) DEFAULT NULL,
-  `dateTime` datetime DEFAULT NULL
+  `inputText` varchar(50) NOT NULL COMMENT 'null',
+  `radio` int(2) NOT NULL COMMENT 'null',
+  `checkbox` varchar(20) DEFAULT NULL COMMENT 'null',
+  `select1` int(2) DEFAULT NULL COMMENT 'null',
+  `dateTime` datetime DEFAULT NULL COMMENT 'null',
+  `switch` int(2) DEFAULT NULL COMMENT 'null',
+  `textarea` text DEFAULT NULL COMMENT 'null',
+  `upload` varchar(50) DEFAULT NULL COMMENT 'null',
+  `component` varchar(50) DEFAULT NULL COMMENT 'null',
+  `user` varchar(50) DEFAULT NULL COMMENT 'null',
+  `prepend` varchar(50) DEFAULT NULL COMMENT 'null',
+  `select2` varchar(50) DEFAULT NULL COMMENT 'null',
+  `tinymce` text DEFAULT NULL COMMENT 'null',
+  `table` text DEFAULT NULL COMMENT 'null',
+  `flex` text DEFAULT NULL COMMENT 'null'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 转存表中的数据 `ak-demo-test`
+--
+
+INSERT INTO `ak-demo-test` (`id`, `inputText`, `radio`, `checkbox`, `select1`, `dateTime`, `switch`, `textarea`, `upload`, `component`, `user`, `prepend`, `select2`, `tinymce`, `table`, `flex`) VALUES
+(1, 'test', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, '789', 0, '[2]', 1, '2024-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, '123654', 0, '[4]', 1, '2024-02-02 00:00:00', 1, '多行文本', NULL, '广东省广州市越秀区北京街道广州市人民政府', 'user,admin', 'h', '5', '<p>富文本内容</p>', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -87,47 +108,6 @@ INSERT INTO `ak-holidays` (`id`, `type`, `startTime`, `endTime`, `duration`, `re
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ak-test`
---
-
-CREATE TABLE `ak-test` (
-  `id` int(10) NOT NULL,
-  `text` varchar(50) DEFAULT NULL,
-  `textarea` varchar(50) DEFAULT NULL,
-  `radio` int(1) DEFAULT NULL,
-  `checkbox` varchar(50) DEFAULT NULL,
-  `select1` varchar(50) DEFAULT NULL,
-  `creatTime` datetime DEFAULT NULL,
-  `color` varchar(10) DEFAULT NULL,
-  `status` int(1) DEFAULT NULL,
-  `number` int(1) DEFAULT NULL,
-  `cascader` varchar(50) DEFAULT NULL,
-  `rate` int(2) DEFAULT NULL,
-  `slider` varchar(10) DEFAULT NULL,
-  `tree` varchar(10) DEFAULT NULL,
-  `table` varchar(50) DEFAULT NULL,
-  `components` varchar(50) DEFAULT NULL,
-  `upload` varchar(100) DEFAULT NULL,
-  `tinymce` text DEFAULT NULL,
-  `flex` varchar(50) DEFAULT NULL,
-  `userName` varchar(50) DEFAULT NULL,
-  `prepend` varchar(50) DEFAULT NULL,
-  `append` varchar(50) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  `input1` varchar(50) DEFAULT NULL,
-  `input2` int(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='组件字段示例';
-
---
--- 转存表中的数据 `ak-test`
---
-
-INSERT INTO `ak-test` (`id`, `text`, `textarea`, `radio`, `checkbox`, `select1`, `creatTime`, `color`, `status`, `number`, `cascader`, `rate`, `slider`, `tree`, `table`, `components`, `upload`, `tinymce`, `flex`, `userName`, `prepend`, `append`, `password`, `input1`, `input2`) VALUES
-(1, '单行文本', '多行文本', 1, '1', '10', '2024-11-29 08:00:00', '#741010', 1, 1, '[]', 3, '30', '', '[]', '广东省广州市越秀区北京街道广州市人民政府', '/uploads/1681437452608-data.png', '<p>富文本内容</p>', '[{\"f1\":\"姓名1\",\"f2\":\"13800138000\"}]', 'user,admin', '1', '', '123', '1', 0);
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `datasource`
 --
 
@@ -151,7 +131,8 @@ CREATE TABLE `datasource` (
 
 INSERT INTO `datasource` (`id`, `name`, `tableName`, `category`, `status`, `creatDate`, `updateDate`, `creatUserId`, `updateUserId`, `remark`, `tableData`) VALUES
 (13, '客户信息管理', 'ak-customer', 0, 1, NULL, NULL, 0, 0, '客户信息管理', '[{\"label\":\"客户名称\",\"name\":\"name\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"手机号码\",\"name\":\"phone\",\"type\":\"INT\",\"length\":\"11\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"微信\",\"name\":\"weixin\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"添加时间\",\"name\":\"creatTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":false},{\"label\":\"公司名称\",\"name\":\"company\",\"type\":\"VARCHAR\",\"length\":\"50\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"类型\",\"name\":\"status\",\"type\":\"INT\",\"length\":\"2\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"备注\",\"name\":\"remark\",\"type\":\"VARCHAR\",\"length\":\"100\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"合作意向\",\"name\":\"intention\",\"type\":\"INT\",\"length\":\"2\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true}]'),
-(14, '请假', 'ak-holidays', 1, 1, NULL, '2023-12-06 16:21:52', 0, 1, '请假流程', '[{\"label\":\"类型\",\"name\":\"type\",\"type\":\"INT\",\"length\":\"2\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"开始时间\",\"name\":\"startTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"结束时间\",\"name\":\"endTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"时长\",\"name\":\"duration\",\"type\":\"VARCHAR\",\"length\":\"4\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"请假事由\",\"name\":\"remark\",\"type\":\"VARCHAR\",\"length\":\"200\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"图片附件\",\"name\":\"files\",\"type\":\"VARCHAR\",\"length\":\"200\",\"default\":\"\",\"empty\":true,\"remark\":\"\",\"enterable\":true},{\"label\":\"创建时间\",\"name\":\"creatTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"current_timestamp()\",\"empty\":false,\"remark\":\"\",\"enterable\":false}]');
+(14, '请假', 'ak-holidays', 1, 1, NULL, '2023-12-06 16:21:52', 0, 1, '请假流程', '[{\"label\":\"类型\",\"name\":\"type\",\"type\":\"INT\",\"length\":\"2\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"开始时间\",\"name\":\"startTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"结束时间\",\"name\":\"endTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"时长\",\"name\":\"duration\",\"type\":\"VARCHAR\",\"length\":\"4\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"请假事由\",\"name\":\"remark\",\"type\":\"VARCHAR\",\"length\":\"200\",\"default\":\"\",\"empty\":false,\"remark\":\"\",\"enterable\":true},{\"label\":\"图片附件\",\"name\":\"files\",\"type\":\"VARCHAR\",\"length\":\"200\",\"default\":\"\",\"empty\":true,\"remark\":\"\",\"enterable\":true},{\"label\":\"创建时间\",\"name\":\"creatTime\",\"type\":\"DATETIME\",\"length\":\"\",\"default\":\"current_timestamp()\",\"empty\":false,\"remark\":\"\",\"enterable\":false}]'),
+(20, '组件示例测试', 'ak-demo-test', 1, 1, '2024-02-01 09:41:59', '2024-02-02 13:23:53', 1, 1, '', '[{\"name\":\"inputText\",\"type\":\"VARCHAR\",\"length\":\"50\",\"label\":\"标题名称\",\"filedType\":\"input\"},{\"name\":\"radio\",\"type\":\"INT\",\"length\":\"2\",\"label\":\"性别\",\"filedType\":\"radio\"},{\"name\":\"checkbox\",\"type\":\"VARCHAR\",\"length\":\"20\",\"empty\":true,\"label\":\"多选\",\"filedType\":\"checkbox\"},{\"name\":\"select1\",\"type\":\"INT\",\"length\":\"2\",\"empty\":true,\"label\":\"选择框\",\"filedType\":\"select\"},{\"name\":\"dateTime\",\"type\":\"DATETIME\",\"empty\":true,\"label\":\"日期时间\",\"filedType\":\"datePicker\"},{\"name\":\"switch\",\"type\":\"INT\",\"length\":\"2\",\"empty\":true,\"label\":\"开关\",\"filedType\":\"switch\"},{\"name\":\"textarea\",\"type\":\"TEXT\",\"length\":\"100\",\"empty\":true,\"label\":\"多行文本\",\"filedType\":\"textarea\"},{\"name\":\"upload\",\"type\":\"VARCHAR\",\"length\":\"50\",\"empty\":true,\"label\":\"图片文件上传\",\"filedType\":\"upload\"},{\"name\":\"component\",\"type\":\"VARCHAR\",\"length\":\"50\",\"empty\":true,\"label\":\"自定义组件\"},{\"name\":\"user\",\"type\":\"VARCHAR\",\"length\":\"50\",\"empty\":true,\"label\":\"选择用户\"},{\"name\":\"prepend\",\"type\":\"VARCHAR\",\"length\":\"50\",\"empty\":true,\"label\":\"前缀\"},{\"name\":\"select2\",\"type\":\"VARCHAR\",\"length\":\"50\",\"empty\":true,\"label\":\"复合型\"},{\"name\":\"tinymce\",\"type\":\"TEXT\",\"empty\":true,\"label\":\"内容\",\"filedType\":\"tinymce\"},{\"name\":\"table\",\"type\":\"TEXT\",\"empty\":true,\"label\":\"子表\",\"isNew\":1},{\"name\":\"flex\",\"type\":\"TEXT\",\"empty\":true,\"label\":\"弹性\",\"isNew\":1}]');
 
 -- --------------------------------------------------------
 
@@ -195,7 +176,9 @@ INSERT INTO `design` (`id`, `source`, `name`, `type`, `data`, `listData`, `statu
 (39, 0, '可视化数据大屏示例', 4, '{list:[{type:\"background\",position:{height:\"105\",left:0,top:0,display:false,width:\"100%\"},config:{src:\"./static/screen/bg/head_bg.png\",lock:false}},{type:\"text\",position:{height:30,left:0,top:20,zIndex:0,width:\"100%\"},config:{text:\"大数据可视化系统数据分析通用模版\",style:{fontSize:\"20px\",\"text-align\":\"center\"},lock:false,optionsType:0}},{type:\"line\",position:{width:550,height:280,left:32,top:139,zIndex:2},option:{tooltip:{},grid:{left:\"0\",top:\"30\",right:\"20\",bottom:\"10\",containLabel:true},xAxis:[{type:\"category\",boundaryGap:false,axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},data:\"{{getScreenGlobal.line.xAxis}}\"},{axisPointer:{show:false},axisLine:{show:false},position:\"bottom\",offset:20}],yAxis:[{type:\"value\",axisTick:{show:false},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},splitLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}}}],series:[{name:\"模块标题\",type:\"line\",smooth:true,symbol:\"circle\",symbolSize:10,showSymbol:true,lineStyle:{normal:{color:\"rgba(228, 228, 126, 1)\",width:2}},areaStyle:{normal:{color:{colorStops:[{offset:0,color:\"rgba(228, 228, 126, .8)\"},{offset:0.8,color:\"rgba(228, 228, 126, 0.1)\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},shadowColor:\"rgba(0, 0, 0, 0.1)\"}},itemStyle:{normal:{color:\"#dddc6b\",borderColor:\"rgba(221, 220, 107, .1)\",borderWidth:12}},data:\"{{getScreenGlobal.line.data}}\"}]},config:{lock:false,optionsType:0},events:{}},{type:\"text\",position:{width:100,height:30,left:32,top:453,zIndex:2},config:{text:\"使用动态形式\",lock:false}},{type:\"border\",position:{width:570,height:310,left:20,top:440},config:{style:{},class:\"border\",lock:false}},{type:\"border\",position:{width:570,height:310,left:20,top:110,zIndex:0},config:{style:{},lock:false,class:\"border\"}},{type:\"text\",position:{width:260,height:69,left:604,top:164},config:{text:\"{{getScreenGlobal.textNum1}}\",style:{fontSize:\"36px\",color:\"rgba(254, 3, 3, 1)\",fontWeight:\"700\"},optionsType:0}},{type:\"echarts\",position:{width:148,height:148,left:929,top:142},option:{title:{text:\"80%\",x:\"center\",y:\"center\",textStyle:{fontWeight:\"normal\",color:\"#fff\",fontSize:\"18\"}},color:\"#49bcf7\",series:[{name:\"Line 1\",type:\"pie\",clockWise:true,radius:[\"65%\",\"80%\"],itemStyle:{normal:{label:{show:false},labelLine:{show:false}}},hoverAnimation:false,data:[{value:\"{{getScreenGlobal.pie[0]}}\",name:\"已使用\",itemStyle:{normal:{color:\"#eaff00\",label:{show:false},labelLine:{show:false}}}},{name:\"未使用\",value:\"{{getScreenGlobal.pie[1]}}\"}]}]},config:{optionsType:0}},{type:\"echarts\",position:{width:148,height:148,left:1101,top:143},option:{title:{text:\"60%\",x:\"center\",y:\"center\",textStyle:{fontWeight:\"normal\",color:\"#fff\",fontSize:\"18\"}},color:\"#49bcf7\",series:[{name:\"Line 1\",type:\"pie\",clockWise:true,radius:[\"65%\",\"80%\"],itemStyle:{normal:{label:{show:false},labelLine:{show:false}}},hoverAnimation:false,data:[{value:\"{{getScreenGlobal.pie2[0]}}\",name:\"已使用\",itemStyle:{normal:{color:\"#ea4d4d\",label:{show:false},labelLine:{show:false}}}},{name:\"未使用\",value:\"{{getScreenGlobal.pie2[1]}}\"}]}]},config:{optionsType:0}},{type:\"echarts\",position:{width:394,height:271,left:1474,top:140,zIndex:2},option:{tooltip:{},radar:[{indicator:[{text:\"盈利能力\",max:100},{text:\"发展水平\",max:100},{text:\"融资能力\",max:100},{text:\"技术能力\",max:100},{text:\"企业规模\",max:100}],textStyle:{color:\"red\"},center:[\"50%\",\"50%\"],radius:\"70%\",startAngle:90,splitNumber:4,shape:\"circle\",name:{padding:-5,formatter:\"{value}\",textStyle:{fontSize:14,color:\"rgba(255,255,255,.6)\"}},splitArea:{areaStyle:{color:\"rgba(255,255,255,.05)\"}},axisLine:{lineStyle:{color:\"rgba(255,255,255,.05)\"}},splitLine:{lineStyle:{color:\"rgba(255,255,255,.05)\"}}}],series:[{name:\"雷达图\",type:\"radar\",tooltip:{trigger:\"item\"},data:[{name:\"园区平均值\",value:\"{{getScreenGlobal.radar.list[0]}}\",lineStyle:{normal:{color:\"#03b48e\",width:2}},areaStyle:{normal:{color:\"#03b48e\",opacity:0.4}},symbolSize:0},{name:\"当前园区\",value:\"{{getScreenGlobal.radar.list[1]}}\",symbolSize:0,lineStyle:{normal:{color:\"#3893e5\",width:2}},areaStyle:{normal:{color:\"rgba(19, 173, 255, 0.5)\"}}}]}]},config:{lock:false,optionsType:0}},{type:\"border\",position:{width:470,height:310,left:1440,top:110},config:{style:{border:\"\"},class:\"border\",lock:false}},{type:\"pie\",position:{width:394,height:271,left:1486,top:466,zIndex:2},option:{tooltip:{},legend:{orient:\"vertical\",left:\"left\",color:\"#fff\"},series:\"{{getScreenGlobal.pie3}}\"},config:{lock:false,optionsType:0}},{type:\"text\",position:{width:100,height:30,left:607,top:123},config:{text:\"使用全局数据\"}},{type:\"border\",position:{width:808,height:439,left:610,top:312},config:{style:{border:\"\"},class:\"border\",lock:false}},{type:\"echarts\",position:{width:780,height:407,left:626,top:332,zIndex:2},option:{tooltip:{trigger:\"axis\",axisPointer:{type:\"shadow\"}},legend:{x:\"center\",y:\"0\",icon:\"circle\",itemGap:8,textStyle:{color:\"rgba(255,255,255,.5)\"},itemWidth:10,itemHeight:10},grid:{left:\"0\",top:\"30\",right:\"15\",bottom:\"0\",containLabel:true},xAxis:{type:\"category\",data:[\"1月\",\"2月\",\"3月\",\"4月\",\"5月\",\"6月\",\"7月\",\"8月\",\"9月\",\"10月\",\"11月\",\"12月\"],axisLine:{show:false},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}}},yAxis:{type:\"value\",splitNumber:4,axisLine:{show:false},axisTick:{show:false},splitLine:{show:true,lineStyle:{color:\"rgba(255,255,255,0.05)\"}},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}}},series:[{name:\"字段1\",type:\"bar\",barWidth:\"15%\",itemStyle:{normal:{color:{colorStops:[{offset:0,color:\"#8bd46e\"},{offset:1,color:\"#03b48e\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},barBorderRadius:11}},data:[77,35,319,364,364,416,244,45,331,267,301,353]},{name:\"字段2\",type:\"bar\",barWidth:\"15%\",itemStyle:{normal:{color:{colorStops:[{offset:0,color:\"#3893e5\"},{offset:1,color:\"#248ff7\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},barBorderRadius:11}},data:[86,114,70,159,196,5,197,461,12,235,252,340]},{name:\"字段3\",type:\"bar\",barWidth:\"15%\",itemStyle:{normal:{color:{colorStops:[{offset:0,color:\"#43cadd\"},{offset:1,color:\"#0097c9\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},barBorderRadius:11}},data:[23,354,334,221,178,190,234,354,334,221,178,190]}]},config:{lock:false}},{type:\"bar\",position:{width:550,height:277,left:28,top:471},option:{tooltip:{trigger:\"axis\",axisPointer:{lineStyle:{color:\"#dddc6b\"}}},grid:{left:\"0\",top:\"30\",right:\"20\",bottom:\"10\",containLabel:true},legend:{data:[\"字段1\",\"字段2\"],right:\"center\",top:0,textStyle:{color:\"#fff\"},itemWidth:12,itemHeight:10},xAxis:[{type:\"category\",boundaryGap:false,axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},data:[]},{axisPointer:{show:false},axisLine:{show:false},position:\"bottom\",offset:20}],yAxis:[{type:\"value\",axisTick:{show:false},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},splitLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}}}],series:[{name:\"字段1\",type:\"line\",smooth:true,symbol:\"circle\",symbolSize:5,showSymbol:false,lineStyle:{normal:{color:\"rgba(228, 228, 126, 1)\",width:2}},areaStyle:{normal:{color:{colorStops:[{offset:0,color:\"rgba(228, 228, 126, .8)\"},{offset:0.8,color:\"rgba(228, 228, 126, 0.1)\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},shadowColor:\"rgba(0, 0, 0, 0.1)\"}},itemStyle:{normal:{color:\"#dddc6b\",borderColor:\"rgba(221, 220, 107, .1)\",borderWidth:12}},data:[]},{name:\"字段2\",type:\"line\",smooth:true,symbol:\"circle\",symbolSize:5,showSymbol:false,lineStyle:{normal:{color:\"rgba(255, 128, 128, 1)\",width:2}},areaStyle:{normal:{color:{colorStops:[{offset:0,color:\"rgba(255, 128, 128,.8)\"},{offset:0.8,color:\"rgba(255, 128, 128, .1)\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},shadowColor:\"rgba(0, 0, 0, 0.1)\"}},itemStyle:{normal:{color:\"#dddc6b\",borderColor:\"rgba(221, 220, 107, .1)\",borderWidth:12}},data:[]}]},config:{lock:false,optionsType:1,requestUrl:\"demo/echarts\",method:\"post\"},events:{afterFetch:(res, data) =>\n{\n  // res响应数据, 当前组件数据data\n  console.log(\'afterFetchScreen\', data)\n  data.xAxis[0].data = res.line.xAxis\n  data.series[0].data = res.line.data\n  data.series[1].data = res.bar.data1\n  return data //返回新的图表数据\n}}},{type:\"text\",position:{width:100,height:30,left:627,top:780,zIndex:2},config:{text:\"模块标题\",lock:false}},{type:\"border\",position:{width:808,height:276,left:610,top:764},config:{style:{border:\"\"},class:\"border\",lock:false}},{type:\"bar\",position:{width:757,height:237,left:635,top:800,zIndex:2},option:{tooltip:{trigger:\"axis\",axisPointer:{type:\"shadow\"}},grid:{top:\"20%\",right:\"50\",bottom:\"20\",left:\"30\"},legend:{data:[\"数据1\",\"数据2\",\"数据3\",\"增幅\"],right:\"center\",width:\"100%\",textStyle:{color:\"rgba(255,255,255,.5)\"},itemWidth:12,itemHeight:10},xAxis:[{type:\"category\",data:[\"2016\",\"2017\",\"2018\",\"2019\"],axisLine:{show:false},axisLabel:{textStyle:{fontSize:14,color:\"rgba(255,255,255,.5)\"}}}],yAxis:[{type:\"value\",axisTick:{show:false},splitLine:{show:false},axisLine:{min:0,max:10,show:false},axisLabel:{show:true,fontSize:14,color:\"rgba(255,255,255,.5)\"}},{type:\"value\",show:true,axisLabel:{formatter:\"{value} %\",fontSize:14,color:\"rgba(255,255,255,.5)\"},axisTick:{show:false},splitNumber:3,axisLine:{show:false},splitLine:{lineStyle:{color:\"rgba(255,255,255,.05)\"}}}],series:[{name:\"数据1\",type:\"bar\",data:[36.6,38.8,40.84,41.6],barWidth:\"10%\",itemStyle:{normal:{barBorderRadius:15,color:{colorStops:[{offset:0,color:\"#8bd46e\"},{offset:1,color:\"#09bcb7\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false}}},barGap:\"0.2\"},{name:\"数据2\",type:\"bar\",data:[14.8,14.1,15,16.3],barWidth:\"10%\",itemStyle:{normal:{barBorderRadius:15,color:{colorStops:[{offset:0,color:\"#248ff7\"},{offset:1,color:\"#6851f1\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false}}},barGap:\"0.2\"},{name:\"数据3\",type:\"bar\",data:[9.2,9.1,9.85,8.9],barWidth:\"10%\",itemStyle:{normal:{barBorderRadius:15,color:{colorStops:[{offset:0,color:\"#fccb05\"},{offset:1,color:\"#f5804d\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false}}},barGap:\"0.2\"},{name:\"增幅\",type:\"line\",yAxisIndex:1,data:[3,1,5,2.3],lineStyle:{normal:{width:2}},itemStyle:{normal:{color:\"#3496f8\"}},symbolSize:0}]},config:{lock:false}},{type:\"text\",position:{width:100,height:30,left:32,top:119},config:{text:\"使用全局数据\",lock:false}},{type:\"clock\",position:{width:320,height:30,left:1600,top:21,zIndex:0},config:{style:{fontSize:\"20px\"},dateTime:\"{y}年{m}月{d}日 {h}:{i}:{s} 星期{w}\",lock:false}},{type:\"text\",position:{width:100,height:30,left:1455,top:123},config:{text:\"模块标题\",lock:false}},{type:\"border\",position:{width:470,height:310,left:1440,top:440},config:{style:{border:\"\"},class:\"border\",lock:false}},{type:\"bar\",position:{width:389,height:239,left:1492,top:795,zIndex:2},option:{tooltip:{show:false},grid:{top:\"0%\",left:\"50\",right:\"50\",bottom:\"0%\"},xAxis:{min:0,splitLine:{show:false},axisTick:{show:false},axisLine:{show:false},axisLabel:{show:false}},yAxis:{data:[\"数据\",\"数据\",\"数据\",\"数据\",\"数据\",\"数据\"],axisTick:{show:false},axisLine:{show:false},axisLabel:{color:\"rgba(255,255,255,.6)\",fontSize:14}},series:[{type:\"bar\",label:{show:true,zlevel:10000,position:\"right\",padding:6,color:\"#4e84a1\",fontSize:14,formatter:\"{c}\"},itemStyle:{barBorderRadius:25,color:\"#3facff\"},barWidth:\"15\",data:[1800,1240,1168,1200,2336,1680],z:6}]},config:{lock:false}},{type:\"text\",position:{width:100,height:30,left:1460,top:773,zIndex:2},config:{text:\"模块标题\",lock:true}},{type:\"border\",position:{width:470,height:276,left:1440,top:764},config:{style:{border:\"\"},class:\"border\",lock:false}},{type:\"table\",position:{width:570,height:276,left:20,top:764},option:{columns:[{prop:\"name1\",label:\"字段1\"},{prop:\"name2\",label:\"字段2\"},{prop:\"name3\",label:\"字段3\"},{prop:\"name4\",label:\"字段4\"},{prop:\"name5\",label:\"字段5\"}],list:[{name5:\"111\",name4:\"4444\",name3:\"3333\",name2:\"222\",name1:\"5555\"}]},config:{class:\"border scroll-table\",optionsType:0,carousel:false,props:{},speed:50,lock:false}}],config:{width:\"1920px\",height:\"1080px\",background:\"url(./static/screen/bg/bg.jpg)\",style:\".border{background:rgba(6, 48, 109, 0.5);border:none}\\\\n.scroll-table .el-table tr,.scroll-table .el-table{background:none}\\\\n.scroll-table .el-table th.el-table__cell{background:none;border:none}\\\\n.scroll-table .el-table td,.scroll-table .el-table th{border:none}\\\\n.scroll-table .el-table__inner-wrapper:before{display:none}\",primary:\"rgba(255, 255, 255, 1)\",method:\"post\",requestUrl:\"demo/echarts\"}}', '', 1, '2024-01-25 16:26:56', '2030-12-12 12:12:12', '', 1, 1, 1, 1, '', NULL),
 (48, 19, '未命名表单', 1, '{list:[{type:\"input\",control:{modelValue:\"\"},config:{},name:\"name\",formItem:{label:\"名称标题\"}},{type:\"input\",control:{modelValue:\"\"},config:{},name:\"content\",formItem:{label:\"内容\"}},{type:\"input\",control:{modelValue:\"\"},config:{},name:\"dateTime\",formItem:{label:\"时间\"}}],form:{size:\"default\"},config:{}}', NULL, 1, '2023-12-10 14:25:38', '2030-12-12 12:12:12', '{}', 1, 1, 1, NULL, NULL, NULL),
 (49, 48, '未命名列表', 2, '{}', '{columns:[{label:\"多选\",type:\"selection\"},{label:\"序号\",type:\"index\",width:\"70px\"},{prop:\"name\",label:\"名称标题\"},{prop:\"content\",label:\"内容\"},{prop:\"dateTime\",label:\"时间\"},{label:\"操作\",prop:\"__control\"}],config:{},controlBtn:[{label:\"新增\",key:\"add\",type:\"primary\",size:\"small\",icon:\"plus\"},{label:\"导出\",key:\"import\",type:\"primary\",size:\"small\",icon:\"plus\"},{label:\"批量删除\",key:\"del\",type:\"danger\",size:\"small\",icon:\"delete\"}],operateBtn:[{label:\"编辑\",key:\"edit\"},{label:\"删除\",key:\"del\"}]}', 1, '2023-12-10 17:42:53', '2023-12-10 17:33:14', '{}', 1, 1, 1, NULL, NULL, NULL),
-(56, NULL, '未命名可视化大屏', 4, '{list:[{type:\"bar\",position:{width:400,height:300,left:\"86px\",top:\"104px\"},option:{xAxis:{type:\"category\",data:[]},yAxis:{type:\"value\"},grid:{left:0,top:0,right:0,bottom:30},series:[{data:[],type:\"bar\"}]},config:{optionsType:1,method:\"post\",requestUrl:\"demo/echarts\"},events:{beforeFetch:(data, route) =>\r\n      {\r\n        // data请求参数，route当前路由信息\r\n        console.log(\'beforeFetch\', data)\r\n        return data\r\n      },afterFetch:(res, data) =>\r\n      {\r\n        // res响应数据, 当前组件数据data\r\n        console.log(\'当前组件数据\', data)\r\n        console.log(\'接口响应数据\', res)\r\n        //下面两行是重点，将接口返回的数据赋值级当前组件\r\n        data.xAxis.data = res.bar.xAxis\r\n        data.series[0].data = res.bar.data1\r\n        return data //返回新的图表数据\r\n      }}}],config:{width:\"1920px\",height:\"1080px\",background:\"#000\",style:\"\",primary:\"#409eff\"}}', NULL, NULL, '2024-01-21 17:25:14', '2024-01-21 17:22:26', NULL, NULL, 1, 1, NULL, NULL, NULL);
+(56, NULL, '未命名可视化大屏', 4, '{list:[{type:\"bar\",position:{width:400,height:300,left:\"86px\",top:\"104px\"},option:{xAxis:{type:\"category\",data:[]},yAxis:{type:\"value\"},grid:{left:0,top:0,right:0,bottom:30},series:[{data:[],type:\"bar\"}]},config:{optionsType:1,method:\"post\",requestUrl:\"demo/echarts\"},events:{beforeFetch:(data, route) =>\r\n      {\r\n        // data请求参数，route当前路由信息\r\n        console.log(\'beforeFetch\', data)\r\n        return data\r\n      },afterFetch:(res, data) =>\r\n      {\r\n        // res响应数据, 当前组件数据data\r\n        console.log(\'当前组件数据\', data)\r\n        console.log(\'接口响应数据\', res)\r\n        //下面两行是重点，将接口返回的数据赋值级当前组件\r\n        data.xAxis.data = res.bar.xAxis\r\n        data.series[0].data = res.bar.data1\r\n        return data //返回新的图表数据\r\n      }}}],config:{width:\"1920px\",height:\"1080px\",background:\"#000\",style:\"\",primary:\"#409eff\"}}', NULL, NULL, '2024-01-21 17:25:14', '2024-01-21 17:22:26', NULL, NULL, 1, 1, NULL, NULL, NULL),
+(57, 20, '组件示例表单', 1, '{list:[{type:\"txt\",control:{modelValue:\"组件示例演示，可快速轻松实现功能复杂的各类型表单；功能强大、简单灵活、超乎你想象\",style:{color:\"red\"}},config:{}},{type:\"title\",control:{modelValue:\"基础字段\"},config:{}},{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入标题名称\"},config:{},name:\"inputText\",formItem:{label:\"标题名称\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"radio\",control:{modelValue:\"0\"},config:{optionsType:0,transformData:\"number\"},name:\"radio\",formItem:{label:\"性别\"},options:[{label:\"男\",value:1},{label:\"女\",value:0}]},{type:\"checkbox\",control:{modelValue:[]},options:[],config:{optionsType:2,optionsFun:\"sys-flow\"},name:\"checkbox\",formItem:{label:\"多选\"}},{type:\"select\",control:{appendToBody:true},config:{optionsType:1,optionsFun:\"demo/select\",method:\"get\",label:\"name\",value:\"value\"},name:\"select1\",formItem:{label:\"选择框\"},options:[]},{type:\"datePicker\",control:{type:\"date\",placeholder:\"请选择日期\",format:\"YYYY-MM-DD\",valueFormat:\"YYYY-MM-DD\"},config:{},name:\"dateTime\",formItem:{label:\"日期时间\"}},{type:\"switch\",control:{modelValue:false,activeValue:1,inactiveValue:0},config:{},name:\"switch\",formItem:{label:\"开关\"}},{type:\"textarea\",control:{modelValue:\"\"},config:{},name:\"textarea\",formItem:{label:\"多行文本\"}},{type:\"upload\",control:{modelValue:\"\"},config:{tip:\"\",btnText:\"选择图片\"},name:\"upload\",formItem:{label:\"图片文件上传\"}},{type:\"card\",list:[{type:\"component\",control:{modelValue:\"\"},config:{componentName:\"ComponentTest\"},name:\"component\",formItem:{label:\"选择位置\"}},{type:\"expand-user\",control:{modelValue:\"\"},config:{},name:\"user\",formItem:{label:\"选择用户\"}}],control:{},config:{},formItem:{label:\"卡片布局\"}},{type:\"inputSlot\",control:{modelValue:\"\",appendToBody:true},options:[{label:\"小时\",value:\"h\"},{label:\"分钟\",value:\"m\"},{label:\"天\",value:\"d\"}],config:{optionsType:0},name:\"prepend\",formItem:{label:\"前缀\",hideLabel:true}},{type:\"input\",control:{modelValue:\"\"},config:{append:\"key:prepend\"},name:\"select2\",formItem:{label:\"复合型\"}},{type:\"title\",control:{modelValue:\"子表\"},config:{},name:\"title1706851586238\"},{type:\"table\",list:[{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入姓名\"},config:{},name:\"name\",formItem:{label:\"姓名\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"select\",control:{modelValue:\"\",appendToBody:true},options:[{label:\"男\",value:\"1\"},{label:\"女\",value:\"0\"},{label:\"未知\",value:\"2\"}],config:{optionsType:0,transformData:\"string\"},name:\"sex\",formItem:{label:\"性别\"}}],tableData:[],control:{border:true},config:{addBtnText:\"添加一行\"},name:\"table\"},{type:\"title\",control:{modelValue:\"弹性字段\"},config:{}},{type:\"flex\",list:[{type:\"input\",control:{modelValue:\"\"},config:{span:10},name:\"input1706851786349\",formItem:{label:\"姓名\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"input\",control:{modelValue:\"\"},config:{span:10},name:\"tel\",formItem:{label:\"电话\"},customRules:[{type:\"mobile\",message:\"请输入手机号码\",trigger:\"blur\"}]}],tableData:[],control:{},config:{addBtnText:\"添加一行\",span:22,delBtnText:\"删除\"},name:\"flex\"},{type:\"tinymce\",control:{modelValue:\"\"},config:{},name:\"tinymce\",formItem:{label:\"内容\"}}],form:{size:\"default\",labelWidth:\"120\"},config:{submitCancel:true}}', NULL, 1, '2024-02-02 13:49:12', '2024-02-01 09:47:26', '{}', 1, 1, 1, NULL, NULL, NULL),
+(58, 57, '组件示例', 2, '{}', '{columns:[{label:\"多选\",type:\"selection\"},{label:\"序号\",type:\"index\",width:\"70px\"},{prop:\"inputText\",label:\"标题名称\"},{prop:\"radio\",label:\"性别\"},{label:\"操作\",prop:\"__control\"}],config:{},controlBtn:[{label:\"新增\",key:\"add\",type:\"primary\",size:\"small\",icon:\"plus\"},{label:\"导出\",key:\"import\",type:\"primary\",size:\"small\",icon:\"plus\"},{label:\"批量删除\",key:\"del\",type:\"danger\",size:\"small\",icon:\"delete\"}],operateBtn:[{label:\"编辑\",key:\"edit\"},{label:\"删除\",key:\"del\"}]}', 1, '2024-02-01 09:48:33', '2024-02-01 09:48:18', '{}', 1, 1, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -343,7 +326,11 @@ INSERT INTO `sys_login_log` (`id`, `userName`, `loginIp`, `remark`, `dateTime`, 
 (54, 'admin', '127.0.0.1', NULL, '2023-12-28 20:35:31', 1),
 (55, 'admin', '0:0:0:0:0:0:0:1', NULL, '2024-01-13 15:54:53', 1),
 (56, 'admin', '127.0.0.1', NULL, '2024-01-21 17:18:39', 1),
-(57, 'admin', '127.0.0.1', NULL, '2024-01-25 16:08:25', 1);
+(57, 'admin', '127.0.0.1', NULL, '2024-01-25 16:08:25', 1),
+(58, 'admin', '127.0.0.1', NULL, '2024-02-01 09:39:04', 1),
+(59, 'admin', '127.0.0.1', NULL, '2024-02-01 09:49:10', 1),
+(60, 'admin', '127.0.0.1', NULL, '2024-02-01 17:50:03', 1),
+(61, 'admin', '127.0.0.1', NULL, '2024-02-02 11:18:28', 1);
 
 -- --------------------------------------------------------
 
@@ -395,7 +382,7 @@ INSERT INTO `sys_menu` (`id`, `parentId`, `name`, `icon`, `sort`, `path`, `statu
 (24, 21, '已办事项', 'icon-done', 1, '/task/done', 1, '', 1, 1),
 (25, 21, '我发起的', 'icon-applyed', 6, '/task/applyed', 1, '', 1, 1),
 (26, 21, '抄送事项', 'icon-cs', 8, '/task/copyer', 1, '', 1, 1),
-(27, 1, '组件示例', 'icon-doc', 0, '/design/list/content/26', 1, '', 3, 1),
+(27, 1, '组件示例', 'icon-doc', 0, '/design/list/content/58', 1, '', 3, 1),
 (28, 1, '客户信息', 'icon-user', 0, '/design/list/content/28', 1, '', 3, 1),
 (29, 4, 'swagger文档', 'icon-work', 6, '/api/swagger-ui/index.html', 1, '', 1, 1);
 
@@ -449,7 +436,7 @@ CREATE TABLE `sys_user` (
 --
 
 INSERT INTO `sys_user` (`id`, `userName`, `nickName`, `phone`, `status`, `roleId`, `password`, `departmentId`, `postId`, `remark`, `creatTime`, `updateTime`, `lastLoginTime`, `loginTimer`, `ip`) VALUES
-(1, 'admin', '管理员', '13800138000', 1, '1', '123456', 2, 0, '', NULL, NULL, '2024-01-25 16:08:25', 79, '127.0.0.1'),
+(1, 'admin', '管理员', '13800138000', 1, '1', '123456', 2, 0, '', NULL, NULL, '2024-02-02 11:18:28', 83, '127.0.0.1'),
 (2, 'user', '会员', '', 1, '1', '123456', 10, 0, '', NULL, NULL, '2023-11-29 16:13:38', 18, '127.0.0.1');
 
 -- --------------------------------------------------------
@@ -545,12 +532,6 @@ ALTER TABLE `ak-holidays`
   ADD PRIMARY KEY (`id`);
 
 --
--- 表的索引 `ak-test`
---
-ALTER TABLE `ak-test`
-  ADD PRIMARY KEY (`id`);
-
---
 -- 表的索引 `datasource`
 --
 ALTER TABLE `datasource`
@@ -636,7 +617,7 @@ ALTER TABLE `ak-customer`
 -- 使用表AUTO_INCREMENT `ak-demo-test`
 --
 ALTER TABLE `ak-demo-test`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 使用表AUTO_INCREMENT `ak-holidays`
@@ -645,22 +626,16 @@ ALTER TABLE `ak-holidays`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- 使用表AUTO_INCREMENT `ak-test`
---
-ALTER TABLE `ak-test`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- 使用表AUTO_INCREMENT `datasource`
 --
 ALTER TABLE `datasource`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- 使用表AUTO_INCREMENT `design`
 --
 ALTER TABLE `design`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- 使用表AUTO_INCREMENT `sys_department`
@@ -684,7 +659,7 @@ ALTER TABLE `sys_flow`
 -- 使用表AUTO_INCREMENT `sys_login_log`
 --
 ALTER TABLE `sys_login_log`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- 使用表AUTO_INCREMENT `sys_menu`

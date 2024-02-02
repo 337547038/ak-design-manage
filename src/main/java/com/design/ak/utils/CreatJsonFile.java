@@ -25,7 +25,7 @@ public class CreatJsonFile {
                 JSONObject query = obj.getJSONObject("query");
                 JSONObject extend = obj.getJSONObject("extend");
                 String typeId = "";
-                if (query != null) {
+                if (query != null && query.getString("type") != null) {
                     typeId = query.getString("type");
                 }
                 if (obj.getString("id") != null) {

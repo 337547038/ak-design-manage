@@ -17,7 +17,7 @@ import java.sql.SQLException;
 @Slf4j
 @RestController
 public class SQLController {
-    @Resource
+    /*@Resource
     private SqlService sqlService;
 
     // todo
@@ -26,5 +26,5 @@ public class SQLController {
     @GetMapping("import/sql")
     public Boolean resetDatabase() throws SQLException {
         return sqlService.resetDatabase();
-    }
+    }*/
 }
