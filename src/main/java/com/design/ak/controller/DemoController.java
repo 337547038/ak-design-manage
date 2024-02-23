@@ -36,6 +36,7 @@ public class DemoController {
                 "\"19:00\", \"20:00\", \"21:00\", \"22:00\"], \"data\":" + dataString + "}";
         list.put("line", JSON.parseObject(lineStr));
         list.put("textNum1", 195687854.08);
+        list.put("title", "标题名称");
         list.put("pie", new JSONArray(20, 80));
         list.put("pie2", new JSONArray(40, 60));
         String radarStr = "{\"text\":[\"盈利能力\",\"发展水平\",\"融资能力\",\"技术能力\",\"企业规模\"]," +
