@@ -72,16 +72,17 @@ public class FlowServiceImpl implements FlowService {
      * @return 实例对象
      */
     @Override
-    public Integer insert(Map<String,Object> params) {
+    public Integer insert(Map<String, Object> params) {
         // 添加一条流程记录
         Flow flow = JSON.parseObject(JSON.toJSONString(params.get("flow")), Flow.class);
-        this.flowDao.insert(flow);
         // 将流程表单填写的数据保存
         String str = JSONArray.toJSONString(params.get("form"));
-        Map<String, String> map = JSONObject.parseObject(str, new TypeReference<Map<String, String>>() {});
-        map.put("formId",flow.getFormId().toString());
-        this.contentService.insert(map);
-        return 1;
+        Map<String, String> map = JSONObject.parseObject(str, new TypeReference<Map<String, String>>() {
+        });
+        map.put("formId", flow.getFormId().toString());
+        Integer insertId =  this.contentService.insert(map);
+        flow.setFormId(insertId);
+        return this.flowDao.insert(flow);
     }
 
     /**

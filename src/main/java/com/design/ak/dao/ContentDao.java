@@ -1,5 +1,6 @@
 package com.design.ak.dao;
 
+import com.design.ak.entity.Content;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -46,7 +47,7 @@ public interface ContentDao {
      * @param tableName 表名
      * @param params 实例对象
      */
-    void insert(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params);
+    int insert(@Param("tableName") String tableName,@Param("params") List<Map<String, String>> params,@Param("content") Content ct);
 
     /**
      * 修改数据

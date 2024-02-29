@@ -7,6 +7,7 @@ import com.design.ak.config.CustomException;
 import com.design.ak.dao.DatasourceDao;
 import com.design.ak.utils.Utils;
 import com.design.ak.dao.ContentDao;
+import com.design.ak.entity.Content;
 import com.design.ak.service.ContentService;
 import org.springframework.stereotype.Service;
 
@@ -106,8 +107,10 @@ public class ContentServiceImpl implements ContentService {
             throw new CustomException("当前列表未配置有表单数据源");
         }
         List<Map<String, String>> list = getFiledList(tableData, content);
-        this.contentDao.insert(tableName, list);
-        return 1;
+        // 这里添加一个实例，用于返回新插入的id
+        Content ct = new Content();
+        this.contentDao.insert(tableName, list, ct);
+        return ct.getId();
     }
 
     /**

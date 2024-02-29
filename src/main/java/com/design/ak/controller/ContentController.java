@@ -2,6 +2,7 @@ package com.design.ak.controller;
 
 import com.design.ak.config.CustomException;
 import com.design.ak.service.ContentService;
+import com.design.ak.entity.Content;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
