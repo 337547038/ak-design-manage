@@ -38,6 +38,8 @@ public class ContentServiceImpl implements ContentService {
     public Map<String, Object> queryById(Integer formId, Integer id) {
         Map<String, String> dataSource = getTableNameByFormId(String.valueOf(formId));
         String tableName = dataSource.get("tableName");
+        System.out.println(dataSource);
+        System.out.println("dataSource");
         if (tableName == null || tableName.isEmpty()) {
             throw new CustomException("当前列表未配置有表单数据源");
         }
@@ -128,15 +130,15 @@ public class ContentServiceImpl implements ContentService {
     /**
      * 通过主键删除数据
      *
-     * @param id 主键
+     * @param id     主键
      * @param formId 表单id
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String formId,String[] id) {
+    public boolean deleteById(String formId, String[] id) {
         Map<String, String> dataSource = getTableNameByFormId(formId);
         String tableName = dataSource.get("tableName");
-        return this.contentDao.deleteById(tableName,id) > 0;
+        return this.contentDao.deleteById(tableName, id) > 0;
     }
 
     /**
@@ -194,9 +196,12 @@ public class ContentServiceImpl implements ContentService {
             JSONObject obj = JSON.parseObject(item.toString());
             Map<String, String> map = new HashMap<>();
             String name = obj.getString("name");
-            map.put("key", name); //配置的字段名
-            map.put("value", content.get(name)); // 表单提交对应的值
-            list.add(map);
+            String contentName = content.get(name);
+            if (contentName != null) {
+                map.put("key", name); //配置的字段名
+                map.put("value", contentName); // 表单提交对应的值
+                list.add(map);
+            }
         });
         return list;
     }

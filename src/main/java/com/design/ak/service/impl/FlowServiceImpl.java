@@ -1,17 +1,18 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.design.ak.service.ContentService;
-import com.design.ak.utils.Utils;
-import com.design.ak.entity.Flow;
-import com.design.ak.dao.FlowDao;
-import com.design.ak.service.FlowService;
-import org.springframework.stereotype.Service;
-import com.design.ak.entity.Design;
+import com.alibaba.fastjson2.TypeReference;
 import com.design.ak.dao.DesignDao;
-
+import com.design.ak.dao.FlowDao;
+import com.design.ak.entity.Design;
+import com.design.ak.entity.Flow;
+import com.design.ak.service.ContentService;
+import com.design.ak.service.FlowService;
+import com.design.ak.utils.Utils;
 import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +56,7 @@ public class FlowServiceImpl implements FlowService {
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
         Map<String, Object> map = Utils.pagination(pages);//处理分页信息
         Flow flow = JSON.parseObject(JSON.toJSONString(map.get("query")), Flow.class);//json字符串转java对象
-
+        //flow.setUserId(Utils.getCurrentUserId()); // 只查看自己的
         long total = this.flowDao.count(flow);
         List<Map<String, Object>> list = this.flowDao.queryAllByLimit(flow, map.get("extend"));
         Map<String, Object> response = new HashMap<>();
@@ -76,12 +77,10 @@ public class FlowServiceImpl implements FlowService {
         Flow flow = JSON.parseObject(JSON.toJSONString(params.get("flow")), Flow.class);
         this.flowDao.insert(flow);
         // 将流程表单填写的数据保存
-        Object obj = params.get("form");
-        if (obj instanceof Map) {
-            Map<String,String> map = (Map<String, String>) obj;
-            map.put("formId",flow.getFormId().toString());
-            this.contentService.insert(map);
-        }
+        String str = JSONArray.toJSONString(params.get("form"));
+        Map<String, String> map = JSONObject.parseObject(str, new TypeReference<Map<String, String>>() {});
+        map.put("formId",flow.getFormId().toString());
+        this.contentService.insert(map);
         return 1;
     }
 

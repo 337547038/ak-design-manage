@@ -2,6 +2,7 @@ package com.design.ak.controller;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.design.ak.config.PassToken;
 import com.design.ak.entity.Test;
 import com.design.ak.service.TestService;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * (Test)表控制层
@@ -30,6 +32,24 @@ public class TestController {
     @Resource
     private TestService testService;
 
+    @PassToken
+    @PostMapping("t2")
+    public String t2(@RequestBody Map<String,String> map0){
+        String str="{\n" +
+                "\"gradle\":\"高一\",\n" +
+                "\"number\":\"2\",\n" +
+                "\"people\":[{\"name\":\"张三\",\"age\":\"15\",\"phone\":\"123456\"},\n" +
+                "         {\"name\":\"李四\",\"age\":\"16\",\"phone\":\"78945\"}]\n" +
+                "}";
+
+        //json字符串转Map
+        Map<String, Object> map = JSONObject.parseObject(str, new TypeReference<Map<String, Object>>() {});
+        System.out.println(map.get("gradle").toString());
+        System.out.println(map.get("number").toString());
+        System.out.println(map.get("people").toString());
+
+        return "a";
+    }
 
     @PassToken
     @PostMapping("/t")
