@@ -23,6 +23,18 @@ java、Springboot、Maven、Mybatis、Mybatis-Plus、lombok、easyCode、aop、S
 
 | 名称           | 版本    |
 |--------------|-------|
-| jdk          | 17    |
+| jdk          | 21    |
 | Maven        | 3.9.x |
 | Spring Boot  | 3.1.x |
+
+## 调试
+
+1.安装javaSDK，运行demo下的`ak-design-manage-0.0.1-SNAPSHOT.jar`
+
+2.导入db目录下数据库，连接路径为`jdbc:mysql://localhost:3306/akdesign`
+
+```bash
+java -jar ak-design-manage-0.0.1-SNAPSHOT.jar
+```
+
+即可正常在本地调试，源码部分目前有偿提供，可加微信`l337547038`(字母l)
