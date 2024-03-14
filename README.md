@@ -15,6 +15,16 @@ java、Springboot、Maven、Mybatis、Mybatis-Plus、lombok、easyCode、aop、S
 - 封装统一请求返回格式
 - 查询返回指定查询字段
 
+### 演示地址
+
+https://337547038.github.io/vue-form-design/
+
+### 前端地址
+
+https://github.com/337547038/vue-form-design
+
+https://gitee.com/q337547038/vue-form-design
+
 ## easyCode模板
 [插件easyCode代码生成器点击查看详情](https://gitee.com/q337547038/java-springboot/wikis/05.%E6%8F%92%E4%BB%B6easyCode%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8)
 
