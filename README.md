@@ -1,4 +1,4 @@
-# ak-design-manage(开发中...)
+# ak-design-manage
 ak低代码快速开发平台管理端
 
 ## 技术关键词
