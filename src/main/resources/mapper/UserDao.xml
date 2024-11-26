@@ -60,7 +60,7 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
                         and status = #{query.status}
                     </if>
                     <if test="query.roleId != null and query.roleId != ''">
-                        and roleId = #{query.roleId}
+                        and FIND_IN_SET(#{query.roleId}, roleId) > 0
                     </if>
                     <if test="query.password != null and query.password != ''">
                         and password = #{query.password}

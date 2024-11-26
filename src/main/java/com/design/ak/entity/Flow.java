@@ -33,7 +33,7 @@ public class Flow implements Serializable {
 /**
      * 审批状态
      */
-    private String status;
+    private Integer status;
 /**
      * 完成时间
      */
@@ -46,6 +46,11 @@ public class Flow implements Serializable {
      * 流程id
      */
     private Integer flowId;
+
+    /**
+     * 当前审批人
+     */
+    private String currentApprover;
 
 
 }

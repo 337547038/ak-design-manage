@@ -49,6 +49,7 @@ id, name, status, menuId, remark
                     <if test="query.remark != null and query.remark != ''">
                         and remark = #{query.remark}
                     </if>
+
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">

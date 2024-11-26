@@ -73,7 +73,7 @@ public class ContentServiceImpl implements ContentService {
             JSONArray jsonArray = JSON.parseArray(tableData);
             jsonArray.forEach(item -> {
                 JSONObject obj = JSON.parseObject(item.toString());
-                if (obj.getBoolean("search")) {
+                if(Objects.equals(obj.getBoolean("search"), true)){
                     searchColumns.add(obj.getString("name"));
                 }
             });

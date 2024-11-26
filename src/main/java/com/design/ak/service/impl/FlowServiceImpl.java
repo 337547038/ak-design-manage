@@ -56,7 +56,7 @@ public class FlowServiceImpl implements FlowService {
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
         Map<String, Object> map = Utils.pagination(pages);//处理分页信息
         Flow flow = JSON.parseObject(JSON.toJSONString(map.get("query")), Flow.class);//json字符串转java对象
-        //flow.setUserId(Utils.getCurrentUserId()); // 只查看自己的
+        flow.setUserId(Utils.getCurrentUserId()); // 只查看自己的
         long total = this.flowDao.count(flow);
         List<Map<String, Object>> list = this.flowDao.queryAllByLimit(flow, map.get("extend"));
         Map<String, Object> response = new HashMap<>();

@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User insert(User user) {
+        user.setCreatTime(new Date());
         this.userDao.insert(user);
         return user;
     }
