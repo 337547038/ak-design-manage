@@ -7,15 +7,18 @@
                 <result property="userId" column="userId" jdbcType="INTEGER"/>
                 <result property="title" column="title" jdbcType="VARCHAR"/>
                 <result property="creatTime" column="creatTime" jdbcType="TIMESTAMP"/>
-                <result property="status" column="status" jdbcType="VARCHAR"/>
+                <result property="status" column="status" jdbcType="INTEGER"/>
                 <result property="endTime" column="endTime" jdbcType="TIMESTAMP"/>
                 <result property="formId" column="formId" jdbcType="INTEGER"/>
                 <result property="flowId" column="flowId" jdbcType="INTEGER"/>
-                <result property="currenApprover" column="currenApprover" jdbcType="VARCHAR"/>
+                <result property="currentApprover" column="currentApprover" jdbcType="VARCHAR"/>
+                <result property="copyIds" column="copyIds" jdbcType="VARCHAR"/>
+                <result property="currentApproverIds" column="currentApproverIds" jdbcType="VARCHAR"/>
+                <result property="nodeStatus" column="nodeStatus" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, userId, title, creatTime, status, endTime, formId, flowId, currenApprover
+id, userId, title, creatTime, status, endTime, formId, flowId, currentApprover, copyIds, currentApproverIds, nodeStatus
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="FlowMap">
@@ -62,9 +65,18 @@ id, userId, title, creatTime, status, endTime, formId, flowId, currenApprover
                     <if test="query.flowId != null">
                         and flowId = #{query.flowId}
                     </if>
-                <if test="query.currentApprover != null and query.currentApprover=''">
-                    and currentApprover = #{currentApprover}
-                </if>
+                    <if test="query.currentApprover != null and query.currentApprover != ''">
+                        and currentApprover = #{query.currentApprover}
+                    </if>
+                    <if test="query.copyIds != null and query.copyIds != ''">
+                        and copyIds = #{query.copyIds}
+                    </if>
+                    <if test="query.currentApproverIds != null and query.currentApproverIds != ''">
+                        and currentApproverIds = #{query.currentApproverIds}
+                    </if>
+                    <if test="query.nodeStatus != null and query.nodeStatus != ''">
+                        and nodeStatus = #{query.nodeStatus}
+                    </if>
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">
@@ -108,18 +120,26 @@ id, userId, title, creatTime, status, endTime, formId, flowId, currenApprover
                     <if test="flowId != null">
                         and flowId = #{flowId}
                     </if>
-                <if test="currentApprover != null and currentApprover != ''">
-                    and currentApprover = #{currentApprover}
-                </if>
-
+                    <if test="currentApprover != null and currentApprover != ''">
+                        and currentApprover = #{currentApprover}
+                    </if>
+                    <if test="copyIds != null and copyIds != ''">
+                        and copyIds = #{copyIds}
+                    </if>
+                    <if test="currentApproverIds != null and currentApproverIds != ''">
+                        and currentApproverIds = #{currentApproverIds}
+                    </if>
+                    <if test="nodeStatus != null and nodeStatus != ''">
+                        and nodeStatus = #{nodeStatus}
+                    </if>
             </where>
         </select>
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into sys_flow(userId, title, creatTime, status, endTime, formId, flowId,currentApprover)
+            insert into sys_flow(userId, title, creatTime, status, endTime, formId, flowId, currentApprover, copyIds, currentApproverIds, nodeStatus)
                 values
-            (#{userId}, #{title}, #{creatTime}, #{status}, #{endTime}, #{formId}, #{flowId}, #{currentApprover})
+            (#{userId}, #{title}, #{creatTime}, #{status}, #{endTime}, #{formId}, #{flowId}, #{currentApprover}, #{copyIds}, #{currentApproverIds}, #{nodeStatus})
         </insert>
 
         <!--通过主键修改数据-->
@@ -147,9 +167,18 @@ id, userId, title, creatTime, status, endTime, formId, flowId, currenApprover
                     <if test="flowId != null">
                         flowId = #{flowId},
                     </if>
-                <if test="currentApprover != null and currentApprover!=''">
-                    currentApprover = #{currentApprover},
-                </if>
+                    <if test="currentApprover != null">
+                        currentApprover = #{currentApprover},
+                    </if>
+                    <if test="copyIds != null">
+                        copyIds = #{copyIds},
+                    </if>
+                    <if test="currentApproverIds != null">
+                        currentApproverIds = #{currentApproverIds},
+                    </if>
+                    <if test="nodeStatus != null and nodeStatus != ''">
+                        nodeStatus = #{nodeStatus},
+                    </if>
             </set>
             where id = #{id}
         </update>
@@ -162,15 +191,5 @@ id, userId, title, creatTime, status, endTime, formId, flowId, currenApprover
             #{item}
         </foreach>
         </delete>
-        
-            <!--<insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sys_flow(userIdtitlecreatTimestatusendTimeformIdflowId)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.userid}#{entity.title}#{entity.creattime}#{entity.status}#{entity.endtime}#{entity.formid}#{entity.flowid})
-        </foreach>
-        on duplicate key update
-userId = values(userId)title = values(title)creatTime = values(creatTime)status = values(status)endTime = values(endTime)formId = values(formId)flowId = values(flowId)
-    </insert>-->
 
     </mapper>

@@ -32,7 +32,7 @@ public interface ContentService {
      * @param content 实例对象
      * @return 实例对象
      */
-    Integer insert(Map<String,String> content);
+    Integer insert(Map<String,Object> content);
 
     /**
      * 修改数据
@@ -40,7 +40,8 @@ public interface ContentService {
      * @param content 实例对象
      * @return 实例对象
      */
-    Integer updateById(Map<String,String> content);
+    Integer updateById(Map<String,Object> content);
+
 
     /**
      * 通过主键删除数据

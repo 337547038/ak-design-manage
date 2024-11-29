@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -77,7 +78,7 @@ public class FlowController {
      */
     @Operation(summary = "新增数据")
     @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody Map<String,Object> params) {
+    public ResponseEntity<Integer> add(@RequestBody Map<String, Object> params) {
         Integer result = flowService.insert(params);
         return ResponseEntity.ok(result);
     }
@@ -118,6 +119,28 @@ public class FlowController {
             throw new CustomException("表单id不能为空");
         }
         return ResponseEntity.ok(this.flowService.queryByFromId(id));
+    }
+
+    /**
+     * 撤回申请
+     *
+     * @param params 流程id
+     * @return 执行结果
+     */
+    @PostMapping("withdraw")
+    public ResponseEntity<Integer> withdraw(@RequestBody Map<String, Integer> params) {
+        Integer id = params.get("id");
+        if (id == null) {
+            throw new CustomException("id不能为空");
+        }
+        Flow flow = new Flow();
+        flow.setId(id);
+        flow.setEndTime(new Date());
+        flow.setCurrentApproverIds("");
+        flow.setCurrentApprover("");
+        flow.setStatus(1);
+        flow.setCopyIds("");
+        return ResponseEntity.ok(this.flowService.updateById(flow));
     }
 }
 

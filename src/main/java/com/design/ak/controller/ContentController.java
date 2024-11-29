@@ -83,8 +83,8 @@ public class ContentController {
      */
     @Operation(summary = "新增数据")
     @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody Map<String, String> params) {
-        String formId = params.get("formId"); // 表单id，在表单字段中不能用这字段
+    public ResponseEntity<Integer> add(@RequestBody Map<String, Object> params) {
+        String formId = params.get("formId").toString(); // 表单id，在表单字段中不能用这字段
         if (formId == null) {
             throw new CustomException("表单id不能为空");
         }
@@ -101,9 +101,9 @@ public class ContentController {
     @Parameter(name = "id", description = "编辑id", required = true)
     @Parameter(name = "formId", description = "当前表单id", required = true)
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody Map<String, String> params) {
-        String id = params.get("id");
-        String formId = params.get("formId");
+    public ResponseEntity<Integer> edit(@RequestBody Map<String, Object> params) {
+        String id = params.get("id").toString();
+        String formId = params.get("formId").toString();
         if (formId==null || id == null) {
             throw new CustomException("参数异常");
         }

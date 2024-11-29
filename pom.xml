@@ -93,9 +93,19 @@
 			<artifactId>hutool-captcha</artifactId>
 			<version>5.8.5</version>
 		</dependency>
+		<dependency>
+			<groupId>com.design.ak</groupId>
+			<artifactId>ak-design-manage</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!--用于执行字符串表达式-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-jexl3</artifactId>
+			<version>3.4.0</version>
+		</dependency>
 
-
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

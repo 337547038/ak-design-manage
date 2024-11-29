@@ -98,8 +98,8 @@ public class ContentServiceImpl implements ContentService {
      * @return 实例对象
      */
     @Override
-    public Integer insert(Map<String, String> content) {
-        String formId = content.get("formId");
+    public Integer insert(Map<String, Object> content) {
+        String formId = content.get("formId").toString();
         Map<String, String> dataSource = getTableNameByFormId(formId);
         String tableName = dataSource.get("tableName");
         String tableData = dataSource.get("tableData");
@@ -120,14 +120,14 @@ public class ContentServiceImpl implements ContentService {
      * @return 影响的行数
      */
     @Override
-    public Integer updateById(Map<String, String> content) {
-        String formId = content.get("formId");
+    public Integer updateById(Map<String, Object> content) {
+        String formId = content.get("formId").toString();
         Map<String, String> dataSource = getTableNameByFormId(formId);
         String tableName = dataSource.get("tableName");
         String tableData = dataSource.get("tableData");
         List<Map<String, String>> list = getFiledList(tableData, content);
         System.out.println(list);
-        return this.contentDao.updateById(tableName, list, content.get("id"));
+        return this.contentDao.updateById(tableName, list, content.get("id").toString());
     }
 
     /**
@@ -191,7 +191,7 @@ public class ContentServiceImpl implements ContentService {
      * @param content   表单提交的内容
      * @return 组装成添加和编辑所需的数据
      */
-    private static List<Map<String, String>> getFiledList(String tableData, Map<String, String> content) {
+    private static List<Map<String, String>> getFiledList(String tableData, Map<String, Object> content) {
         //根据创建数据源时的配置提取字段
         JSONArray jsonArray = JSON.parseArray(tableData);
         List<Map<String, String>> list = new ArrayList<>();
@@ -199,7 +199,7 @@ public class ContentServiceImpl implements ContentService {
             JSONObject obj = JSON.parseObject(item.toString());
             Map<String, String> map = new HashMap<>();
             String name = obj.getString("name");
-            String contentName = content.get(name);
+            String contentName = content.get(name).toString();
             if (contentName != null) {
                 map.put("key", name); //配置的字段名
                 map.put("value", contentName); // 表单提交对应的值
