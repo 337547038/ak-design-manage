@@ -1,15 +1,15 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.Flow;
+import com.design.ak.entity.Post;
 
 import java.util.Map;
 /**
- * 流程表(Flow)表服务接口
+ * (Post)表服务接口
  *
  * @author ak.design 337547038
- * @since 2023-12-27 18:22:21
+ * @since 2024-11-29 11:27:40
  */
-public interface FlowService {
+public interface PostService {
 
     /**
      * 通过ID查询单条数据
@@ -17,7 +17,7 @@ public interface FlowService {
      * @param id 主键
      * @return 实例对象
      */
-    Flow queryById(Integer id);
+    Post queryById(Integer id);
     
     /**
      * 分页查询
@@ -28,18 +28,18 @@ public interface FlowService {
     /**
      * 新增数据
      *
-     * @param params 对象
+     * @param post 实例对象
      * @return 实例对象
      */
-    Integer insert(Map<String,Object> params);
+    Post insert(Post post);
 
     /**
      * 修改数据
      *
-     * @param flow 实例对象
+     * @param post 实例对象
      * @return 实例对象
      */
-    Integer updateById(Flow flow);
+    Integer updateById(Post post);
 
     /**
      * 通过主键删除数据
@@ -49,19 +49,4 @@ public interface FlowService {
      */
     boolean deleteById(String[] id);
 
-    Map<String, Object> queryByFromId(Integer id);
-
-    /**
-     * 流转
-     * @param params 参数
-     * @return 结果
-     */
-    boolean flowToUser(Map<String,String> params);
-
-    /**
-     * 审批流程
-     * @param params 参数
-     * @return 结果
-     */
-    boolean shenPi(Map<String,String> params);
 }

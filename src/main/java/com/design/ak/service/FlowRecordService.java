@@ -1,15 +1,15 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.Flow;
+import com.design.ak.entity.FlowRecord;
 
 import java.util.Map;
 /**
- * 流程表(Flow)表服务接口
+ * 流程审批记录(FlowRecord)表服务接口
  *
  * @author ak.design 337547038
- * @since 2023-12-27 18:22:21
+ * @since 2024-11-29 15:30:29
  */
-public interface FlowService {
+public interface FlowRecordService {
 
     /**
      * 通过ID查询单条数据
@@ -17,7 +17,7 @@ public interface FlowService {
      * @param id 主键
      * @return 实例对象
      */
-    Flow queryById(Integer id);
+    FlowRecord queryById(Integer id);
     
     /**
      * 分页查询
@@ -25,21 +25,29 @@ public interface FlowService {
      * @return 查询结果
      */
     Map<String,Object> queryByPage(Map<String,Object> pages);
+
+
+    /**
+     * 分页查询已办事项
+     * @param pages 筛选条件 分页对象
+     * @return 查询结果
+     */
+    Map<String,Object> queryByWherePage(Map<String,Object> pages);
     /**
      * 新增数据
      *
-     * @param params 对象
+     * @param flowRecord 实例对象
      * @return 实例对象
      */
-    Integer insert(Map<String,Object> params);
+    FlowRecord insert(FlowRecord flowRecord);
 
     /**
      * 修改数据
      *
-     * @param flow 实例对象
+     * @param flowRecord 实例对象
      * @return 实例对象
      */
-    Integer updateById(Flow flow);
+    Integer updateById(FlowRecord flowRecord);
 
     /**
      * 通过主键删除数据
@@ -49,19 +57,6 @@ public interface FlowService {
      */
     boolean deleteById(String[] id);
 
-    Map<String, Object> queryByFromId(Integer id);
 
-    /**
-     * 流转
-     * @param params 参数
-     * @return 结果
-     */
-    boolean flowToUser(Map<String,String> params);
 
-    /**
-     * 审批流程
-     * @param params 参数
-     * @return 结果
-     */
-    boolean shenPi(Map<String,String> params);
 }

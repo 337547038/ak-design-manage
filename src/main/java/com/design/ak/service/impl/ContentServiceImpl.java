@@ -39,8 +39,6 @@ public class ContentServiceImpl implements ContentService {
     public Map<String, Object> queryById(Integer formId, Integer id) {
         Map<String, String> dataSource = getTableNameByFormId(String.valueOf(formId));
         String tableName = dataSource.get("tableName");
-        System.out.println(dataSource);
-        System.out.println("dataSource");
         if (tableName == null || tableName.isEmpty()) {
             throw new CustomException("当前列表未配置有表单数据源");
         }
@@ -199,10 +197,11 @@ public class ContentServiceImpl implements ContentService {
             JSONObject obj = JSON.parseObject(item.toString());
             Map<String, String> map = new HashMap<>();
             String name = obj.getString("name");
-            String contentName = content.get(name).toString();
-            if (contentName != null) {
+            System.out.println("name:"+name);
+           // String contentName = (String) content.get(name);
+            if (content.get(name) != null) {
                 map.put("key", name); //配置的字段名
-                map.put("value", contentName); // 表单提交对应的值
+                map.put("value", content.get(name).toString()); // 表单提交对应的值
                 list.add(map);
             }
         });

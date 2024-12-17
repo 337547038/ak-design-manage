@@ -127,7 +127,7 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
                         and status = #{status}
                     </if>
                     <if test="roleId != null and roleId != ''">
-                        and roleId = #{roleId}
+                        and FIND_IN_SET(#{query.roleId}, roleId) > 0
                     </if>
                     <if test="password != null and password != ''">
                         and password = #{password}

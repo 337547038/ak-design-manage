@@ -2,7 +2,11 @@ package com.design.ak.controller;
 
 import com.design.ak.config.CustomException;
 import com.design.ak.entity.Flow;
+import com.design.ak.entity.FlowRecord;
 import com.design.ak.service.FlowService;
+import com.design.ak.service.impl.FlowRecordServiceImpl;
+import com.design.ak.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
@@ -28,6 +32,8 @@ public class FlowController {
      */
     @Resource
     private FlowService flowService;
+    @Autowired
+    private FlowRecordServiceImpl flowRecordService;
 
     /**
      * 分页查询
@@ -128,8 +134,8 @@ public class FlowController {
      * @return 执行结果
      */
     @PostMapping("withdraw")
-    public ResponseEntity<Integer> withdraw(@RequestBody Map<String, Integer> params) {
-        Integer id = params.get("id");
+    public ResponseEntity<Integer> withdraw(@RequestBody Map<String, String> params) {
+        Integer id = Integer.valueOf(params.get("id"));
         if (id == null) {
             throw new CustomException("id不能为空");
         }
@@ -140,7 +146,56 @@ public class FlowController {
         flow.setCurrentApprover("");
         flow.setStatus(1);
         flow.setCopyIds("");
-        return ResponseEntity.ok(this.flowService.updateById(flow));
+        flow.setCurrentNode("");
+        Integer i = this.flowService.updateById(flow);
+        if (i != null) {
+            // 添加一条流程记录
+            FlowRecord flowRecord = new FlowRecord();
+            flowRecord.setFlowId(id);
+            flowRecord.setContent("申请人撤回");
+            flowRecord.setDatetime(new Date());
+            flowRecord.setStatus(3);
+            flowRecord.setApproverId(Utils.getCurrentUserId());
+            flowRecord.setNodeName(params.get("currentNode"));
+            flowRecordService.insert(flowRecord);
+        }
+        return ResponseEntity.ok(i);
+    }
+
+    /**
+     * 流转记录
+     *
+     * @param params 参数
+     * @return 结果
+     */
+    @Operation(summary = "流转流程")
+    @Parameter(name = "flowId", description = "当前流程id", required = true)
+    @Parameter(name = "userId", description = "流转指向用户id,多个使用豆号隔开", required = true)
+    @Parameter(name = "userName", description = "流转指向用户名,多个使用豆号隔开", required = true)
+    @PostMapping("flowToUser")
+    ResponseEntity<Boolean> flowToUser(@RequestBody Map<String, String> params) {
+        // userName 暂先由前端传过来。
+        String flowId = params.get("id");
+        if (flowId == null) {
+            throw new CustomException("流程id不能为空");
+        }
+        String userId = params.get("userId");
+        if (userId == null) {
+            throw new CustomException("流转指向用户id不能为空");
+        }
+        return ResponseEntity.ok(this.flowService.flowToUser(params));
+    }
+
+    @Operation(summary = "审批流程")
+    @Parameter(name = "id", description = "当前流程id", required = true)
+    @Parameter(name = "status", description = "审批状态0拒绝1同意2流转3撤回", required = true)
+    @PostMapping("shenPi")
+    ResponseEntity<Boolean> shenPi(@RequestBody Map<String, String> params) {
+        String flowId = params.get("id");
+        if (flowId == null) {
+            throw new CustomException("流程id不能为空");
+        }
+        return ResponseEntity.ok(this.flowService.shenPi(params));
     }
 }
 

@@ -31,7 +31,7 @@ public class Flow implements Serializable {
      */
     private Date creatTime;
 /**
-     * 审批状态
+     * 0待审批 1已撤回 2审批中 3同意4拒绝
      */
     private Integer status;
 /**
@@ -59,9 +59,17 @@ public class Flow implements Serializable {
      */
     private String currentApproverIds;
 /**
+     * 当前节点
+     */
+    private String currentNode;
+/**
      * 节点审批状态
      */
     private String nodeStatus;
+/**
+     * 节点自选审批抄送人
+     */
+    private String nodeApprover;
 
 
 }

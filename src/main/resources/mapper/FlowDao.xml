@@ -14,11 +14,13 @@
                 <result property="currentApprover" column="currentApprover" jdbcType="VARCHAR"/>
                 <result property="copyIds" column="copyIds" jdbcType="VARCHAR"/>
                 <result property="currentApproverIds" column="currentApproverIds" jdbcType="VARCHAR"/>
+                <result property="currentNode" column="currentNode" jdbcType="VARCHAR"/>
                 <result property="nodeStatus" column="nodeStatus" jdbcType="VARCHAR"/>
+                <result property="nodeApprover" column="nodeApprover" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, userId, title, creatTime, status, endTime, formId, flowId, currentApprover, copyIds, currentApproverIds, nodeStatus
+id, userId, title, creatTime, status, endTime, formId, flowId, currentApprover, copyIds, currentApproverIds, currentNode, nodeStatus, nodeApprover
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="FlowMap">
@@ -69,13 +71,19 @@ id, userId, title, creatTime, status, endTime, formId, flowId, currentApprover, 
                         and currentApprover = #{query.currentApprover}
                     </if>
                     <if test="query.copyIds != null and query.copyIds != ''">
-                        and copyIds = #{query.copyIds}
+                        and FIND_IN_SET(#{query.copyIds}, copyIds) > 0
                     </if>
                     <if test="query.currentApproverIds != null and query.currentApproverIds != ''">
-                        and currentApproverIds = #{query.currentApproverIds}
+                        and FIND_IN_SET(#{query.currentApproverIds}, currentApproverIds) > 0
+                    </if>
+                    <if test="query.currentNode != null and query.currentNode != ''">
+                    and currentNode = #{query.currentNode}
                     </if>
                     <if test="query.nodeStatus != null and query.nodeStatus != ''">
                         and nodeStatus = #{query.nodeStatus}
+                    </if>
+                    <if test="query.nodeApprover != null and query.nodeApprover != ''">
+                        and nodeApprover = #{query.nodeApprover}
                     </if>
             </where>
             <choose>
@@ -124,22 +132,29 @@ id, userId, title, creatTime, status, endTime, formId, flowId, currentApprover, 
                         and currentApprover = #{currentApprover}
                     </if>
                     <if test="copyIds != null and copyIds != ''">
-                        and copyIds = #{copyIds}
+                        and FIND_IN_SET(#{copyIds}, copyIds) > 0
                     </if>
-                    <if test="currentApproverIds != null and currentApproverIds != ''">
-                        and currentApproverIds = #{currentApproverIds}
-                    </if>
+                <if test="currentApproverIds != null and currentApproverIds != ''">
+                    and FIND_IN_SET(#{currentApproverIds}, currentApproverIds) > 0
+                </if>
+                <if test="currentNode != null and currentNode != ''">
+                    and currentNode = #{currentNode}
+                </if>
+
                     <if test="nodeStatus != null and nodeStatus != ''">
                         and nodeStatus = #{nodeStatus}
+                    </if>
+                    <if test="nodeApprover != null and nodeApprover != ''">
+                        and nodeApprover = #{nodeApprover}
                     </if>
             </where>
         </select>
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into sys_flow(userId, title, creatTime, status, endTime, formId, flowId, currentApprover, copyIds, currentApproverIds, nodeStatus)
+            insert into sys_flow(userId, title, creatTime, status, endTime, formId, flowId, currentApprover, copyIds, currentApproverIds, currentNode, nodeStatus, nodeApprover)
                 values
-            (#{userId}, #{title}, #{creatTime}, #{status}, #{endTime}, #{formId}, #{flowId}, #{currentApprover}, #{copyIds}, #{currentApproverIds}, #{nodeStatus})
+            (#{userId}, #{title}, #{creatTime}, #{status}, #{endTime}, #{formId}, #{flowId}, #{currentApprover}, #{copyIds}, #{currentApproverIds}, #{currentNode}, #{nodeStatus}, #{nodeApprover})
         </insert>
 
         <!--通过主键修改数据-->
@@ -176,8 +191,14 @@ id, userId, title, creatTime, status, endTime, formId, flowId, currentApprover, 
                     <if test="currentApproverIds != null">
                         currentApproverIds = #{currentApproverIds},
                     </if>
+                <if test="currentNode != null">
+                    currentNode = #{currentNode},
+                </if>
                     <if test="nodeStatus != null and nodeStatus != ''">
                         nodeStatus = #{nodeStatus},
+                    </if>
+                    <if test="nodeApprover != null and nodeApprover != ''">
+                        nodeApprover = #{nodeApprover},
                     </if>
             </set>
             where id = #{id}
