@@ -8,9 +8,7 @@ import com.design.ak.dao.ContentDao;
 import com.design.ak.dao.DesignDao;
 import com.design.ak.dao.FlowDao;
 import com.design.ak.dao.FlowRecordDao;
-import com.design.ak.entity.Design;
-import com.design.ak.entity.Flow;
-import com.design.ak.entity.FlowRecord;
+import com.design.ak.entity.*;
 import com.design.ak.service.ContentService;
 import com.design.ak.service.FlowService;
 import com.design.ak.utils.Utils;
@@ -45,6 +43,10 @@ public class FlowServiceImpl implements FlowService {
     private FlowRecordDao flowRecordDao;
     @Autowired
     private ContentDao contentDao;
+    @Autowired
+    private UserServiceImpl userService;
+    @Autowired
+    private DepartmentServiceImpl departmentService;
 
     /**
      * 通过ID查询单条数据
@@ -111,7 +113,7 @@ public class FlowServiceImpl implements FlowService {
         flow.setNodeStatus(JSONObject.toJSONString(nodeStatus));
         Integer insertFlowId = this.flowDao.insert(flow);
         System.out.println("插入数据成功：" + flow.getId());
-        updateFlow(flow.getId(), nodeStatus, designFlowData, flow.getNodeApprover());
+        updateFlow(flow.getId(), nodeStatus, designFlowData, flow.getNodeApprover(), flow.getUserId());
         return insertFlowId;
     }
 
@@ -121,8 +123,9 @@ public class FlowServiceImpl implements FlowService {
      * @param flowId         流程id
      * @param nodeStatus     节点状态
      * @param designFlowData 流程设计数据
+     * @param userId         申请人id
      */
-    private void updateFlow(Integer flowId, LinkedHashMap<String, Integer> nodeStatus, JSONArray designFlowData, String nodeApprover) {
+    private void updateFlow(Integer flowId, LinkedHashMap<String, Integer> nodeStatus, JSONArray designFlowData, String nodeApprover, Integer userId) {
         StringBuilder copyerStr = new StringBuilder();
         Flow flow = new Flow();
         // 根据节点信息找出当前处理人
@@ -132,11 +135,14 @@ public class FlowServiceImpl implements FlowService {
             if (val == 2) { // 审批人类型
                 has = true;
                 JSONObject currentNode = getNodeById(designFlowData, key);
-                Map<String, String> current = getContentUserId(currentNode, nodeApprover);
+                Map<String, String> current = getContentUserId(currentNode, nodeApprover, userId);
                 flow.setCurrentNode(key);
                 flow.setCurrentApprover(current.get("content"));
                 flow.setCurrentApproverIds(current.get("checkedUserId"));
-                // 自选审批人时存在没有设置时，可在这里判断，此时current.get("checkedUserId")为空
+                if (Objects.equals(current.get("checkedUserId"), "")) {
+                    // 当前节点没有审批人时，设置为异常状态
+                    flow.setStatus(5);//异常状态
+                }
                 break;
             } else if (val == 3) {
                 // 抄送人
@@ -144,7 +150,7 @@ public class FlowServiceImpl implements FlowService {
                     copyerStr.append(",");
                 }
                 JSONObject currentNode = getNodeById(designFlowData, key);
-                Map<String, String> current = getContentUserId(currentNode, nodeApprover);
+                Map<String, String> current = getContentUserId(currentNode, nodeApprover, userId);
                 copyerStr.append(current.get("checkedUserId"));
                 // 更新当前节点状态
                 nodeStatus.put(key, 1);
@@ -186,15 +192,32 @@ public class FlowServiceImpl implements FlowService {
         flowRecordDao.insert(flowRecord);
     }
 
-    private Map<String, String> getContentUserId(JSONObject currentNode, String nodeApprover) {
+    /**
+     * 返回当前节点审批人
+     *
+     * @param currentNode  当前节点信息
+     * @param nodeApprover 节点自选审批抄送人信息
+     * @param userId       申请人id
+     * @return 审批人信息
+     */
+    private Map<String, String> getContentUserId(JSONObject currentNode, String nodeApprover, Integer userId) {
         Map<String, String> map = new HashMap<>();
         System.out.println(currentNode);
         System.out.println(currentNode.get("userType"));
         System.out.println(Objects.equals(currentNode.getString("userType"), "3"));
         String userType = currentNode.getString("userType");
-        if (Objects.equals(userType,"2")) {
-            // 主管 todo 查找出当前主管的id
-        } else if (Objects.equals(userType,"3")) {
+        if (Objects.equals(userType, "2")) {
+            // 主管 查找出当前主管的id
+            User user = userService.queryById(userId); // 当前用户信息
+            if (user.getDepartmentId() != null) {
+                Department det = departmentService.queryById(user.getDepartmentId()); // 用户所在的部门
+                map.put("checkedUserId", String.valueOf(det.getUserId()));
+                map.put("content", "上级主管");
+            } else {
+                map.put("checkedUserId", ""); // 没有找到对应上级主管
+                map.put("content", "无审批人"); // 没有找到对应上级主管
+            }
+        } else if (Objects.equals(userType, "3")) {
             // 发起人自选
             JSONObject nodeInfo = JSONObject.parseObject(nodeApprover);
             JSONObject current = nodeInfo.getJSONObject(currentNode.get("id").toString());
@@ -416,11 +439,16 @@ public class FlowServiceImpl implements FlowService {
                 if (val == 2) {
                     has = true;
                     JSONObject currentNode = getNodeById(designFlowData, key);
-                    Map<String, String> current = getContentUserId(currentNode, flowData.getNodeApprover());
+                    Map<String, String> current = getContentUserId(currentNode, flowData.getNodeApprover(), flowData.getUserId());
                     flow.setCurrentNode(key);
                     flow.setStatus(2);//审批中
                     flow.setCurrentApprover(current.get("content"));
-                    flow.setCurrentApproverIds(current.get("checkedUserId"));
+                    String UserId = current.get("checkedUserId");
+                    flow.setCurrentApproverIds(UserId);
+                    if (Objects.equals(UserId, "")) {
+                        // 当前节点没有审批人时，设置为异常状态
+                        flow.setStatus(5);//异常状态
+                    }
                     break;
                 } else if (val == 3) {
                     // 抄送人
@@ -428,7 +456,7 @@ public class FlowServiceImpl implements FlowService {
                         copyIds = copyIds + ",";
                     }
                     JSONObject currentNode = getNodeById(designFlowData, key);
-                    Map<String, String> current = getContentUserId(currentNode, flowData.getNodeApprover());
+                    Map<String, String> current = getContentUserId(currentNode, flowData.getNodeApprover(), flowData.getUserId());
                     copyIds = copyIds + current.get("checkedUserId");
                     statusMap.put(key, 1);
                     // 这里添加抄送记录

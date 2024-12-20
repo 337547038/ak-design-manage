@@ -10,10 +10,11 @@
                 <result property="status" column="status" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+                <result property="userId" column="userId" jdbcType="INTEGER"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, parentId, name, sort, status, remark, updateTime        
+id, parentId, name, sort, status, remark, updateTime, userId
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="DepartmentMap">
@@ -57,6 +58,9 @@ id, parentId, name, sort, status, remark, updateTime
                     <if test="query.updateTime != null">
                         and updateTime = #{query.updateTime}
                     </if>
+                    <if test="query.userId != null">
+                        and userId = #{query.userId}
+                    </if>
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">
@@ -97,14 +101,17 @@ id, parentId, name, sort, status, remark, updateTime
                     <if test="updateTime != null">
                         and updateTime = #{updateTime}
                     </if>
+                    <if test="userId != null">
+                        and userId = #{userId}
+                    </if>
             </where>
         </select>
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into sys_department(parentId, name, sort, status, remark, updateTime)
+            insert into sys_department(parentId, name, sort, status, remark, updateTime, userId)
                 values
-            (#{parentId}, #{name}, #{sort}, #{status}, #{remark}, #{updateTime})
+            (#{parentId}, #{name}, #{sort}, #{status}, #{remark}, #{updateTime}, #{userId})
         </insert>
 
         <!--通过主键修改数据-->
@@ -128,6 +135,9 @@ id, parentId, name, sort, status, remark, updateTime
                     </if>
                     <if test="updateTime != null">
                         updateTime = #{updateTime},
+                    </if>
+                    <if test="userId != null">
+                        userId = #{userId},
                     </if>
             </set>
             where id = #{id}
