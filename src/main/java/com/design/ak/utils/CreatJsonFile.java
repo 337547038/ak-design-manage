@@ -18,7 +18,7 @@ public class CreatJsonFile {
         if (matcher.find()) {
             String result = matcher.group(1);
             //System.out.println("提取的字符串: " + result);
-            if (result.endsWith("/list") || result.endsWith("/get") || result.endsWith("/login") || result.endsWith("/flow/form") || result.endsWith("/demo/echarts")) {
+            if (result.endsWith("/list") || result.endsWith("/get") || result.endsWith("/login") || result.endsWith("/flow/form") || result.endsWith("/demo/echarts")||result.endsWith("/done")) {
                 //以list或get结尾
                 JSONObject obj = JSONObject.parse(JSONObject.toJSONString(params));
                 JSONObject objContent = JSONObject.parse(content);
