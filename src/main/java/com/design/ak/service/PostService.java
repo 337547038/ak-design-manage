@@ -1,24 +1,23 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.Content;
+import com.design.ak.entity.Post;
 
 import java.util.Map;
 /**
- * 通用内容
+ * (Post)表服务接口
  *
  * @author ak.design 337547038
- * @since 2023-12-11 13:43:14
+ * @since 2024-11-29 11:27:40
  */
-public interface ContentService {
+public interface PostService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param formId 表单id
      * @param id 主键
      * @return 实例对象
      */
-    Map<String, Object> queryById(Integer formId,Integer id);
+    Post queryById(Integer id);
     
     /**
      * 分页查询
@@ -29,27 +28,25 @@ public interface ContentService {
     /**
      * 新增数据
      *
-     * @param content 实例对象
+     * @param post 实例对象
      * @return 实例对象
      */
-    Integer insert(Map<String,Object> content);
+    Post insert(Post post);
 
     /**
      * 修改数据
      *
-     * @param content 实例对象
+     * @param post 实例对象
      * @return 实例对象
      */
-    Integer updateById(Map<String,Object> content);
-
+    Integer updateById(Post post);
 
     /**
      * 通过主键删除数据
      *
      * @param id 主键
-     * @param formId 所属表单id
      * @return 是否成功
      */
-    boolean deleteById(String formId,String[] id);
+    boolean deleteById(String[] id);
 
 }

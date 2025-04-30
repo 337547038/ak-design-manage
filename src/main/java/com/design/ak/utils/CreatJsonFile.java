@@ -18,7 +18,7 @@ public class CreatJsonFile {
         if (matcher.find()) {
             String result = matcher.group(1);
             //System.out.println("提取的字符串: " + result);
-            if (result.endsWith("/list") || result.endsWith("/get") || result.endsWith("/login") || result.endsWith("/flow/form")) {
+            if (result.endsWith("/list") || result.endsWith("/get") || result.endsWith("/login") || result.endsWith("/flow/form") || result.endsWith("/demo/echarts")||result.endsWith("/done")) {
                 //以list或get结尾
                 JSONObject obj = JSONObject.parse(JSONObject.toJSONString(params));
                 JSONObject objContent = JSONObject.parse(content);
@@ -41,8 +41,12 @@ public class CreatJsonFile {
                 }
                 String filePath = System.getProperty("user.dir") + "/mock" + result + typeId + ".json";
                 JSONObject contentBody = objContent.getJSONObject("body");
-
-                if (contentBody == null) {
+                if (result.endsWith("/demo/echarts")) {
+                    JSONObject body = new JSONObject();
+                    body.put("code", 1);
+                    body.put("data", objContent);
+                    writeToFile(filePath, JSONObject.toJSONString(body));
+                } else if (contentBody == null) {
                     writeToFile(filePath, content);
                 } else {
                     JSONObject body = new JSONObject();

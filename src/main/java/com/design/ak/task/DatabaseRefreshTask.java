@@ -25,6 +25,6 @@ public class DatabaseRefreshTask {
     //@Scheduled(fixedRate = 60, timeUnit = TimeUnit.SECONDS) // 每60秒执行一次
     public void refreshDatabase() throws SQLException {
         log.info("定时任务开始执行:");
-        sqlService.resetDatabase();
+        //sqlService.resetDatabase();
     }
 }

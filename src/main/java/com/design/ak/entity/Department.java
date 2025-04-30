@@ -30,6 +30,10 @@ public class Department implements Serializable {
     private String remark;
 
     private Date updateTime;
+/**
+     * 负责人id
+     */
+    private Integer userId;
 
 
 }

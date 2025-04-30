@@ -50,4 +50,18 @@ public interface FlowService {
     boolean deleteById(String[] id);
 
     Map<String, Object> queryByFromId(Integer id);
+
+    /**
+     * 流转
+     * @param params 参数
+     * @return 结果
+     */
+    boolean flowToUser(Map<String,String> params);
+
+    /**
+     * 审批流程
+     * @param params 参数
+     * @return 结果
+     */
+    boolean shenPi(Map<String,String> params);
 }
