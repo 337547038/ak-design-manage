@@ -41,7 +41,7 @@ https://gitee.com/q337547038/vue-form-design
 
 1.安装javaSDK，运行demo下的`ak-design-manage-0.0.1-SNAPSHOT.jar`
 
-2.导入db目录下数据库，连接路径为`jdbc:mysql://localhost:3306/akdesign` 数据库用户名root，密码为空
+2.导入db目录下数据库，连接路径为`jdbc:mysql://localhost:3306/akdesign`
 
 ```bash
 java -jar ak-design-manage-0.0.1-SNAPSHOT.jar
@@ -49,4 +49,4 @@ java -jar ak-design-manage-0.0.1-SNAPSHOT.jar
 
 即可正常在本地调试，源码部分目前有偿提供，可加微信`l337547038`(字母l)
 
-**注意：当前仓库代码是不完整的，应该运行不起来**
+**注意：当前仓库代码是不完整的，缺少service层，运行不起来**
