@@ -47,6 +47,10 @@ https://gitee.com/q337547038/vue-form-design
 java -jar ak-design-manage-0.0.1-SNAPSHOT.jar
 ```
 
+3.可查看本地部署视频链接
+
+[如何在本地调演示效果](https://www.bilibili.com/video/BV1xCYeeEEMS/?vd_source=bcdd3240479f23e6c5bf3c4159785b92)
+
 即可正常在本地调试，源码部分目前有偿提供，可加微信`l337547038`(字母l)
 
 **注意：当前仓库代码是不完整的，缺少service层，运行不起来**
