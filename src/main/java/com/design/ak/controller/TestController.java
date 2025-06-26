@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 import java.util.Objects;
@@ -33,9 +34,15 @@ public class TestController {
     private TestService testService;
 
     @PassToken
+    @GetMapping("t4")
+    public String t4(@RequestParam("file") String file) {
+        return "get5:" + file;
+    }
+
+    @PassToken
     @PostMapping("t2")
-    public String t2(@RequestBody Map<String,String> map0){
-        String str="{\n" +
+    public String t2(@RequestBody Map<String, String> map0) {
+        String str = "{\n" +
                 "\"gradle\":\"高一\",\n" +
                 "\"number\":\"2\",\n" +
                 "\"people\":[{\"name\":\"张三\",\"age\":\"15\",\"phone\":\"123456\"},\n" +
@@ -43,7 +50,8 @@ public class TestController {
                 "}";
 
         //json字符串转Map
-        Map<String, Object> map = JSONObject.parseObject(str, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> map = JSONObject.parseObject(str, new TypeReference<Map<String, Object>>() {
+        });
         System.out.println(map.get("gradle").toString());
         System.out.println(map.get("number").toString());
         System.out.println(map.get("people").toString());
@@ -63,35 +71,37 @@ public class TestController {
         System.out.println(array.contains("aa"));
         return "ResponseEntity.ok(this.testService.queryByPage(pages))";*/
         JSONObject obj = new JSONObject();
-        obj.put("isNew",1);
-        obj.put("isEmpty",true);
-        obj.put("name","name");
-        System.out.println(obj.getInteger("isNew1")!=null&&obj.getInteger("isNew1")==1);
+        obj.put("isNew", 1);
+        obj.put("isEmpty", true);
+        obj.put("name", "name");
+        System.out.println(obj.getInteger("isNew1") != null && obj.getInteger("isNew1") == 1);
         System.out.println(obj.getString("isNew"));
         return "a";
     }
+
     /**
      * 分页查询
      * 前端传参:
      * * @param pages 筛选条件分页对象
      * {
-     *     query:{},//查询条件
-     *     extend:{
-     *         pageNum:1,//当前第几页
-     *         pageSize:20,//每页多少条记录，默认20。小于0返回全部
-     *         sort:"id desc"//排序
-     *         columns:""//返回指定查询字段，如'id,name'
-     *     }
+     * query:{},//查询条件
+     * extend:{
+     * pageNum:1,//当前第几页
+     * pageSize:20,//每页多少条记录，默认20。小于0返回全部
+     * sort:"id desc"//排序
+     * columns:""//返回指定查询字段，如'id,name'
      * }
+     * }
+     *
      * @return 查询结果
      */
-    @Operation(summary ="分页列表")
+    @Operation(summary = "分页列表")
     @Parameters({
-            @Parameter(name = "extend.pageNum",description = "当前第几页"),
-            @Parameter(name = "extend.pageSize",description = "每页显示多少条"),
-            @Parameter(name = "extend.sort",description = "排序"),
-            @Parameter(name = "extend.columns",description = "返回指定查询字段"),
-            @Parameter(name = "query",description = "查询条件")
+            @Parameter(name = "extend.pageNum", description = "当前第几页"),
+            @Parameter(name = "extend.pageSize", description = "每页显示多少条"),
+            @Parameter(name = "extend.sort", description = "排序"),
+            @Parameter(name = "extend.columns", description = "返回指定查询字段"),
+            @Parameter(name = "query", description = "查询条件")
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
@@ -101,10 +111,10 @@ public class TestController {
     /**
      * 通过主键查询单条数据
      *
-     *@param query 主键
+     * @param query 主键
      * @return 单条数据
      */
-    @Operation(summary ="根据id查询数据")
+    @Operation(summary = "根据id查询数据")
     @PostMapping("get")
     public ResponseEntity<Test> queryById(@RequestBody Map<String, Integer> query) {
         return ResponseEntity.ok(this.testService.queryById(query.get("id")));
@@ -116,7 +126,7 @@ public class TestController {
      * @param test 实体
      * @return 新增结果Id
      */
-    @Operation(summary ="新增数据")
+    @Operation(summary = "新增数据")
     @PostMapping("save")
     public ResponseEntity<Integer> add(@RequestBody Test test) {
         Test result = testService.insert(test);
@@ -129,7 +139,7 @@ public class TestController {
      * @param test 实体
      * @return 影响行数
      */
-    @Operation(summary ="编辑数据")
+    @Operation(summary = "编辑数据")
     @PostMapping("edit")
     public ResponseEntity<Integer> edit(@RequestBody Test test) {
         return ResponseEntity.ok(this.testService.updateById(test));
@@ -141,10 +151,10 @@ public class TestController {
      * @param ids 主键
      * @return 删除是否成功
      */
-    @Operation(summary ="根据id删除")
-    @Parameter(name = "id",description = "多个id时使用豆号隔开",required = true)
+    @Operation(summary = "根据id删除")
+    @Parameter(name = "id", description = "多个id时使用豆号隔开", required = true)
     @PostMapping("delete")
-    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
+    public ResponseEntity<Boolean> deleteById(@RequestBody Map<String, Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
         return ResponseEntity.ok(this.testService.deleteById(idList));

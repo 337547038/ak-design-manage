@@ -2,8 +2,8 @@ package com.design.ak.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -24,6 +24,14 @@ public class InterceptorConfig implements WebMvcConfigurer {
         //可使用excludePathPatterns放行不需要验证的
         //registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**"); // 这个在拦截token校验用户时会报错
         registry.addInterceptor(setBean2()).addPathPatterns("/**").excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v3/**", "/swagger-ui.html/**"); // 放行Swagger;
+    }
+
+
+    //访问本地静态资源
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/upload/");
     }
 
     //跨域请求设置
