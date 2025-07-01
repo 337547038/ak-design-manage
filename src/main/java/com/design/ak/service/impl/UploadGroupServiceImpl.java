@@ -2,9 +2,9 @@ package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.design.ak.utils.Utils;
-import com.design.ak.entity.Dict;
-import com.design.ak.dao.DictDao;
-import com.design.ak.service.DictService;
+import com.design.ak.entity.UploadGroup;
+import com.design.ak.dao.UploadGroupDao;
+import com.design.ak.service.UploadGroupService;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -12,15 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 /**
- * 数据字典表(Dict)表服务实现类
+ * 上传文件分组(UploadGroup)表服务实现类
  *
  * @author ak.design 337547038
- * @since 2023-12-08 17:33:50
+ * @since 2025-06-27 09:17:33
  */
-@Service("dictService")
-public class DictServiceImpl implements DictService {
+@Service("uploadGroupService")
+public class UploadGroupServiceImpl implements UploadGroupService {
     @Resource
-    private DictDao dictDao;
+    private UploadGroupDao uploadGroupDao;
 
     /**
      * 通过ID查询单条数据
@@ -29,8 +29,8 @@ public class DictServiceImpl implements DictService {
      * @return 实例对象
      */
     @Override
-    public Dict queryById(Integer id) {
-        return this.dictDao.queryById(id);
+    public UploadGroup queryById(Integer id) {
+        return this.uploadGroupDao.queryById(id);
     }
 
     /**
@@ -42,10 +42,10 @@ public class DictServiceImpl implements DictService {
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
         Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
-        Dict dict = JSON.parseObject(JSON.toJSONString(map.get("query")), Dict.class);//json字符串转java对象
+        UploadGroup uploadGroup = JSON.parseObject(JSON.toJSONString(map.get("query")), UploadGroup.class);//json字符串转java对象
         
-        long total = this.dictDao.count(dict);
-        List<Map<String,Object>> list = this.dictDao.queryAllByLimit(dict,map.get("extend"));
+        long total = this.uploadGroupDao.count(uploadGroup);
+        List<Map<String,Object>> list = this.uploadGroupDao.queryAllByLimit(uploadGroup,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
@@ -55,25 +55,25 @@ public class DictServiceImpl implements DictService {
     /**
      * 新增数据
      *
-     * @param dict 实例对象
+     * @param uploadGroup 实例对象
      * @return 实例对象
      */
     @Override
-    public Dict insert(Dict dict) {
-        this.dictDao.insert(dict);
-        return dict;
+    public UploadGroup insert(UploadGroup uploadGroup) {
+        this.uploadGroupDao.insert(uploadGroup);
+        return uploadGroup;
     }
 
     /**
      * 修改数据
      *
-     * @param dict 实例对象
+     * @param uploadGroup 实例对象
      * @return 影响的行数
      */
     @Override
-    public Integer updateById(Dict dict) {
-        return this.dictDao.updateById(dict);
-        //return this.queryById(dict.getId());
+    public Integer updateById(UploadGroup uploadGroup) {
+        return this.uploadGroupDao.updateById(uploadGroup);
+        //return this.queryById(uploadGroup.getId());
     }
 
     /**
@@ -84,6 +84,6 @@ public class DictServiceImpl implements DictService {
      */
     @Override
     public boolean deleteById(String[] id) {
-        return this.dictDao.deleteById(id) > 0;
+        return this.uploadGroupDao.deleteById(id) > 0;
     }
 }

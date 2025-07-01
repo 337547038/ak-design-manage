@@ -53,7 +53,7 @@ public class ContentServiceImpl implements ContentService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Map<String, Object> map = Utils.pagination(pages);//处理分页信息
+        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
         JSONObject extend = JSON.parseObject(JSON.toJSONString(map.get("extend")));
         JSONObject query = JSON.parseObject(JSON.toJSONString(map.get("query")));
         Integer formId = extend.getInteger("formId");

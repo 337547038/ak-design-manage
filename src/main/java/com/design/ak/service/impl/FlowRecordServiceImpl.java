@@ -41,7 +41,7 @@ public class FlowRecordServiceImpl implements FlowRecordService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String,Object> pages) {
-       Map<String,Object> map = Utils.pagination(pages);//处理分页信息
+        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
         FlowRecord flowRecord = JSON.parseObject(JSON.toJSONString(map.get("query")), FlowRecord.class);//json字符串转java对象
         
         long total = this.flowRecordDao.count(flowRecord);
@@ -60,7 +60,7 @@ public class FlowRecordServiceImpl implements FlowRecordService {
      */
     @Override
     public Map<String, Object> queryByWherePage(Map<String,Object> pages) {
-        Map<String,Object> map = Utils.pagination(pages);//处理分页信息
+        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
         FlowRecord flowRecord = JSON.parseObject(JSON.toJSONString(map.get("query")), FlowRecord.class);//json字符串转java对象
         flowRecord.setApproverId(Utils.getCurrentUserId());
         long total = this.flowRecordDao.count(flowRecord);

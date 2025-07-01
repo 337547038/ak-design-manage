@@ -49,7 +49,7 @@ public class DatasourceServiceImpl implements DatasourceService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Map<String, Object> map = Utils.pagination(pages);//处理分页信息
+        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
         Datasource datasource = JSON.parseObject(JSON.toJSONString(map.get("query")), Datasource.class);//json字符串转java对象
 
         long total = this.datasourceDao.count(datasource);
