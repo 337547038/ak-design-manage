@@ -1,7 +1,6 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.UploadFiles;
 import com.design.ak.dao.UploadFilesDao;
@@ -50,7 +49,7 @@ public class UploadFilesServiceImpl implements UploadFilesService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
+        Map<String, Map<String, Object>> map = Utils.getPagination(pages);//处理分页信息
         UploadFiles uploadFiles = JSON.parseObject(JSON.toJSONString(map.get("query")), UploadFiles.class);//json字符串转java对象
 
         long total = this.uploadFilesDao.count(uploadFiles);
@@ -60,6 +59,12 @@ public class UploadFilesServiceImpl implements UploadFilesService {
         response.put("total", total);
         return response;
     }
+
+    @Override
+    public List<Map<String, Object>> queryList(UploadFiles uploadFiles) {
+         return this.uploadFilesDao.queryAllByLimit(uploadFiles, new HashMap<>());
+    }
+
 
     /**
      * 新增数据
@@ -97,7 +102,6 @@ public class UploadFilesServiceImpl implements UploadFilesService {
 
     @Override
     public Boolean deleteByIdOrHash(Map<String, Object> params) {
-        System.out.println("deleteByIdOrHash");
         String[] idList = new String[0];
         if (params.containsKey("id")) {
             // 使用id删除
@@ -105,6 +109,7 @@ public class UploadFilesServiceImpl implements UploadFilesService {
             idList = string.split(",");
             for (String id : idList) {
                 UploadFiles uploadFiles = this.uploadFilesDao.queryById(Integer.valueOf(id));
+                // 这个删除文件后可导致使用秒传的记录找不到文件，需优化
                 delFile(uploadFiles.getFileUrl());
             }
             return this.uploadFilesDao.deleteById(idList) > 0;
@@ -113,15 +118,14 @@ public class UploadFilesServiceImpl implements UploadFilesService {
             UploadFiles uploadFiles = new UploadFiles();
             uploadFiles.setMd5(String.valueOf(params.get("fileHash")));
             Map<String, Object> map = new HashMap<>();
-            JSONObject obj = new JSONObject();
-            // todo
-            List<Map<String, Object>> list = this.uploadFilesDao.queryAllByLimit(uploadFiles, obj);
-            System.out.println("list");
-            System.out.println(list);
+            List<Map<String, Object>> list = this.uploadFilesDao.queryAllByLimit(uploadFiles, new HashMap<>());
             if (!list.isEmpty()) {
                 String id = String.valueOf(list.get(0).get("id"));
                 idList = id.split(",");
-                delFile((String) list.get(0).get("fileUrl"));
+                // 只有一条记录时才删除文件，当使用秒传时同一个md5会存在多条记录
+                if (list.size() == 1) {
+                    delFile((String) list.get(0).get("fileUrl"));
+                }
             }
         }
         if (idList.length > 0) {

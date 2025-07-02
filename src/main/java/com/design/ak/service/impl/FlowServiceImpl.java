@@ -4,13 +4,10 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
-import com.design.ak.dao.ContentDao;
 import com.design.ak.dao.DesignDao;
 import com.design.ak.dao.FlowDao;
-import com.design.ak.dao.FlowRecordDao;
 import com.design.ak.entity.*;
-import com.design.ak.service.ContentService;
-import com.design.ak.service.FlowService;
+import com.design.ak.service.*;
 import com.design.ak.utils.Utils;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,16 +34,18 @@ public class FlowServiceImpl implements FlowService {
     @Resource
     private DesignDao designDao;
 
-    @Resource
-    private ContentService contentService;
-    @Autowired
-    private FlowRecordDao flowRecordDao;
-    @Autowired
-    private ContentDao contentDao;
-    @Autowired
-    private UserServiceImpl userService;
-    @Autowired
-    private DepartmentServiceImpl departmentService;
+    private final ContentService contentService;
+    private final FlowRecordService flowRecordService;
+    private final UserService userService;
+    private final DepartmentService departmentService;
+    public FlowServiceImpl(ContentService contentService, FlowRecordService flowRecordService,UserService userService,DepartmentService departmentService) {
+        this.contentService = contentService;
+        this.flowRecordService = flowRecordService;
+        this.userService = userService;
+        this.departmentService = departmentService;
+    }
+
+
 
     /**
      * 通过ID查询单条数据
@@ -189,7 +188,7 @@ public class FlowServiceImpl implements FlowService {
         flowRecord.setContent(content);
         flowRecord.setDatetime(new Date());
         flowRecord.setNodeName(nodeName);
-        flowRecordDao.insert(flowRecord);
+        flowRecordService.insert(flowRecord);
     }
 
     /**

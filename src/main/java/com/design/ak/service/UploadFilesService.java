@@ -2,6 +2,7 @@ package com.design.ak.service;
 
 import com.design.ak.entity.UploadFiles;
 
+import java.util.List;
 import java.util.Map;
 /**
  * 文件上传列表(UploadFiles)表服务接口
@@ -25,6 +26,10 @@ public interface UploadFilesService {
      * @return 查询结果
      */
     Map<String,Object> queryByPage(Map<String,Object> pages);
+
+
+    List<Map<String, Object>> queryList(UploadFiles uploadFiles);
+
     /**
      * 新增数据
      *

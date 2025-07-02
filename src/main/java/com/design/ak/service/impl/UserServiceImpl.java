@@ -3,6 +3,7 @@ package com.design.ak.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.design.ak.dao.LoginLogDao;
 import com.design.ak.entity.LoginLog;
+import com.design.ak.service.LoginLogService;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.User;
 import com.design.ak.dao.UserDao;
@@ -25,8 +26,11 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
-    @Resource
-    private LoginLogDao loginLogDao;
+
+    private final LoginLogService loginLogService;
+    public UserServiceImpl(LoginLogService loginLogService) {
+        this.loginLogService = loginLogService;
+    }
 
     /**
      * 通过ID查询单条数据
@@ -122,7 +126,7 @@ public class UserServiceImpl implements UserService {
             log.setStatus(0);
             log.setRemark("密码:"+user.getPassword());
         }
-        loginLogDao.insert(log);
+        loginLogService.insert(log);
         return list;
     }
 }

@@ -41,7 +41,7 @@ id, fileName, fileUrl, userId, creatTime, md5, groupId, size
                         and id = #{query.id}
                     </if>
                     <if test="query.fileName != null and query.fileName != ''">
-                        and fileName = #{query.fileName}
+                        and fileName LIKE CONCAT('%', #{query.fileName}, '%')
                     </if>
                     <if test="query.fileUrl != null and query.fileUrl != ''">
                         and fileUrl = #{query.fileUrl}
