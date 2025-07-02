@@ -120,7 +120,7 @@
 				<version>3.4.4</version>
 				<configuration>
 					<mainClass>com.design.ak.AkDesignManageApplication</mainClass>
-					<skip>true</skip>
+					<skip>false</skip>
 				</configuration>
 				<executions>
 					<execution>
