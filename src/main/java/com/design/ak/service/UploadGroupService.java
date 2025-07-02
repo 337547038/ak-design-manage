@@ -1,15 +1,15 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.TestContent;
+import com.design.ak.entity.UploadGroup;
 
 import java.util.Map;
 /**
- * (TestContent)表服务接口
+ * 上传文件分组(UploadGroup)表服务接口
  *
  * @author ak.design 337547038
- * @since 2024-02-29 17:43:18
+ * @since 2025-06-27 09:17:33
  */
-public interface TestContentService {
+public interface UploadGroupService {
 
     /**
      * 通过ID查询单条数据
@@ -17,7 +17,7 @@ public interface TestContentService {
      * @param id 主键
      * @return 实例对象
      */
-    TestContent queryById(Integer id);
+    UploadGroup queryById(Integer id);
     
     /**
      * 分页查询
@@ -28,18 +28,18 @@ public interface TestContentService {
     /**
      * 新增数据
      *
-     * @param testContent 实例对象
+     * @param uploadGroup 实例对象
      * @return 实例对象
      */
-    TestContent insert(TestContent testContent);
+    UploadGroup insert(UploadGroup uploadGroup);
 
     /**
      * 修改数据
      *
-     * @param testContent 实例对象
+     * @param uploadGroup 实例对象
      * @return 实例对象
      */
-    Integer updateById(TestContent testContent);
+    Integer updateById(UploadGroup uploadGroup);
 
     /**
      * 通过主键删除数据

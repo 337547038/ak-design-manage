@@ -2,6 +2,7 @@ package com.design.ak.utils;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +46,30 @@ public class Utils {
         obj.put("pageSize", pageSize);
         Map<String, Object> map = new HashMap<>();
         map.put("extend", obj);
+        map.put("query", query);
+        return map;
+    }
+
+    public static Map<String, Map<String, Object>> getPagination(Map<String, Object> pages) {
+        Map<String, Map<String, Object>> map = new HashMap<>();
+        Map<String, Object> query = new HashMap<>();
+        Map<String, Object> extend = new HashMap<>();
+        if (pages.get("query") != null) {
+            query = JSONObject.parseObject(JSON.toJSONString(pages.get("query")), new TypeReference<Map<String, Object>>() {
+            });
+        }
+        JSONObject obj = new JSONObject();
+        if (pages.get("extend") != null) {
+            extend = JSONObject.parseObject(JSON.toJSONString(pages.get("extend")), new TypeReference<Map<String, Object>>() {
+            });
+            obj = JSON.parseObject(JSON.toJSONString(pages.get("extend")));
+        }
+        int pageNum = obj.getIntValue("pageNum", 1);
+        int pageSize = obj.getIntValue("pageSize", -1);
+        int pageIndex = (pageNum - 1) * pageSize;
+        extend.put("pageIndex", pageIndex);
+        extend.put("pageSize", pageSize);
+        map.put("extend", extend);
         map.put("query", query);
         return map;
     }

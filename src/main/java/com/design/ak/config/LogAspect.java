@@ -10,10 +10,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,9 +42,10 @@ public class LogAspect {
         Object[] args = point.getArgs();
 
         //序列化时过滤掉request和response，在controller使用HttpServletRequest时，这里args会带上request和response
+        //添加对MultipartFile的过滤
         Stream<?> stream = ArrayUtils.isEmpty(args) ? Stream.empty() : Arrays.stream(args);
         List<Object> logArgs = stream
-                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
+                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse) && !(arg instanceof MultipartFile)))
                 .collect(Collectors.toList());
         Object params = new Object();
         if (!logArgs.isEmpty()) {
@@ -72,7 +73,9 @@ public class LogAspect {
             result = point.proceed();
         } catch (Exception e) {
             log.error("异常 : {},请求方法类型：{}", e, methodName);
-            throw new RuntimeException(e);
+            // 这里不能直接RuntimeException，有些是使用了CustomException自定义的
+            //throw new RuntimeException(e);
+            result = point.proceed();
         }
         if (log.isDebugEnabled()) {
             log.debug("{}响应 :{}", uuid,JSON.toJSONString(result));

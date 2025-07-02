@@ -8,10 +8,11 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.design.ak.entity.User;
 import com.design.ak.service.UserService;
+import com.design.ak.service.impl.UserServiceImpl;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -24,11 +25,12 @@ import java.lang.reflect.Method;
 @Slf4j
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
-    @Autowired
-    private UserService userService;
 
     // 因token异常的统一code返回401
     private static final Integer codeToken = 401;
+
+    @Resource
+    private UserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2025-06-10 03:04:04
+-- 生成日期： 2025-07-02 06:08:26
 -- 服务器版本： 10.4.27-MariaDB
 -- PHP 版本： 8.2.0
 
@@ -192,7 +192,7 @@ INSERT INTO `design` (`id`, `source`, `name`, `type`, `data`, `listData`, `statu
 (37, 14, '请假流程表单', 1, '{list:[{type:\"select\",control:{modelValue:\"\",appendToBody:true},options:[{label:\"事假\",value:\"1\"},{label:\"病假\",value:\"2\"},{label:\"调休\",value:\"3\"},{label:\"产假\",value:\"4\"},{label:\"陪产假\",value:\"5\"},{label:\"婚假\",value:\"6\"},{label:\"丧假\",value:\"7\"}],config:{optionsType:0,transformData:\"string\"},name:\"type\",formItem:{label:\"请假类型\",rules:[{required:true,message:\"请选择请假类型\",trigger:\"change\"}]}},{type:\"datePicker\",control:{modelValue:\"\",type:\"date\",placeholder:\"请填写开始时间\",valueFormat:\"YYYY-MM-DD\"},config:{},name:\"startTime\",formItem:{label:\"开始时间\",rules:[{required:true,message:\"请选择开始时间\",trigger:\"change\"}]}},{type:\"datePicker\",control:{modelValue:\"\",type:\"date\",placeholder:\"请填写结束时间\",valueFormat:\"YYYY-MM-DD\"},config:{},name:\"endTime\",formItem:{label:\"结束时间\",rules:[{required:true,message:\"请选择结束时间\",trigger:\"change\"},{validator:(rule, value, callback) =>\r\n        {\r\n          const val = getaskForLeaveValueByName(\'startTime\')\r\n          if (value <= val)\r\n          {\r\n            callback(new Error(\'结束时间必须大于开始时间\'))\r\n          }\r\n          else\r\n          {\r\n            callback()\r\n          }\r\n        },trigger:\"blur\"}]}},{type:\"input\",control:{modelValue:\"\",placeholder:\"自动计算时长\",disabled:true},config:{append:\"天\"},name:\"duration\",formItem:{label:\"时长\"}},{type:\"textarea\",control:{modelValue:\"\",placeholder:\"不填写不能通过\"},config:{span:24},name:\"remark\",formItem:{label:\"请假事由\",rules:[{required:true,message:\"请填写请假事由\",trigger:\"change\"}]}},{type:\"upload\",control:{modelValue:\"\"},config:{},name:\"files\",formItem:{label:\"图片附件\",rules:[]}}],form:{size:\"default\",class:\"form-row-2\",labelWidth:\"100px\",name:\"askForLeave\"},config:{submitCancel:true,sourceId:14,name:\"请假流程表单\"},events:{change:(\r\n{\r\n  name,\r\n  model\r\n}) =>\r\n{\r\n  // name当前改变组件的值,model表单的值\r\n  console.log(model)\r\n  if ([\'startTime\', \'endTime\'].includes(name) && model.startTime && model.endTime)\r\n  {\r\n    model.duration = (new Date(model.endTime) - new Date(model.startTime)) / (1000 * 60 * 60 * 24)\r\n  }\r\n  return model\r\n}}}', '', 1, '2024-12-21 14:47:03', '2030-12-12 12:12:12', '{}', 2, 1, 1, NULL, '', NULL),
 (39, 0, '可视化数据大屏示例', 4, '{list:[{id:\"rect\",type:\"tempRect\",position:{width:200,height:200,display:true}},{type:\"background\",position:{height:\"105\",left:0,top:0,display:false,width:\"100%\"},config:{src:\"./static/screen/bg/head_bg.png\",lock:false},id:\"background17210383022510\"},{type:\"text\",position:{height:30,left:0,top:20,zIndex:0,width:\"100%\"},config:{text:\"大数据可视化系统数据分析通用模版\",style:{fontSize:\"20px\",\"text-align\":\"center\"},lock:false,optionsType:0},id:\"text17210383022511\"},{type:\"line\",position:{width:550,height:280,left:32,top:139,zIndex:2},option:{tooltip:{},grid:{left:\"0\",top:\"30\",right:\"20\",bottom:\"10\",containLabel:true},xAxis:[{type:\"category\",boundaryGap:false,axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},data:\"{{getScreenGlobal.line.xAxis}}\"},{axisPointer:{show:false},axisLine:{show:false},position:\"bottom\",offset:20}],yAxis:[{type:\"value\",axisTick:{show:false},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},splitLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}}}],series:[{name:\"模块标题\",type:\"line\",smooth:true,symbol:\"circle\",symbolSize:10,showSymbol:true,lineStyle:{normal:{color:\"rgba(228, 228, 126, 1)\",width:2}},areaStyle:{normal:{color:{colorStops:[{offset:0,color:\"rgba(228, 228, 126, .8)\"},{offset:0.8,color:\"rgba(228, 228, 126, 0.1)\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},shadowColor:\"rgba(0, 0, 0, 0.1)\"}},itemStyle:{normal:{color:\"#dddc6b\",borderColor:\"rgba(221, 220, 107, .1)\",borderWidth:12}},data:\"{{getScreenGlobal.line.data}}\"}]},config:{lock:false,optionsType:0},events:{},id:\"line17210383022512\"},{type:\"text\",position:{width:100,height:30,left:32,top:453,zIndex:2},config:{text:\"使用动态形式\",lock:false},id:\"text17210383022513\"},{type:\"border\",position:{width:570,height:310,left:20,top:440},config:{style:{},class:\"border\",lock:false},id:\"border17210383022514\"},{type:\"border\",position:{width:570,height:310,left:20,top:110,zIndex:0},config:{style:{},lock:false,class:\"border\"},id:\"border17210383022515\"},{type:\"text\",position:{width:260,height:69,left:604,top:164},config:{text:\"{{getScreenGlobal.textNum1}}\",style:{fontSize:\"36px\",color:\"rgba(254, 3, 3, 1)\",fontWeight:\"700\"},optionsType:0},id:\"text17210383022516\"},{type:\"echarts\",position:{width:148,height:148,left:929,top:142},option:{title:{text:\"80%\",x:\"center\",y:\"center\",textStyle:{fontWeight:\"normal\",color:\"#fff\",fontSize:\"18\"}},color:\"#49bcf7\",series:[{name:\"Line 1\",type:\"pie\",clockWise:true,radius:[\"65%\",\"80%\"],itemStyle:{normal:{label:{show:false},labelLine:{show:false}}},hoverAnimation:false,data:[{value:\"{{getScreenGlobal.pie[0]}}\",name:\"已使用\",itemStyle:{normal:{color:\"#eaff00\",label:{show:false},labelLine:{show:false}}}},{name:\"未使用\",value:\"{{getScreenGlobal.pie[1]}}\"}]}]},config:{optionsType:0},id:\"echarts17210383022517\"},{type:\"echarts\",position:{width:148,height:148,left:1101,top:143},option:{title:{text:\"60%\",x:\"center\",y:\"center\",textStyle:{fontWeight:\"normal\",color:\"#fff\",fontSize:\"18\"}},color:\"#49bcf7\",series:[{name:\"Line 1\",type:\"pie\",clockWise:true,radius:[\"65%\",\"80%\"],itemStyle:{normal:{label:{show:false},labelLine:{show:false}}},hoverAnimation:false,data:[{value:\"{{getScreenGlobal.pie2[0]}}\",name:\"已使用\",itemStyle:{normal:{color:\"#ea4d4d\",label:{show:false},labelLine:{show:false}}}},{name:\"未使用\",value:\"{{getScreenGlobal.pie2[1]}}\"}]}]},config:{optionsType:0},id:\"echarts17210383022518\"},{type:\"echarts\",position:{width:394,height:271,left:1474,top:140,zIndex:2},option:{tooltip:{},radar:[{indicator:[{text:\"盈利能力\",max:100},{text:\"发展水平\",max:100},{text:\"融资能力\",max:100},{text:\"技术能力\",max:100},{text:\"企业规模\",max:100}],textStyle:{color:\"red\"},center:[\"50%\",\"50%\"],radius:\"70%\",startAngle:90,splitNumber:4,shape:\"circle\",name:{padding:-5,formatter:\"{value}\",textStyle:{fontSize:14,color:\"rgba(255,255,255,.6)\"}},splitArea:{areaStyle:{color:\"rgba(255,255,255,.05)\"}},axisLine:{lineStyle:{color:\"rgba(255,255,255,.05)\"}},splitLine:{lineStyle:{color:\"rgba(255,255,255,.05)\"}}}],series:[{name:\"雷达图\",type:\"radar\",tooltip:{trigger:\"item\"},data:[{name:\"园区平均值\",value:\"{{getScreenGlobal.radar.list[0]}}\",lineStyle:{normal:{color:\"#03b48e\",width:2}},areaStyle:{normal:{color:\"#03b48e\",opacity:0.4}},symbolSize:0},{name:\"当前园区\",value:\"{{getScreenGlobal.radar.list[1]}}\",symbolSize:0,lineStyle:{normal:{color:\"#3893e5\",width:2}},areaStyle:{normal:{color:\"rgba(19, 173, 255, 0.5)\"}}}]}]},config:{lock:false,optionsType:0},id:\"echarts17210383022519\"},{type:\"border\",position:{width:470,height:310,left:1440,top:110},config:{style:{border:\"\"},class:\"border\",lock:false},id:\"border172103830225110\"},{type:\"pie\",position:{width:394,height:271,left:1486,top:466,zIndex:2},option:{tooltip:{},legend:{orient:\"vertical\",left:\"left\",color:\"#fff\"},series:\"{{getScreenGlobal.pie3}}\"},config:{lock:false,optionsType:0},id:\"pie172103830225111\"},{type:\"text\",position:{width:100,height:30,left:607,top:123},config:{text:\"使用全局数据\"},id:\"text172103830225112\"},{type:\"border\",position:{width:808,height:439,left:610,top:312},config:{style:{border:\"\"},class:\"border\",lock:false},id:\"border172103830225113\"},{type:\"echarts\",position:{width:780,height:407,left:626,top:332,zIndex:2},option:{tooltip:{trigger:\"axis\",axisPointer:{type:\"shadow\"}},legend:{x:\"center\",y:\"0\",icon:\"circle\",itemGap:8,textStyle:{color:\"rgba(255,255,255,.5)\"},itemWidth:10,itemHeight:10},grid:{left:\"0\",top:\"30\",right:\"15\",bottom:\"0\",containLabel:true},xAxis:{type:\"category\",data:[\"1月\",\"2月\",\"3月\",\"4月\",\"5月\",\"6月\",\"7月\",\"8月\",\"9月\",\"10月\",\"11月\",\"12月\"],axisLine:{show:false},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}}},yAxis:{type:\"value\",splitNumber:4,axisLine:{show:false},axisTick:{show:false},splitLine:{show:true,lineStyle:{color:\"rgba(255,255,255,0.05)\"}},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}}},series:[{name:\"字段1\",type:\"bar\",barWidth:\"15%\",itemStyle:{normal:{color:{colorStops:[{offset:0,color:\"#8bd46e\"},{offset:1,color:\"#03b48e\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},barBorderRadius:11}},data:[77,35,319,364,364,416,244,45,331,267,301,353]},{name:\"字段2\",type:\"bar\",barWidth:\"15%\",itemStyle:{normal:{color:{colorStops:[{offset:0,color:\"#3893e5\"},{offset:1,color:\"#248ff7\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},barBorderRadius:11}},data:[86,114,70,159,196,5,197,461,12,235,252,340]},{name:\"字段3\",type:\"bar\",barWidth:\"15%\",itemStyle:{normal:{color:{colorStops:[{offset:0,color:\"#43cadd\"},{offset:1,color:\"#0097c9\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},barBorderRadius:11}},data:[23,354,334,221,178,190,234,354,334,221,178,190]}]},config:{lock:false},id:\"echarts172103830225114\"},{type:\"bar\",position:{width:550,height:277,left:28,top:471},option:{tooltip:{trigger:\"axis\",axisPointer:{lineStyle:{color:\"#dddc6b\"}}},grid:{left:\"0\",top:\"30\",right:\"20\",bottom:\"10\",containLabel:true},legend:{data:[\"字段1\",\"字段2\"],right:\"center\",top:0,textStyle:{color:\"#fff\"},itemWidth:12,itemHeight:10},xAxis:[{type:\"category\",boundaryGap:false,axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},data:[\"8:00\",\"9:00\",\"10:00\",\"11:00\",\"12:00\",\"13:00\",\"14:00\",\"15:00\",\"16:00\",\"17:00\",\"18:00\",\"19:00\",\"20:00\",\"21:00\",\"22:00\"]},{axisPointer:{show:false},axisLine:{show:false},position:\"bottom\",offset:20}],yAxis:[{type:\"value\",axisTick:{show:false},axisLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}},axisLabel:{textStyle:{color:\"rgba(255,255,255,.6)\",fontSize:14}},splitLine:{lineStyle:{color:\"rgba(255,255,255,.1)\"}}}],series:[{name:\"字段1\",type:\"line\",smooth:true,symbol:\"circle\",symbolSize:5,showSymbol:false,lineStyle:{normal:{color:\"rgba(228, 228, 126, 1)\",width:2}},areaStyle:{normal:{color:{colorStops:[{offset:0,color:\"rgba(228, 228, 126, .8)\"},{offset:0.8,color:\"rgba(228, 228, 126, 0.1)\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},shadowColor:\"rgba(0, 0, 0, 0.1)\"}},itemStyle:{normal:{color:\"#dddc6b\",borderColor:\"rgba(221, 220, 107, .1)\",borderWidth:12}},data:[191,203,315,429,179,78,373,10,393,469,176,126,349,119,293]},{name:\"字段2\",type:\"line\",smooth:true,symbol:\"circle\",symbolSize:5,showSymbol:false,lineStyle:{normal:{color:\"rgba(255, 128, 128, 1)\",width:2}},areaStyle:{normal:{color:{colorStops:[{offset:0,color:\"rgba(255, 128, 128,.8)\"},{offset:0.8,color:\"rgba(255, 128, 128, .1)\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false},shadowColor:\"rgba(0, 0, 0, 0.1)\"}},itemStyle:{normal:{color:\"#dddc6b\",borderColor:\"rgba(221, 220, 107, .1)\",borderWidth:12}},data:[298,226,11,422,24,489,234,401,323,300,335,218]}]},config:{lock:false,optionsType:1,requestUrl:\"demo/echarts\",method:\"post\"},events:{},id:\"bar172103830225115\"},{type:\"text\",position:{width:100,height:30,left:627,top:780,zIndex:2},config:{text:\"模块标题\",lock:false},id:\"text172103830225116\"},{type:\"border\",position:{width:808,height:276,left:610,top:764},config:{style:{border:\"\"},class:\"border\",lock:false},id:\"border172103830225117\"},{type:\"bar\",position:{width:757,height:237,left:635,top:800,zIndex:2},option:{tooltip:{trigger:\"axis\",axisPointer:{type:\"shadow\"}},grid:{top:\"20%\",right:\"50\",bottom:\"20\",left:\"30\"},legend:{data:[\"数据1\",\"数据2\",\"数据3\",\"增幅\"],right:\"center\",width:\"100%\",textStyle:{color:\"rgba(255,255,255,.5)\"},itemWidth:12,itemHeight:10},xAxis:[{type:\"category\",data:[\"2016\",\"2017\",\"2018\",\"2019\"],axisLine:{show:false},axisLabel:{textStyle:{fontSize:14,color:\"rgba(255,255,255,.5)\"}}}],yAxis:[{type:\"value\",axisTick:{show:false},splitLine:{show:false},axisLine:{min:0,max:10,show:false},axisLabel:{show:true,fontSize:14,color:\"rgba(255,255,255,.5)\"}},{type:\"value\",show:true,axisLabel:{formatter:\"{value} %\",fontSize:14,color:\"rgba(255,255,255,.5)\"},axisTick:{show:false},splitNumber:3,axisLine:{show:false},splitLine:{lineStyle:{color:\"rgba(255,255,255,.05)\"}}}],series:[{name:\"数据1\",type:\"bar\",data:[36.6,38.8,40.84,41.6],barWidth:\"10%\",itemStyle:{normal:{barBorderRadius:15,color:{colorStops:[{offset:0,color:\"#8bd46e\"},{offset:1,color:\"#09bcb7\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false}}},barGap:\"0.2\"},{name:\"数据2\",type:\"bar\",data:[14.8,14.1,15,16.3],barWidth:\"10%\",itemStyle:{normal:{barBorderRadius:15,color:{colorStops:[{offset:0,color:\"#248ff7\"},{offset:1,color:\"#6851f1\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false}}},barGap:\"0.2\"},{name:\"数据3\",type:\"bar\",data:[9.2,9.1,9.85,8.9],barWidth:\"10%\",itemStyle:{normal:{barBorderRadius:15,color:{colorStops:[{offset:0,color:\"#fccb05\"},{offset:1,color:\"#f5804d\"}],x:0,y:0,x2:0,y2:1,type:\"linear\",global:false}}},barGap:\"0.2\"},{name:\"增幅\",type:\"line\",yAxisIndex:1,data:[3,1,5,2.3],lineStyle:{normal:{width:2}},itemStyle:{normal:{color:\"#3496f8\"}},symbolSize:0}]},config:{lock:false},id:\"bar172103830225118\"},{type:\"text\",position:{width:100,height:30,left:32,top:119},config:{text:\"使用全局数据\",lock:false},id:\"text172103830225119\"},{type:\"clock\",position:{width:320,height:30,left:1600,top:21,zIndex:0},config:{style:{fontSize:\"20px\"},dateTime:\"{y}年{m}月{d}日 {h}:{i}:{s} 星期{w}\",lock:false},id:\"clock172103830225120\"},{type:\"text\",position:{width:100,height:30,left:1455,top:123},config:{text:\"模块标题\",lock:false},id:\"text172103830225121\"},{type:\"border\",position:{width:470,height:310,left:1440,top:440},config:{style:{border:\"\"},class:\"border\",lock:false},id:\"border172103830225122\"},{type:\"bar\",position:{width:389,height:239,left:1492,top:795,zIndex:2},option:{tooltip:{show:false},grid:{top:\"0%\",left:\"50\",right:\"50\",bottom:\"0%\"},xAxis:{min:0,splitLine:{show:false},axisTick:{show:false},axisLine:{show:false},axisLabel:{show:false}},yAxis:{data:[\"数据\",\"数据\",\"数据\",\"数据\",\"数据\",\"数据\"],axisTick:{show:false},axisLine:{show:false},axisLabel:{color:\"rgba(255,255,255,.6)\",fontSize:14}},series:[{type:\"bar\",label:{show:true,zlevel:10000,position:\"right\",padding:6,color:\"#4e84a1\",fontSize:14,formatter:\"{c}\"},itemStyle:{barBorderRadius:25,color:\"#3facff\"},barWidth:\"15\",data:[1800,1240,1168,1200,2336,1680],z:6}]},config:{lock:false},id:\"bar172103830225123\"},{type:\"text\",position:{width:100,height:30,left:1460,top:773,zIndex:2},config:{text:\"模块标题\",lock:true},id:\"text172103830225124\"},{type:\"border\",position:{width:470,height:276,left:1440,top:764},config:{style:{border:\"\"},class:\"border\",lock:false},id:\"border172103830225125\"},{type:\"table\",position:{width:570,height:276,left:20,top:764},option:{columns:[{prop:\"name1\",label:\"字段1\"},{prop:\"name2\",label:\"字段2\"},{prop:\"name3\",label:\"字段3\"},{prop:\"name4\",label:\"字段4\"},{prop:\"name5\",label:\"字段5\"}],list:[{name5:\"111\",name4:\"4444\",name3:\"3333\",name2:\"222\",name1:\"5555\"}]},config:{class:\"border scroll-table\",optionsType:0,carousel:false,props:{},speed:50,lock:false},id:\"table172103830225126\"}],config:{width:\"1920px\",height:\"1080px\",background:\"url(./static/screen/bg/bg.jpg)\",style:\".border{background:rgba(6, 48, 109, 0.5);border:none}\\\\n.scroll-table .el-table tr,.scroll-table .el-table{background:none}\\\\n.scroll-table .el-table th.el-table__cell{background:none;border:none}\\\\n.scroll-table .el-table td,.scroll-table .el-table th{border:none}\\\\n.scroll-table .el-table__inner-wrapper:before{display:none}\",primary:\"rgba(255, 255, 255, 1)\",method:\"post\",requestUrl:\"demo/echarts\"}}', '', 1, '2024-07-15 18:13:12', '2030-12-12 12:12:12', '', 1, 1, 1, 1, '', NULL),
 (56, NULL, '地图', 4, '{list:[{type:\"text\",position:{width:\"300\",height:\"100\",left:281,top:386},config:{text:\"<p>顺丰<span style=\\\"color:#0e94eb\\\">192581</span>30.87%</p> <p>京东<span style=\\\"color:#c440ef\\\">215635</span>34.08%</p> <p>EMS<span style=\\\"color:#efb013\\\">224585</span>35.49%</p>\",class:\"pie-text\"},id:\"text17210430315400\"},{type:\"text\",position:{width:\"496\",height:\"42\",left:25,top:\"550\"},config:{text:\"广东省寄派件数据\",class:\"title1\"},id:\"text17210430315401\"},{type:\"text\",position:{width:\"178\",height:\"26\",left:185,top:39,zIndex:2},config:{text:\"当前到件量\",class:\"left-title1\"},id:\"text17210430315402\"},{type:\"border\",position:{width:\"496\",height:\"186\",left:\"25\",top:\"25\"},config:{style:{border:\"\"},class:\"left1\"},id:\"border17210430315403\"},{type:\"text\",position:{width:\"496\",height:30,left:\"25\",top:100,zIndex:3},config:{text:\"123,456,789\",style:{\"text-align\":\"center\",fontSize:\"28px\",color:\"#fff\"}},id:\"text17210430315404\"},{type:\"image\",position:{width:\"19\",height:\"100%\",left:\"28%\",top:\"0\"},config:{src:\"./static/demo1/line_img.png\"},id:\"image17210430315405\"},{type:\"clock\",position:{width:230,height:30,left:606,top:145,zIndex:2},config:{dateTime:\"{y}年{m}月{d}日 {h}:{i}:{s} 星期{w}\",style:{fontSize:\"24px\"}},id:\"clock17210430315406\"},{type:\"border\",position:{width:\"370\",height:100,left:588,top:127},config:{style:{border:\"1px solid #0E94EA\"}},id:\"border17210430315407\"},{type:\"echarts\",position:{width:439,height:245,left:1435,top:88},option:{title:\"\",grid:{top:20,containLabel:true,bottom:0,left:0},tooltip:{show:true},xAxis:[{type:\"category\",show:false,data:[\"入库件\",\"在库件\",\"出库件\",\"退签件\",\"丢失件\"],axisLabel:{textStyle:{color:\"#fff\"}}},{type:\"category\",position:\"bottom\",data:[\"入库件\",\"在库件\",\"出库件\",\"退签件\",\"丢失件\"],boundaryGap:true,axisTick:{show:false},axisLine:{show:false},axisLabel:{textStyle:{color:\"#fff\"}}},{show:false,data:[1378,1378,1378,1378,1378,1378,1378,1378,1378,1378],axisLabel:{inside:true,textStyle:{color:\"#fff\"}},axisTick:{show:false},axisLine:{show:false},z:10}],yAxis:[{show:true,splitLine:{show:false,lineStyle:{color:\"#0e94eb\"}},axisTick:{show:false},axisLine:{show:false},axisLabel:{show:true,color:\"#0e94eb\"}},{show:false,type:\"value\",nameTextStyle:{color:\"#0e94eb\"},axisLabel:{color:\"#0e94eb\"},splitLine:{show:false},axisLine:{show:false},axisTick:{show:false}},{axisLine:{show:false},axisTick:{show:false},axisLabel:{textStyle:{color:\"#999\"}}}],series:[{type:\"bar\",barWidth:20,xAxisIndex:2,tooltip:{show:false},itemStyle:{normal:{color:\"rgba(14, 148, 235, 0.102)\"}},data:[1378,1378,1378,1378,1378,1378,1378,1378,1378,1378],animation:false},{name:\"入库件\",type:\"bar\",barGap:\"-100%\",barWidth:\"40%\",xAxisIndex:1,itemStyle:{normal:{color:\"#0e94eb\"},emphasis:{opacity:1}},data:[{name:\"入库件\",value:584},0,0,0,0]},{name:\"滞留件\",type:\"bar\",stack:\"在库件\",xAxisIndex:1,itemStyle:{normal:{color:\"rgba(239,176,19,.9)\"},emphasis:{opacity:1}},data:[0,{name:\"滞留件\",value:152},0,0,0]},{name:\"丢失件\",type:\"bar\",xAxisIndex:1,itemStyle:{normal:{color:\"rgba(239,176,19,0.4)\"},emphasis:{opacity:1}},data:[0,0,0,0,{name:\"丢失件\",value:100}]},{name:\"正常件\",type:\"bar\",stack:\"在库件\",xAxisIndex:1,itemStyle:{normal:{color:\"rgba(239,176,19,0.3)\"},emphasis:{opacity:1}},data:[0,{name:\"正常件\",value:689},0,0,0]},{name:\"派送件\",type:\"bar\",stack:\"出库件\",xAxisIndex:1,itemStyle:{normal:{color:\"rgba(196,64,239,0.8)\"},emphasis:{opacity:1}},data:[0,0,{name:\"派送件\",value:200},0,0]},{name:\"自提件\",type:\"bar\",stack:\"出库件\",xAxisIndex:1,itemStyle:{normal:{color:\"rgba(196,64,239,0.4)\"},emphasis:{opacity:1}},data:[0,0,{name:\"自提件\",value:121},0,0]},{name:\"退签件\",type:\"bar\",xAxisIndex:1,itemStyle:{normal:{color:\"rgba(219,44,44,0.8)\"},emphasis:{opacity:1}},data:[0,0,0,{name:\"退签件\",value:92},0]}]},config:{},id:\"echarts17210430315408\"},{type:\"image\",position:{width:\"19\",height:\"100%\",left:\"72%\",top:\"0\"},config:{src:\"./static/demo1/line_img.png\"},id:\"image17210430315409\"},{type:\"text\",position:{width:\"496\",height:\"42\",left:25,top:238},config:{text:\"派件入库量占比\",class:\"title1\"},id:\"text172104303154010\"},{type:\"text\",position:{width:\"800\",height:\"53\",left:\"569\",top:\"30\"},config:{text:\"智慧物流服务中心\",class:\"title-h1\"},id:\"text172104303154011\"},{type:\"pie\",position:{width:253,height:230,left:31,top:322},option:{tooltip:{trigger:\"item\",confine:true,formatter:\"{a} <br/>{b}: {c} ({d}%)\"},series:[{radius:[\"50%\",\"85%\"],center:[\"50%\",\"50%\"],type:\"pie\",label:{normal:{show:false},emphasis:{show:false}},labelLine:{normal:{show:false},emphasis:{show:false}},name:\"派件入库量占比内容\",data:[{name:\"顺丰\",value:192581,percent:\"30.8721\",itemStyle:{normal:{color:{type:\"linear\",x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:\"#0e94eb\"},{offset:1,color:\"#0e94eb\"}],globalCoord:false}}}},{name:\"京东\",value:215635,percent:\"34.076\",itemStyle:{normal:{color:{type:\"linear\",x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:\"#c440ef\"},{offset:1,color:\"#c440ef\"}],globalCoord:false}}}},{name:\"EMS\",value:224585,percent:\"35.49\",itemStyle:{normal:{color:{type:\"linear\",x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:\"#efb013\"},{offset:1,color:\"#efb013\"}],globalCoord:false}}}}]},{radius:[\"45%\",\"50%\"],center:[\"50%\",\"50%\"],type:\"pie\",label:{normal:{show:false},emphasis:{show:false}},labelLine:{normal:{show:false},emphasis:{show:false}},animation:false,tooltip:{show:false},data:[{name:\"顺丰\",value:192581,percent:\"30.8721\",itemStyle:{normal:{color:{type:\"linear\",x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:\"#0077c5\"},{offset:1,color:\"#0077c5\"}],globalCoord:false}}}},{name:\"京东\",value:215635,percent:\"34.076\",itemStyle:{normal:{color:{type:\"linear\",x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:\"#a819d7\"},{offset:1,color:\"#a819d7\"}],globalCoord:false}}}},{name:\"EMS\",value:224585,percent:\"35.49\",itemStyle:{normal:{color:{type:\"linear\",x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:\"#c99002\"},{offset:1,color:\"#c99002\"}],globalCoord:false}}}}]}]},config:{},id:\"pie172104303154012\"},{type:\"component\",position:{width:\"496\",height:\"300\",left:22,top:603},config:{component:\"echartsMap\"},id:\"component172104303154013\"},{type:\"component\",position:{width:\"800\",height:\"600\",left:570,top:\"280\"},config:{component:\"echartsMap\",mapType:\"china\"},id:\"component172104303154014\"},{type:\"text\",position:{width:\"496\",height:\"42\",left:1405,top:26},config:{text:\"派件数据\",class:\"title1\"},id:\"text172104303154015\"},{type:\"text\",position:{width:\"496\",height:\"42\",left:1406,top:\"650\"},config:{text:\"支出数据\",class:\"title1\"},id:\"text172104303154016\"},{type:\"text\",position:{width:\"496\",height:\"42\",left:1404,top:\"350\"},config:{text:\"收入数据\",class:\"title1\"},id:\"text172104303154017\"},{type:\"text\",position:{width:\"490\",height:\"242\",left:1408,top:\"400\"},config:{text:\"123,456.5元\",class:\"right-title\"},id:\"text172104303154018\"},{type:\"text\",position:{width:\"490\",height:\"242\",left:1410,top:\"700\"},config:{text:\"123,456.5元\",class:\"right-title\"},id:\"text172104303154019\"}],config:{width:\"1920px\",height:\"1080px\",background:\"url(./static/demo1/index_bg.png)\",style:\".left1{background:url(\\\'./static/demo1/border_bg01.png\\\') top left no-repeat}\\n.left-title1{\\n    background:url(\\\'./static/demo1/title_bg01.png\\\') top left no-repeat;\\n    text-align:center;\\n    line-height: 26px;\\n    font-size: 18px;\\n}\\n.title1{\\n   background:url(\\\'./static/demo1/box_title.png\\\') top left no-repeat; \\n   line-height: 42px;\\n   color: #fff;\\n   font-size: 16px;\\n   padding-left: 30px;\\n}\\n.title-h1{\\n    background:url(\\\'./static/demo1/title_border.png\\\') top left no-repeat;\\n    height:53px;\\n    line-height: 53px;\\n    color: #cdddf7;\\n    font-size: 36px;\\n    text-align: center;\\n}\\n.right-title{\\n    background:url(\\\'./static/demo1/bg_img03.png\\\') top left no-repeat;\\n    font-size: 38px;\\n    color: #fff;\\n}\\n.right-title .text{\\n    display: flex;\\n    align-items: center;\\n    justify-content: center;\\n}\\n.pie-text{\\n    color: #ffff;\\n    line-height: 30px;\\n}\\n.pie-text span{\\n    padding: 0 10px;\\n}\",primary:\"#409eff\"}}', NULL, 1, '2024-07-15 19:37:02', '2024-01-21 17:22:26', NULL, 1, 1, 1, NULL, NULL, NULL),
-(57, 20, '组件示例表单', 1, '{list:[{type:\"txt\",control:{modelValue:\"组件示例演示，可快速轻松实现功能复杂的各类型表单；功能强大、简单灵活、超乎你想象\",style:{color:\"red\"}},config:{}},{type:\"title\",control:{modelValue:\"基础字段\"},config:{}},{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入标题名称\"},config:{},name:\"inputText\",formItem:{label:\"标题名称\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"radio\",control:{modelValue:\"0\"},config:{optionsType:0,transformData:\"number\"},name:\"radio\",formItem:{label:\"性别\"},options:[{label:\"男\",value:1},{label:\"女\",value:0}]},{type:\"checkbox\",control:{modelValue:[]},options:[],config:{optionsType:2,optionsFun:\"sys-flow\"},name:\"checkbox\",formItem:{label:\"多选\"}},{type:\"select\",control:{appendToBody:true},config:{optionsType:1,optionsFun:\"demo/select\",method:\"get\",label:\"name\",value:\"value\"},name:\"select1\",formItem:{label:\"选择框\"},options:[]},{type:\"datePicker\",control:{type:\"date\",placeholder:\"请选择日期\",format:\"YYYY-MM-DD\",valueFormat:\"YYYY-MM-DD\"},config:{},name:\"dateTime\",formItem:{label:\"日期时间\"}},{type:\"switch\",control:{modelValue:false,activeValue:1,inactiveValue:0},config:{},name:\"switch\",formItem:{label:\"开关\"}},{type:\"textarea\",control:{modelValue:\"\"},config:{},name:\"textarea\",formItem:{label:\"多行文本\"}},{type:\"upload\",control:{modelValue:\"\"},config:{tip:\"\",btnText:\"选择图片\"},name:\"upload\",formItem:{label:\"图片文件上传\"}},{type:\"card\",list:[{type:\"component\",control:{modelValue:\"\"},config:{componentName:\"ComponentTest\"},name:\"component\",formItem:{label:\"选择位置\"}},{type:\"expand-user\",control:{modelValue:\"\"},config:{},name:\"user\",formItem:{label:\"选择用户\"}}],control:{},config:{},formItem:{label:\"卡片布局\"}},{type:\"inputSlot\",control:{modelValue:\"\",appendToBody:true},options:[{label:\"小时\",value:\"h\"},{label:\"分钟\",value:\"m\"},{label:\"天\",value:\"d\"}],config:{optionsType:0},name:\"prepend\",formItem:{label:\"前缀\",hideLabel:true}},{type:\"input\",control:{modelValue:\"\"},config:{append:\"key:prepend\"},name:\"select2\",formItem:{label:\"复合型\"}},{type:\"title\",control:{modelValue:\"子表\"},config:{},name:\"title1706851586238\"},{type:\"table\",list:[{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入姓名\"},config:{},name:\"name\",formItem:{label:\"姓名\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"select\",control:{modelValue:\"\",appendToBody:true},options:[{label:\"男\",value:\"1\"},{label:\"女\",value:\"0\"},{label:\"未知\",value:\"2\"}],config:{optionsType:0,transformData:\"string\"},name:\"sex\",formItem:{label:\"性别\"}}],tableData:[],control:{border:true},config:{addBtnText:\"添加一行\"},name:\"table2\"},{type:\"title\",control:{modelValue:\"弹性字段\"},config:{}},{type:\"flex\",list:[{type:\"input\",control:{modelValue:\"\"},config:{span:10},name:\"input1706851786349\",formItem:{label:\"姓名\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"input\",control:{modelValue:\"\"},config:{span:10},name:\"tel\",formItem:{label:\"电话\"},customRules:[{type:\"mobile\",message:\"请输入手机号码\",trigger:\"blur\"}]}],tableData:[],control:{},config:{addBtnText:\"添加一行\",span:22,delBtnText:\"删除\"},name:\"flex\"},{type:\"tinymce\",control:{modelValue:\"\"},config:{},name:\"tinymce\",formItem:{label:\"内容\"}}],form:{size:\"default\",labelWidth:\"120\"},config:{submitCancel:true,sourceId:20,name:\"组件示例表单\",transformData:true}}', NULL, 1, '2024-11-20 16:23:23', '2024-02-01 09:47:26', '{}', 1, 1, 1, NULL, NULL, NULL),
+(57, 20, '组件示例表单', 1, '{list:[{type:\"txt\",control:{modelValue:\"组件示例演示，可快速轻松实现功能复杂的各类型表单；功能强大、简单灵活、超乎你想象\",style:{color:\"red\"}},config:{}},{type:\"title\",control:{modelValue:\"基础字段\"},config:{}},{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入标题名称\"},config:{},name:\"inputText\",formItem:{label:\"标题名称\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"radio\",control:{modelValue:\"0\"},config:{optionsType:0,transformData:\"number\"},name:\"radio\",formItem:{label:\"性别\"},options:[{label:\"男\",value:1},{label:\"女\",value:0}]},{type:\"checkbox\",control:{modelValue:[]},options:[],config:{optionsType:2,optionsFun:\"sys-flow\"},name:\"checkbox\",formItem:{label:\"多选\"}},{type:\"select\",control:{appendToBody:true},config:{optionsType:1,optionsFun:\"demo/select\",method:\"get\",label:\"name\",value:\"value\"},name:\"select1\",formItem:{label:\"选择框\"},options:[]},{type:\"datePicker\",control:{type:\"date\",placeholder:\"请选择日期\",format:\"YYYY-MM-DD\",valueFormat:\"YYYY-MM-DD\"},config:{},name:\"dateTime\",formItem:{label:\"日期时间\"}},{type:\"switch\",control:{modelValue:false,activeValue:1,inactiveValue:0},config:{},name:\"switch\",formItem:{label:\"开关\"}},{type:\"textarea\",control:{modelValue:\"\"},config:{},name:\"textarea\",formItem:{label:\"多行文本\"}},{type:\"upload\",control:{modelValue:\"\"},config:{tip:\"\",btnText:\"选择图片\"},name:\"upload\",formItem:{label:\"图片文件上传\"}},{type:\"card\",list:[{type:\"component\",control:{modelValue:\"\"},config:{componentName:\"ComponentTest\"},name:\"component\",formItem:{label:\"选择位置\"}},{type:\"expand-user\",control:{modelValue:\"\"},config:{},name:\"user\",formItem:{label:\"选择用户\"}}],control:{},config:{},formItem:{label:\"卡片布局\"}},{type:\"inputSlot\",control:{modelValue:\"\",appendToBody:true,style:{width:\"150px\"}},options:[{label:\"小时\",value:\"h\"},{label:\"分钟\",value:\"m\"},{label:\"天\",value:\"d\"}],config:{optionsType:0},name:\"prepend\",formItem:{label:\"前缀\",hideLabel:true}},{type:\"input\",control:{modelValue:\"\"},config:{append:\"key:prepend\"},name:\"select2\",formItem:{label:\"复合型\"}},{type:\"title\",control:{modelValue:\"子表\"},config:{},name:\"title1706851586238\"},{type:\"table\",list:[{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入姓名\"},config:{},name:\"name\",formItem:{label:\"姓名\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"select\",control:{modelValue:\"\",appendToBody:true},options:[{label:\"男\",value:\"1\"},{label:\"女\",value:\"0\"},{label:\"未知\",value:\"2\"}],config:{optionsType:0,transformData:\"string\"},name:\"sex\",formItem:{label:\"性别\"}}],tableData:[],control:{border:true},config:{addBtnText:\"添加一行\"},name:\"table2\"},{type:\"title\",control:{modelValue:\"弹性字段\"},config:{}},{type:\"flex\",list:[{type:\"input\",control:{modelValue:\"\"},config:{span:10},name:\"input1706851786349\",formItem:{label:\"姓名\"},customRules:[{type:\"required\",message:\"必填项\",trigger:\"blur\"}]},{type:\"input\",control:{modelValue:\"\"},config:{span:10},name:\"tel\",formItem:{label:\"电话\"},customRules:[{type:\"mobile\",message:\"请输入手机号码\",trigger:\"blur\"}]}],tableData:[],control:{},config:{addBtnText:\"添加一行\",span:22,delBtnText:\"删除\"},name:\"flex\"},{type:\"tinymce\",control:{modelValue:\"\"},config:{},name:\"tinymce\",formItem:{label:\"内容\"}}],form:{size:\"default\",labelWidth:\"120\"},config:{submitCancel:true,sourceId:20,name:\"组件示例表单\",transformData:true}}', NULL, 1, '2025-06-19 16:24:27', '2024-02-01 09:47:26', '{}', 1, 1, 1, NULL, NULL, NULL),
 (59, NULL, '未命名可视化大屏', 4, '{list:[{id:\"rect\",type:\"tempRect\",position:{display:true}},{type:\"bar\",id:\"bar1\",position:{width:400,height:300,left:86,top:104},option:{xAxis:{type:\"category\",data:[\"1月\",\"2月\",\"3月\",\"4月\",\"5月\",\"6月\",\"7月\",\"8月\",\"9月\",\"10月\",\"11月\",\"12月\"]},yAxis:{type:\"value\"},grid:{left:0,top:0,right:0,bottom:30},series:[{data:[148,57,497,478,143,292,245,317,460,49,118,281],type:\"bar\"}]},config:{optionsType:1,method:\"post\",requestUrl:\"demo/echarts\",before:(data) =>\n      {\n        // data请求参数，route当前路由信息\n        console.log(\'beforeFetch\', data)\n        return data\n      },after:(res, data) =>\n      {\n        // res响应数据, 当前组件数据data\n        console.log(\'当前组件数据\', data)\n        console.log(\'接口响应数据\', res)\n        //下面两行是重点，将接口返回的数据赋值级当前组件\n        data.xAxis.data = res.bar.xAxis\n        data.series[0].data = res.bar.data1\n        return data //返回新的图表数据\n      }}},{type:\"bar\",position:{width:\"403.77px\",height:300,left:849,top:74},option:{xAxis:{type:\"category\",data:\"{{getScreenGlobal.bar.xAxis}}\"},yAxis:{type:\"value\"},grid:{left:0,top:0,right:0,bottom:30},series:[{data:[120,200,150,80,70,110,130],type:\"bar\"}]},config:{lock:false,optionsType:0},id:\"bar1720868137715\",layerName:\"bar1720868137715\"}],config:{width:\"1920px\",height:\"1080px\",background:\"#000\",style:\"\",primary:\"#409eff\",method:\"post\",requestUrl:\"demo/echarts\"}}', NULL, 1, '2024-11-11 09:39:34', '2024-07-13 18:55:41', NULL, NULL, 1, 1, NULL, NULL, NULL),
 (78, 57, '组件示例', 2, '{list:[{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入标题名称\"},config:{},name:\"inputText\",formItem:{label:\"标题名称\"}},{type:\"select\",control:{style:{width:\"100px\"}},config:{optionsType:1,optionsFun:\"demo/select\",method:\"get\",label:\"name\",value:\"value\"},name:\"select1\",formItem:{label:\"选择框\"},options:[]}],form:{size:\"default\"},config:{submitCancel:true,sourceId:57,name:\"组件示例\"}}', '{tableProps:{},columns:[{label:\"多选\",type:\"selection\"},{prop:\"inputText\",label:\"标题名称\"},{prop:\"radio\",label:\"性别\",render:\"tag\",config:{},replaceValue:{0:\"女\",1:\"男\"},custom:{0:\"danger\",1:\"primary\"}},{prop:\"select1\",label:\"选择框\"},{prop:\"dateTime\",label:\"日期时间\",render:\"datetime\",config:{},timeFormat:\"{yyyy}-{mm}-{dd} {h}:{i}:{s}\"},{prop:\"switch\",label:\"开关\",render:\"switch\",config:{activeText:\"开\",inactiveText:\"关\",activeValue:\"1\",inactiveValue:\"0\",inlinePrompt:true},renderFormatter:(val,row) => {\n  // 渲染前对字段值的预处理方法，需返回新值\n  return val&&val.toString()\n}},{prop:\"textarea\",label:\"多行文本\"},{prop:\"select2\",label:\"复合型\"},{label:\"操作\",render:\"buttons\",config:{},buttons:[{key:\"edit\"},{key:\"del\",render:\"confirm\",popConfirm:{title:\"确认删除该记录吗？\",confirmButtonText:\"确认\",cancelButtonText:\"取消\",confirmButtonType:\"danger\"}}]}],config:{openType:\"page\",fixedBottomScroll:true,columnsSetting:true,expand:true,formId:\"57\",name:\"组件示例\",searchJump:true},apiKey:{},controlBtn:[{key:\"add\"},{key:\"del\",render:\"confirm\",popConfirm:{title:\"确认删除该记录吗？\",confirmButtonText:\"确认\",cancelButtonText:\"取消\",confirmButtonType:\"danger\"}}]}', 1, '2024-11-22 15:32:53', '2024-11-19 15:30:04', NULL, 1, 1, 1, NULL, NULL, NULL),
 (79, 13, '客户信息管理', 1, '{list:[{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入客户名称\"},config:{},name:\"name\",formItem:{label:\"客户名称\"}},{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入手机号码\"},config:{},name:\"phone\",formItem:{label:\"手机号码\"}},{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入微信\"},config:{},name:\"weixin\",formItem:{label:\"微信\"}},{type:\"input\",control:{modelValue:\"\",placeholder:\"请输入公司名称\"},config:{},name:\"company\",formItem:{label:\"公司名称\"}},{type:\"radio\",control:{modelValue:\"\"},config:{optionsType:2,optionsFun:\"sys-status\"},name:\"status\",formItem:{label:\"类型\"},options:[]},{type:\"textarea\",control:{modelValue:\"\"},config:{},name:\"remark\",formItem:{label:\"备注\"}},{type:\"select\",control:{},config:{optionsType:0,transformData:\"string\"},name:\"intention\",formItem:{label:\"合作意向\"},options:[{label:\"普通客户\",value:\"1\"},{label:\"合作客户\",value:\"2\"},{label:\"无意向\",value:\"3\"}]},{type:\"datePicker\",control:{modelValue:\"\",type:\"date\",valueFormat:\"YYYY-MM-DD\",format:\"YYYY-MM-DD\"},config:{},name:\"creatTime\",formItem:{label:\"添加时间\"}}],form:{size:\"default\",labelWidth:\"120px\"},config:{submitCancel:true,sourceId:13,name:\"客户信息管理\"},apiKey:{}}', NULL, 1, '2024-11-20 16:22:42', '2024-11-20 15:18:21', NULL, 1, 1, 1, NULL, NULL, NULL),
@@ -468,7 +468,18 @@ INSERT INTO `sys_login_log` (`id`, `userName`, `loginIp`, `remark`, `dateTime`, 
 (136, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-05-07 15:31:46', 1),
 (137, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-05-09 16:16:48', 1),
 (138, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-05-12 15:54:32', 1),
-(139, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-05-23 09:57:49', 1);
+(139, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-05-23 09:57:49', 1),
+(140, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-19 16:07:57', 1),
+(141, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-20 08:38:54', 1),
+(142, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-20 08:45:13', 1),
+(143, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-24 08:36:29', 1),
+(144, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-25 08:45:18', 1),
+(145, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-26 08:26:54', 1),
+(146, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-27 08:40:50', 1),
+(147, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-29 14:44:09', 1),
+(148, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-06-30 08:34:20', 1),
+(149, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-07-01 09:01:38', 1),
+(150, 'admin', '0:0:0:0:0:0:0:1', NULL, '2025-07-02 08:48:49', 1);
 
 -- --------------------------------------------------------
 
@@ -522,8 +533,7 @@ INSERT INTO `sys_menu` (`id`, `parentId`, `name`, `icon`, `sort`, `path`, `statu
 (26, 21, '抄送事项', 'icon-cs', 8, '/task/applyed?task=copyer', 1, '', 1, 1),
 (27, 1, '组件示例', 'icon-doc', 0, '/design/list/content/78', 1, '', 3, 1),
 (28, 1, '客户信息', 'icon-user', 0, '/design/list/content/80', 1, '', 3, 1),
-(29, 4, 'swagger文档', 'icon-work', 6, '/api/swagger-ui/index.html', 1, '', 1, 1),
-(34, 1, '表单列表测试', 'icon-sp', 0, '/design/list/content/88', 1, '', 3, 1);
+(29, 4, 'swagger文档', 'icon-work', 6, '/api/swagger-ui/index.html', 1, '', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -569,6 +579,51 @@ INSERT INTO `sys_role` (`id`, `name`, `status`, `menuId`, `remark`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `sys_upload_files`
+--
+
+CREATE TABLE `sys_upload_files` (
+  `id` int(10) NOT NULL,
+  `fileName` varchar(50) NOT NULL,
+  `fileUrl` varchar(100) NOT NULL,
+  `userId` int(10) NOT NULL,
+  `creatTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `md5` varchar(50) NOT NULL,
+  `groupId` int(10) DEFAULT NULL,
+  `size` int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='文件上传列表';
+
+--
+-- 转存表中的数据 `sys_upload_files`
+--
+
+INSERT INTO `sys_upload_files` (`id`, `fileName`, `fileUrl`, `userId`, `creatTime`, `md5`, `groupId`, `size`) VALUES
+(39, '2.png', '/upload/2.png', 1, '2025-07-02 11:14:35', '5eecbf57ceef0857760389fa4e8f9c4e', NULL, 153336);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `sys_upload_group`
+--
+
+CREATE TABLE `sys_upload_group` (
+  `id` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `creatTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `userId` int(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='上传文件分组';
+
+--
+-- 转存表中的数据 `sys_upload_group`
+--
+
+INSERT INTO `sys_upload_group` (`id`, `name`, `creatTime`, `userId`) VALUES
+(1, '视频文件', '2023-10-09 17:32:25', 0),
+(2, '图片文件', '2023-10-09 17:35:52', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `sys_user`
 --
 
@@ -596,47 +651,9 @@ CREATE TABLE `sys_user` (
 --
 
 INSERT INTO `sys_user` (`id`, `userName`, `nickName`, `phone`, `status`, `roleId`, `password`, `departmentId`, `postId`, `remark`, `creatTime`, `updateTime`, `lastLoginTime`, `loginTimer`, `ip`, `picture`) VALUES
-(1, 'admin', '管理员', '13800138000', 1, '2,1', '123456', 5, 1, '', NULL, NULL, '2025-05-23 09:57:49', 157, '0:0:0:0:0:0:0:1', NULL),
+(1, 'admin', '管理员', '13800138000', 1, '2,1', '123456', 5, 1, '', NULL, NULL, '2025-07-02 08:48:49', 168, '0:0:0:0:0:0:0:1', NULL),
 (2, 'user', '会员', '', 1, '2', '123456', 5, 0, '', NULL, NULL, '2024-12-23 08:49:18', 22, '0:0:0:0:0:0:0:1', NULL),
 (7, 'hr', 'test', '', 1, '2', '123456', 12, NULL, '', '2024-11-29 11:56:07', NULL, NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `upload-files`
---
-
-CREATE TABLE `upload-files` (
-  `id` int(10) NOT NULL,
-  `fileName` varchar(50) NOT NULL,
-  `fileUrl` varchar(100) NOT NULL,
-  `userId` int(10) NOT NULL,
-  `creatTime` datetime NOT NULL DEFAULT current_timestamp(),
-  `md5` varchar(50) NOT NULL,
-  `groupId` int(10) DEFAULT NULL,
-  `size` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='文件上传列表';
-
--- --------------------------------------------------------
-
---
--- 表的结构 `upload-group`
---
-
-CREATE TABLE `upload-group` (
-  `id` int(10) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `creatTime` datetime NOT NULL DEFAULT current_timestamp(),
-  `userId` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='上传文件分组';
-
---
--- 转存表中的数据 `upload-group`
---
-
-INSERT INTO `upload-group` (`id`, `name`, `creatTime`, `userId`) VALUES
-(1, '视频文件', '2023-10-09 17:32:25', 0),
-(2, '图片文件', '2023-10-09 17:35:52', NULL);
 
 --
 -- 转储表的索引
@@ -727,21 +744,21 @@ ALTER TABLE `sys_role`
   ADD PRIMARY KEY (`id`);
 
 --
+-- 表的索引 `sys_upload_files`
+--
+ALTER TABLE `sys_upload_files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 表的索引 `sys_upload_group`
+--
+ALTER TABLE `sys_upload_group`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- 表的索引 `sys_user`
 --
 ALTER TABLE `sys_user`
-  ADD PRIMARY KEY (`id`);
-
---
--- 表的索引 `upload-files`
---
-ALTER TABLE `upload-files`
-  ADD PRIMARY KEY (`id`);
-
---
--- 表的索引 `upload-group`
---
-ALTER TABLE `upload-group`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -812,7 +829,7 @@ ALTER TABLE `sys_flow_record`
 -- 使用表AUTO_INCREMENT `sys_login_log`
 --
 ALTER TABLE `sys_login_log`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- 使用表AUTO_INCREMENT `sys_menu`
@@ -833,22 +850,22 @@ ALTER TABLE `sys_role`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- 使用表AUTO_INCREMENT `sys_upload_files`
+--
+ALTER TABLE `sys_upload_files`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- 使用表AUTO_INCREMENT `sys_upload_group`
+--
+ALTER TABLE `sys_upload_group`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- 使用表AUTO_INCREMENT `sys_user`
 --
 ALTER TABLE `sys_user`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- 使用表AUTO_INCREMENT `upload-files`
---
-ALTER TABLE `upload-files`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- 使用表AUTO_INCREMENT `upload-group`
---
-ALTER TABLE `upload-group`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

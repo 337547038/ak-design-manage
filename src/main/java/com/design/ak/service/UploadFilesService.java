@@ -1,15 +1,16 @@
 package com.design.ak.service;
 
-import com.design.ak.entity.Test;
+import com.design.ak.entity.UploadFiles;
 
+import java.util.List;
 import java.util.Map;
 /**
- * (Test)表服务接口
+ * 文件上传列表(UploadFiles)表服务接口
  *
  * @author ak.design 337547038
- * @since 2023-12-13 16:24:53
+ * @since 2025-06-27 11:15:26
  */
-public interface TestService {
+public interface UploadFilesService {
 
     /**
      * 通过ID查询单条数据
@@ -17,7 +18,7 @@ public interface TestService {
      * @param id 主键
      * @return 实例对象
      */
-    Test queryById(Integer id);
+    UploadFiles queryById(Integer id);
     
     /**
      * 分页查询
@@ -25,21 +26,25 @@ public interface TestService {
      * @return 查询结果
      */
     Map<String,Object> queryByPage(Map<String,Object> pages);
+
+
+    List<Map<String, Object>> queryList(UploadFiles uploadFiles);
+
     /**
      * 新增数据
      *
-     * @param test 实例对象
+     * @param uploadFiles 实例对象
      * @return 实例对象
      */
-    Test insert(Test test);
+    UploadFiles insert(UploadFiles uploadFiles);
 
     /**
      * 修改数据
      *
-     * @param test 实例对象
+     * @param uploadFiles 实例对象
      * @return 实例对象
      */
-    Integer updateById(Test test);
+    Integer updateById(UploadFiles uploadFiles);
 
     /**
      * 通过主键删除数据
@@ -47,6 +52,7 @@ public interface TestService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(String[] id);
+    Boolean deleteById(String[] id);
+    Boolean deleteByIdOrHash(Map<String, Object> params);
 
 }

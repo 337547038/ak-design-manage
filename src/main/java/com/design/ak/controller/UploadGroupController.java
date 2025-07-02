@@ -1,7 +1,8 @@
 package com.design.ak.controller;
 
-import com.design.ak.entity.TestContent;
-import com.design.ak.service.TestContentService;
+import com.design.ak.entity.UploadGroup;
+import com.design.ak.service.UploadGroupService;
+import com.design.ak.utils.Utils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.*;
@@ -9,23 +10,24 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
- * (TestContent)表控制层
+ * 上传文件分组(UploadGroup)表控制层
  *
  * @author ak.design 337547038
- * @since 2024-02-29 17:43:15
+ * @since 2025-06-27 09:17:33
  */
-@Tag(name = "TestContent相关")
+@Tag(name = "UploadGroup相关")
 @RestController
-@RequestMapping("testContent")
-public class TestContentController {
+@RequestMapping("upload/group")
+public class UploadGroupController {
     /**
      * 服务对象
      */
     @Resource
-    private TestContentService testContentService;
+    private UploadGroupService uploadGroupService;
 
     /**
      * 分页查询
@@ -52,7 +54,7 @@ public class TestContentController {
     })
     @PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
-        return ResponseEntity.ok(this.testContentService.queryByPage(pages));
+        return ResponseEntity.ok(this.uploadGroupService.queryByPage(pages));
     }
 
     /**
@@ -63,34 +65,35 @@ public class TestContentController {
      */
     @Operation(summary ="根据id查询数据")
     @PostMapping("get")
-    public ResponseEntity<TestContent> queryById(@RequestBody Map<String, Integer> query) {
-        return ResponseEntity.ok(this.testContentService.queryById(query.get("id")));
+    public ResponseEntity<UploadGroup> queryById(@RequestBody Map<String, Integer> query) {
+        return ResponseEntity.ok(this.uploadGroupService.queryById(query.get("id")));
     }
 
     /**
      * 新增数据
      *
-     * @param testContent 实体
+     * @param uploadGroup 实体
      * @return 新增结果Id
      */
     @Operation(summary ="新增数据")
     @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody TestContent testContent) {
-        TestContent result = testContentService.insert(testContent);
-        System.out.println(result.getId());
+    public ResponseEntity<Integer> add(@RequestBody UploadGroup uploadGroup) {
+        uploadGroup.setCreatTime(new Date());
+        uploadGroup.setUserId(Utils.getCurrentUserId());
+        UploadGroup result = uploadGroupService.insert(uploadGroup);
         return ResponseEntity.ok(result.getId());
     }
 
     /**
      * 编辑数据
      *
-     * @param testContent 实体
+     * @param uploadGroup 实体
      * @return 影响行数
      */
     @Operation(summary ="编辑数据")
     @PostMapping("edit")
-    public ResponseEntity<Integer> edit(@RequestBody TestContent testContent) {
-        return ResponseEntity.ok(this.testContentService.updateById(testContent));
+    public ResponseEntity<Integer> edit(@RequestBody UploadGroup uploadGroup) {
+        return ResponseEntity.ok(this.uploadGroupService.updateById(uploadGroup));
     }
 
     /**
@@ -105,7 +108,7 @@ public class TestContentController {
     public ResponseEntity<Boolean> deleteById(@RequestBody Map<String,Object> ids) {
         String string = ids.get("id").toString();
         String[] idList = string.split(",");
-        return ResponseEntity.ok(this.testContentService.deleteById(idList));
+        return ResponseEntity.ok(this.uploadGroupService.deleteById(idList));
     }
 
 }
