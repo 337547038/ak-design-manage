@@ -47,7 +47,9 @@ https://gitee.com/q337547038/vue-form-design
 java -jar ak-design-manage-0.0.1-SNAPSHOT.jar
 ```
 
-3.可查看本地部署视频链接
+3.为更好的体验，前端请使用预览模式，运行　`npm run preview`
+
+4.可查看本地部署视频链接
 
 [如何在本地调演示效果](https://www.bilibili.com/video/BV1xCYeeEEMS/?vd_source=bcdd3240479f23e6c5bf3c4159785b92)
 
