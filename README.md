@@ -41,7 +41,14 @@ https://gitee.com/q337547038/vue-form-design
 
 1.安装javaSDK，运行demo下的`ak-design-manage-0.0.1-SNAPSHOT.jar`
 
-2.导入db目录下数据库，连接路径为`jdbc:mysql://localhost:3306/akdesign`
+2.导入db目录下数据库，连接路径为`jdbc:mysql://localhost:3306/akdesign`，用户名:root，密码为空
+
+```text
+spring.datasource.url=jdbc:mysql://localhost:3306/akdesign
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+```
 
 ```bash
 java -jar ak-design-manage-0.0.1-SNAPSHOT.jar
