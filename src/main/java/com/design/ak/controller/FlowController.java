@@ -4,7 +4,7 @@ import com.design.ak.config.CustomException;
 import com.design.ak.entity.Flow;
 import com.design.ak.entity.FlowRecord;
 import com.design.ak.service.FlowService;
-import com.design.ak.service.impl.FlowRecordServiceImpl;
+import com.design.ak.service.FlowRecordService;
 import com.design.ak.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +32,12 @@ public class FlowController {
      */
     @Resource
     private FlowService flowService;
-    @Autowired
-    private FlowRecordServiceImpl flowRecordService;
+
+    private final FlowRecordService flowRecordService;
+
+    public FlowController(FlowRecordService flowRecordService) {
+        this.flowRecordService = flowRecordService;
+    }
 
     /**
      * 分页查询
@@ -135,10 +139,10 @@ public class FlowController {
      */
     @PostMapping("withdraw")
     public ResponseEntity<Integer> withdraw(@RequestBody Map<String, String> params) {
-        Integer id = Integer.valueOf(params.get("id"));
-        if (id == null) {
+        if (params.get("id") == null) {
             throw new CustomException("id不能为空");
         }
+        Integer id = Integer.valueOf(params.get("id"));
         Flow flow = new Flow();
         flow.setId(id);
         flow.setEndTime(new Date());
