@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * (User)表服务实现类
  *
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     private final LoginLogService loginLogService;
+
     public UserServiceImpl(LoginLogService loginLogService) {
         this.loginLogService = loginLogService;
     }
@@ -46,14 +48,14 @@ public class UserServiceImpl implements UserService {
     /**
      * 分页查询
      *
-     * @param pages  筛选条件分页对象
+     * @param pages 筛选条件分页对象
      * @return 查询结果
      */
     @Override
-    public Map<String, Object> queryByPage(Map<String,Object> pages) {
-        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
+    public Map<String, Object> queryByPage(Map<String, Object> pages) {
+        Map<String, Map<String, Object>> map = Utils.getPagination(pages);//处理分页信息
         User user = JSON.parseObject(JSON.toJSONString(map.get("query")), User.class);//json字符串转java对象
-        
+
         long total = this.userDao.count(user);
         List<Map<String,Object>> list = this.userDao.queryAllByLimit(user,map.get("extend"));
         Map<String, Object> response = new HashMap<>();
@@ -100,11 +102,12 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据用户名和密码登录
-     * @param user 实体
+     *
+     * @param user      实体
      * @param ipAddress 登录时的ip地址
      */
     public List<Map<String, Object>> login(User user, String ipAddress) {
-        List<Map<String,Object>> list = this.userDao.queryAllByLimit(user, new HashMap<>());
+        List<Map<String, Object>> list = this.userDao.queryAllByLimit(user, new HashMap<>());
         LoginLog log = new LoginLog();
         log.setUserName(user.getUserName());
         log.setLoginIp(ipAddress);
@@ -113,18 +116,21 @@ public class UserServiceImpl implements UserService {
             //更新登录信息
             Map<String, Object> listObj = list.get(0);
             Integer loginTime = (Integer) listObj.get("loginTimer");
+            if(loginTime==null){
+                loginTime=0;
+            }
             Integer id = (Integer) listObj.get("id");
             User updateUser = new User();
             updateUser.setId(id);
             updateUser.setLastLoginTime(new Date());
-            updateUser.setLoginTimer(loginTime+1);
+            updateUser.setLoginTimer(loginTime + 1);
             updateUser.setIp(ipAddress);
             userDao.updateLogin(updateUser);
             //添加登录日志
             log.setStatus(1);
-        }else {
+        } else {
             log.setStatus(0);
-            log.setRemark("密码:"+user.getPassword());
+            log.setRemark("密码:" + user.getPassword());
         }
         loginLogService.insert(log);
         return list;
