@@ -8,6 +8,8 @@ import com.design.ak.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,16 @@ public class RoleServiceImpl implements RoleService {
         response.put("list", list);
         response.put("total", total);
         return response;
+    }
+
+    /**
+     * 根据ids返回指定记录
+     * @param ids 主皱
+     * @return 影响行数
+     */
+    @Override
+    public List<Map<String,Object>> selectInIds(String[] ids){
+        return this.roleDao.selectInIds(ids);
     }
 
     /**

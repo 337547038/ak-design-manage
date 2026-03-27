@@ -172,4 +172,34 @@ id, parentId, name, icon, sort, path, status, remark, type, navShow
         </foreach>
         </delete>
 
+    <!--根据id返回指定记录-->
+    <select id="queryByIds">
+        select * from sys_menu
+                 <where>
+                     <if test="query.parentId != null">
+                         and parentId = #{query.parentId}
+                     </if>
+                     <if test="query.name != null and query.name != ''">
+                         and name = #{query.name}
+                     </if>
+                     <if test="query.icon != null and query.icon != ''">
+                         and icon = #{query.icon}
+                     </if>
+                     <if test="query.status != null">
+                         and status = #{query.status}
+                     </if>
+                     <if test="query.type != null">
+                         and type = #{query.type}
+                     </if>
+                     <if test="query.navShow != null">
+                         and navShow = #{query.navShow}
+                     </if>
+                     <if test="ids != null">
+                         and id in
+                 <foreach collection="ids" item="item" separator="," open="(" close=")">
+                         #{item}
+                     </foreach>
+                     </if>
+                 </where>
+    </select>
     </mapper>

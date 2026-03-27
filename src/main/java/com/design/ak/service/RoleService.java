@@ -2,6 +2,7 @@ package com.design.ak.service;
 
 import com.design.ak.entity.Role;
 
+import java.util.List;
 import java.util.Map;
 /**
  * (Role)表服务接口
@@ -25,6 +26,9 @@ public interface RoleService {
      * @return 查询结果
      */
     Map<String,Object> queryByPage(Map<String,Object> pages);
+
+    List<Map<String,Object>> selectInIds(String[] ids);
+
     /**
      * 新增数据
      *

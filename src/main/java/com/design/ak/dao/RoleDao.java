@@ -32,6 +32,7 @@ public interface RoleDao {
      */
     List<Map<String,Object>> queryAllByLimit(@Param("query") Role role,@Param("extend") Object extend);
 
+
     /**
      * 统计总行数
      *
@@ -63,6 +64,13 @@ public interface RoleDao {
      * @return 影响行数
      */
     int deleteById(String[] id);
+
+    /**
+     * 根据ids返回指定记录
+     * @param ids 主皱
+     * @return 影响行数
+     */
+    List<Map<String,Object>> selectInIds(String[] ids);
 
 }
 

@@ -123,4 +123,12 @@ id, name, status, menuId, remark
         </foreach>
         </delete>
 
+    <!--根据id返回指定记录-->
+    <select id="selectInIds">
+        select * from sys_role where status=1 and id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
     </mapper>
