@@ -33,6 +33,14 @@ public interface MenuDao {
     List<Map<String,Object>> queryAllByLimit(@Param("query") Menu menu,@Param("extend") Object extend);
 
     /**
+     * 根据指定id相应菜单
+     * *@param menu 筛选条件
+     * @param ids id
+     * @return result
+     */
+    List<Map<String,Object>> queryByIds(@Param("query") Menu menu,@Param("ids") String[] ids);
+
+    /**
      * 统计总行数
      *
      * @param menu 查询条件

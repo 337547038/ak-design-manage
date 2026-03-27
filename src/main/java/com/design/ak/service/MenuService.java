@@ -2,6 +2,7 @@ package com.design.ak.service;
 
 import com.design.ak.entity.Menu;
 
+import java.util.List;
 import java.util.Map;
 /**
  * (Menu)表服务接口
@@ -25,6 +26,9 @@ public interface MenuService {
      * @return 查询结果
      */
     Map<String,Object> queryByPage(Map<String,Object> pages);
+
+    Map<String,Object> queryByUserId(Map<String, Object> pages);
+
     /**
      * 新增数据
      *
