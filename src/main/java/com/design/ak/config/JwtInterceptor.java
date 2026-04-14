@@ -62,7 +62,6 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw new CustomException(codeToken, "token异常，请重新登录.");
         }
         // 根据 userId 查询 User
-        //　todo 每个请求接口请查一次用户核对，不理想
         User user = userService.queryById(Integer.valueOf(userId));
         if (user == null || user.getStatus() == 0) {
             log.error("用户不存在，请重新登录。用户信息:{}", JSON.toJSONString(user));

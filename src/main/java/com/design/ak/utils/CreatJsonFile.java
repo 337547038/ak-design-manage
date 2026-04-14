@@ -5,6 +5,8 @@ import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,8 +19,11 @@ public class CreatJsonFile {
         Matcher matcher = pattern.matcher(url);
         if (matcher.find()) {
             String result = matcher.group(1);
+            List<String> suffixes = Arrays.asList("/list", "/get", "/login", "/flow/form","/demo/echarts","/done","/listByUser"); // 多个可能的结尾
+            boolean matches = suffixes.stream().anyMatch(result::endsWith);
             //System.out.println("提取的字符串: " + result);
-            if (result.endsWith("/list") || result.endsWith("/get") || result.endsWith("/login") || result.endsWith("/flow/form") || result.endsWith("/demo/echarts")||result.endsWith("/done")) {
+           // if (result.endsWith("/list") || result.endsWith("/get") || result.endsWith("/login") || result.endsWith("/flow/form") || result.endsWith("/demo/echarts")||result.endsWith("/done")) {
+             if(matches){
                 //以list或get结尾
                 JSONObject obj = JSONObject.parse(JSONObject.toJSONString(params));
                 JSONObject objContent = JSONObject.parse(content);

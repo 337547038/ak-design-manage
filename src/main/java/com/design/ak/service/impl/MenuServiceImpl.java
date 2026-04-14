@@ -87,7 +87,7 @@ public class MenuServiceImpl implements MenuService {
         if (list.isEmpty()) {
             return response;
         }
-        System.out.println(list);
+        //System.out.println(list);
         // 大于一条记录时，将多条记录的菜单id合并去重
         String menuIdList = "";
         if (list.size() > 1) {

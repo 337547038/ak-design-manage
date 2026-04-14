@@ -1,13 +1,13 @@
 package com.design.ak.service.impl;
 
 import com.alibaba.fastjson2.JSON;
-import com.design.ak.dao.LoginLogDao;
 import com.design.ak.entity.LoginLog;
 import com.design.ak.service.LoginLogService;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.User;
 import com.design.ak.dao.UserDao;
 import com.design.ak.service.UserService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
      * @return 实例对象
      */
     @Override
+    @Cacheable(value = "user", key = "#id+'_userToken'")
     public User queryById(Integer id) {
         return this.userDao.queryById(id);
     }
