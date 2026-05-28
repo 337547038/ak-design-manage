@@ -44,7 +44,15 @@ public class DesignServiceImpl implements DesignService {
      */
     @Override
     public Design queryById(Integer id) {
-        return this.designDao.queryById(id);
+        Design result = this.designDao.queryById(id);
+        if (result.getType() == 2) {
+            //当前为列表设计时，
+            Design form = this.designDao.queryById(result.getSource());
+            if (form.getDict() != null) {
+                result.setDict(form.getDict());
+            }
+        }
+        return result;
     }
 
     /**
@@ -55,7 +63,7 @@ public class DesignServiceImpl implements DesignService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
+        Map<String, Map<String, Object>> map = Utils.getPagination(pages);//处理分页信息
         Design design = JSON.parseObject(JSON.toJSONString(map.get("query")), Design.class);//json字符串转java对象
 
         long total = this.designDao.count(design);
@@ -83,7 +91,7 @@ public class DesignServiceImpl implements DesignService {
         }
 
         //2列表页时返回表单数据源字典;3流程列表
-        if (design.getType() == 2||design.getType() == 3) {
+        if (design.getType() == 2 || design.getType() == 3) {
             String sourceIdList = getStringKey(list, "source");
             Design queryDesign = new Design();
             queryDesign.setIdList(sourceIdList);
