@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
         return this.userDao.queryById(id);
     }
 
+
+    @Override
+    public List<Map<String,Object>> queryByIds(String[] ids){
+        return this.userDao.queryByIds(ids);
+    }
     /**
      * 分页查询
      *

@@ -5,15 +5,16 @@
         <resultMap type="com.design.ak.entity.FlowRecord" id="FlowRecordMap">
                 <result property="id" column="id" jdbcType="INTEGER"/>
                 <result property="flowId" column="flowId" jdbcType="INTEGER"/>
-                <result property="content" column="content" jdbcType="VARCHAR"/>
-                <result property="datetime" column="datetime" jdbcType="TIMESTAMP"/>
-                <result property="approverId" column="approverId" jdbcType="INTEGER"/>
+                <result property="userId" column="userId" jdbcType="INTEGER"/>
+                <result property="dateTime" column="dateTime" jdbcType="TIMESTAMP"/>
+                <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="status" column="status" jdbcType="INTEGER"/>
+                <result property="nodeId" column="nodeId" jdbcType="VARCHAR"/>
                 <result property="nodeName" column="nodeName" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, flowId, content, datetime, approverId, status, nodeName
+id, flowId, userId, dateTime, remark, status, nodeId, nodeName        
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="FlowRecordMap">
@@ -26,16 +27,16 @@ id, flowId, content, datetime, approverId, status, nodeName
         <!--查询指定行数据-->
         <select id="queryAllByLimit">
             select
-            (select userName from `sys_user` where d.approverId=id) as name,
-            <choose>
+            <!--<choose>
                 <when test="extend.columns != null and extend.columns!=''">
                     ${extend.columns}
                 </when>
                 <otherwise>
                     <include refid="commColumnsItem" />
                 </otherwise>
-            </choose>
-            from sys_flow_record as d
+            </choose>-->
+               *, u.userName
+            from sys_flow_record r LEFT JOIN sys_user u ON r.userId=u.id
             <where>
                     <if test="query.id != null">
                         and id = #{query.id}
@@ -43,17 +44,20 @@ id, flowId, content, datetime, approverId, status, nodeName
                     <if test="query.flowId != null">
                         and flowId = #{query.flowId}
                     </if>
-                    <if test="query.content != null and query.content != ''">
-                        and content = #{query.content}
+                    <if test="query.userId != null">
+                        and userId = #{query.userId}
                     </if>
-                    <if test="query.datetime != null">
-                        and datetime = #{query.datetime}
+                    <if test="query.dateTime != null">
+                        and dateTime = #{query.dateTime}
                     </if>
-                    <if test="query.approverId != null">
-                        and approverId = #{query.approverId}
+                    <if test="query.remark != null and query.remark != ''">
+                        and remark = #{query.remark}
                     </if>
                     <if test="query.status != null">
                         and status = #{query.status}
+                    </if>
+                    <if test="query.nodeId != null and query.nodeId != ''">
+                        and nodeId = #{query.nodeId}
                     </if>
                     <if test="query.nodeName != null and query.nodeName != ''">
                         and nodeName = #{query.nodeName}
@@ -64,7 +68,7 @@ id, flowId, content, datetime, approverId, status, nodeName
                     order by ${extend.sort}
                 </when>
                 <otherwise>
-                    order by id desc
+                    order by r.id desc
                 </otherwise>
             </choose>
             <if test="extend.pageSize >0">
@@ -72,45 +76,33 @@ id, flowId, content, datetime, approverId, status, nodeName
             </if>
         </select>
 
-    <select id="queryWhereByLimit">
-        select f.status as flowStatus,f.title,f.creatTime,f.formId,f.flowId as fId,f.currentNode,f.nodeStatus, s.id, s.flowId, s.content, s.datetime, s.approverId, s.status
-        <!--<choose>
-            <when test="extend.columns != null and extend.columns!=''">
-                ${extend.columns}
-            </when>
-            <otherwise>
-                <include refid="commColumnsItem" />
-            </otherwise>
-        </choose>-->
-        from sys_flow_record AS s JOIN `sys_flow` AS f ON s.flowId=f.id
+    <select id="queryDoneList">
+        SELECT
+        r.id,
+        r.flowId,
+        r.dateTime,
+        r.nodeName,
+        d.name AS d_name,
+        d.category,
+        f.userId
+        FROM
+        sys_flow_record r
+        JOIN
+        sys_flow f ON r.flowId = f.id
+        JOIN
+        design d ON f.flowId = d.id
         <where>
-            <if test="query.id != null">
-                and s.id = #{query.id}
-            </if>
-            <if test="query.flowId != null">
-                and s.flowId = #{query.flowId}
-            </if>
-            <if test="query.content != null and query.content != ''">
-                and s.content = #{query.content}
-            </if>
-            <if test="query.datetime != null">
-                and s.datetime = #{query.datetime}
-            </if>
-            <if test="query.approverId != null">
-                and s.approverId = #{query.approverId}
+            <if test="query.userId != null">
+                and r.userId = #{query.userId}
             </if>
             <if test="query.status != null">
-                and s.status = #{query.status}
+                and r.status = #{query.status}
+            </if>
+            <if test="extend.status != null">
+                and r.status in (#{extend.status})
             </if>
         </where>
-        <choose>
-            <when test="extend.sort != null and extend.sort!=''">
-                order by ${extend.sort}
-            </when>
-            <otherwise>
-                order by s.id desc
-            </otherwise>
-        </choose>
+        order by r.id desc
         <if test="extend.pageSize >0">
             limit #{extend.pageIndex}, #{extend.pageSize}
         </if>
@@ -127,17 +119,20 @@ id, flowId, content, datetime, approverId, status, nodeName
                     <if test="flowId != null">
                         and flowId = #{flowId}
                     </if>
-                    <if test="content != null and content != ''">
-                        and content = #{content}
+                    <if test="userId != null">
+                        and userId = #{userId}
                     </if>
-                    <if test="datetime != null">
-                        and datetime = #{datetime}
+                    <if test="dateTime != null">
+                        and dateTime = #{dateTime}
                     </if>
-                    <if test="approverId != null">
-                        and approverId = #{approverId}
+                    <if test="remark != null and remark != ''">
+                        and remark = #{remark}
                     </if>
                     <if test="status != null">
                         and status = #{status}
+                    </if>
+                    <if test="nodeId != null and nodeId != ''">
+                        and nodeId = #{nodeId}
                     </if>
                     <if test="nodeName != null and nodeName != ''">
                         and nodeName = #{nodeName}
@@ -147,9 +142,9 @@ id, flowId, content, datetime, approverId, status, nodeName
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into sys_flow_record(flowId, content, datetime, approverId, status, nodeName)
+            insert into sys_flow_record(flowId, userId, dateTime, remark, status, nodeId, nodeName)
                 values
-            (#{flowId}, #{content}, #{datetime}, #{approverId}, #{status}, #{nodeName})
+            (#{flowId}, #{userId}, #{dateTime}, #{remark}, #{status}, #{nodeId}, #{nodeName})
         </insert>
 
         <!--通过主键修改数据-->
@@ -159,17 +154,20 @@ id, flowId, content, datetime, approverId, status, nodeName
                     <if test="flowId != null">
                         flowId = #{flowId},
                     </if>
-                    <if test="content != null and content != ''">
-                        content = #{content},
+                    <if test="userId != null">
+                        userId = #{userId},
                     </if>
-                    <if test="datetime != null">
-                        datetime = #{datetime},
+                    <if test="dateTime != null">
+                        dateTime = #{dateTime},
                     </if>
-                    <if test="approverId != null">
-                        approverId = #{approverId},
+                    <if test="remark != null and remark != ''">
+                        remark = #{remark},
                     </if>
                     <if test="status != null">
                         status = #{status},
+                    </if>
+                    <if test="nodeId != null and nodeId != ''">
+                        nodeId = #{nodeId},
                     </if>
                     <if test="nodeName != null and nodeName != ''">
                         nodeName = #{nodeName},

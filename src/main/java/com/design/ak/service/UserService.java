@@ -19,7 +19,8 @@ public interface UserService {
      * @return 实例对象
      */
     User queryById(Integer id);
-    
+
+    List<Map<String,Object>> queryByIds(String[] ids);
     /**
      * 分页查询
      * @param pages 筛选条件 分页对象

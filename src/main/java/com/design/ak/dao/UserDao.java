@@ -23,7 +23,7 @@ public interface UserDao {
      * @return 实例对象
      */
     User queryById(Integer id);
-
+    List<Map<String,Object>> queryByIds(@Param("ids") String[] ids);
     /**
      * 查询指定行数据
      *@param user 筛选条件

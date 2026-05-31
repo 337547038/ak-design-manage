@@ -5,6 +5,7 @@ import com.design.ak.dao.DatasourceDao;
 import com.design.ak.dao.UserDao;
 import com.design.ak.entity.Datasource;
 import com.design.ak.entity.User;
+import com.design.ak.service.UserService;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.Design;
 import com.design.ak.dao.DesignDao;
@@ -27,13 +28,16 @@ import java.util.stream.Collectors;
  */
 @Service("designService")
 public class DesignServiceImpl implements DesignService {
+    private final DesignDao designDao;
     @Resource
-    private DesignDao designDao;
-    @Resource
-    private UserDao userDao;
+    private UserService userService;
 
     @Resource
     private DatasourceDao datasourceDao;
+
+    public DesignServiceImpl(DesignDao designDao) {
+        this.designDao = designDao;
+    }
 
 
     /**
@@ -73,11 +77,8 @@ public class DesignServiceImpl implements DesignService {
         Map<String, Object> dict = new HashMap<>();
 
         //用户以dict形式返回创建人
-        String userIdList = getStringKey(list, "creatUserId");
-        User queryUser = new User();
-        queryUser.setIdList(userIdList);
-        List<Map<String, Object>> userList = this.userDao.queryAllByLimit(queryUser, new HashMap<>());
-        dict.put("creatUser", getObjKeyValue(userList, "userName"));
+        Map<String, Object> userDict = Utils.getUserDict(list, "creatUserId");
+        dict.put("user", userDict);
 
         //表单列表时返回数据源字典
         if (design.getType() == 1) {

@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 流程表(Flow)表数据库访问层
+ * (Flow)表数据库访问层
  *
  * @author ak.design 337547038
- * @since 2023-12-27 18:22:20
+ * @since 2025-05-23 17:10:33
  */
  @Mapper
 public interface FlowDao {
@@ -62,7 +62,7 @@ public interface FlowDao {
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(String[] id);
+    int deleteById(@Param("id") String[] id);
 
 }
 

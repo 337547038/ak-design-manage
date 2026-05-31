@@ -241,5 +241,14 @@ id, userName, nickName, phone, status, roleId, password, departmentId, postId, r
         </set>
         where id = #{id}
     </update>
+    <select id="queryByIds">
+        select
+        <include refid="commColumnsItem" />
+        from sys_user
+        where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 
     </mapper>
