@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.design.ak.config.CustomException;
 import com.design.ak.dao.DatasourceDao;
+import com.design.ak.service.DatasourceService;
 import com.design.ak.utils.Utils;
 import com.design.ak.dao.ContentDao;
 import com.design.ak.entity.Content;
@@ -23,10 +24,13 @@ import java.util.*;
  */
 @Service("contentService")
 public class ContentServiceImpl implements ContentService {
-    @Resource
-    private ContentDao contentDao;
+    private final ContentDao contentDao;
     @Resource
     private DatasourceDao datasourceDao;
+
+    public ContentServiceImpl(ContentDao contentDao) {
+        this.contentDao = contentDao;
+    }
 
     /**
      * 通过ID查询单条数据

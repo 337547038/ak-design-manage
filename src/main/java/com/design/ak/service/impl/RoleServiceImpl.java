@@ -21,8 +21,11 @@ import java.util.Map;
  */
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
-    @Resource
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
+
+    public RoleServiceImpl(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
     /**
      * 通过ID查询单条数据

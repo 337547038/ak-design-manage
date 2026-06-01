@@ -64,5 +64,7 @@ public interface DepartmentDao {
      */
     int deleteById(String[] id);
 
+
+    Department queryManageIdByUserId(Integer id);
 }
 

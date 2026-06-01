@@ -3,6 +3,7 @@ package com.design.ak.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.design.ak.dao.FlowRecordDao;
 import com.design.ak.entity.FlowRecord;
+import com.design.ak.service.CommonService;
 import com.design.ak.service.FlowRecordService;
 import com.design.ak.service.UserService;
 import com.design.ak.utils.Utils;
@@ -11,8 +12,6 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * (FlowRecord)表服务实现类
@@ -22,11 +21,16 @@ import java.util.stream.Stream;
  */
 @Service("flowRecordService")
 public class FlowRecordServiceImpl implements FlowRecordService {
-    @Resource
-    private FlowRecordDao flowRecordDao;
+    private final FlowRecordDao flowRecordDao;
 
     @Resource
     private UserService userService;
+    @Resource
+    private CommonService commonService;
+
+    public FlowRecordServiceImpl(FlowRecordDao flowRecordDao) {
+        this.flowRecordDao = flowRecordDao;
+    }
 
     /**
      * 通过ID查询单条数据
@@ -47,13 +51,11 @@ public class FlowRecordServiceImpl implements FlowRecordService {
      */
     @Override
     public Map<String, Object> queryByPage(Map<String, Object> pages) {
-        Map<String, Map<String, Object>> map = Utils.getPagination(pages);
-        ;//处理分页信息
+        Map<String, Map<String, Object>> map = Utils.getPagination(pages);;//处理分页信息
         FlowRecord flowRecord = JSON.parseObject(JSON.toJSONString(map.get("query")), FlowRecord.class);//json字符串转java对象
 
-
         long total = this.flowRecordDao.count(flowRecord);
-        List<Map<String, Object>> list = this.flowRecordDao.queryAllByLimit(flowRecord, map);
+        List<Map<String, Object>> list = this.flowRecordDao.queryAllByLimit(flowRecord, map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
@@ -69,34 +71,21 @@ public class FlowRecordServiceImpl implements FlowRecordService {
     public Map<String, Object> getDonePage(Map<String, Object> query) {
         Map<String, Map<String, Object>> map = Utils.getPagination(query);//处理分页信息
         FlowRecord flowRecord = JSON.parseObject(JSON.toJSONString(map.get("query")), FlowRecord.class);
+        flowRecord.setUserId(Utils.getCurrentUserId());
         long total = this.flowRecordDao.count(flowRecord);
-        List<Map<String, Object>> list = this.flowRecordDao.queryDoneList(flowRecord, map);
+        //将controller层的参数追加到extend
+        //map.put("status", query.get("status"));
+        Map<String, Object> extend = map.get("extend");
+        extend.put("status", query.get("status"));
+        List<Map<String, Object>> list = this.flowRecordDao.queryDoneList(flowRecord, extend);
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
         // 返回用户字典
-        String[] ids = list.stream()
-                // 取出userId字段
-                .map(map1 -> (String) map1.get("userId"))
-                // 过滤空值
-                .filter(Objects::nonNull)
-                .filter(str -> !str.trim().isEmpty())
-                // 按逗号拆分，转成单个id流
-                .flatMap(str -> Arrays.stream(str.split(",")))
-                // 去除空格 + 过滤空字符串
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                // 去重
-                .distinct()
-                // 转为数组
-                .toArray(String[]::new);
-        List<Map<String, Object>> userlist = userService.queryByIds(ids);
-        Map<String, Object> userMap = new HashMap<>();
-        for (Map<String, Object> map1 : userlist) {
-            userMap.put(map1.get("id").toString(), map1.get("userName").toString());
-        }
+        Map<String, Object> userDict = commonService.getUserDict(list, "userId");
+
         Map<String, Object> dict = new HashMap<>();
-        dict.put("userDict", userMap);
+        dict.put("creatUser", userDict);
         response.put("dict", dict);
         return response;
     }

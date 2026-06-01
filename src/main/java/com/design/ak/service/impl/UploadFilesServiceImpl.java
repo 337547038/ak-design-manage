@@ -27,8 +27,11 @@ import java.util.Map;
 @Service("uploadFilesService")
 public class UploadFilesServiceImpl implements UploadFilesService {
 
-    @Resource
-    private UploadFilesDao uploadFilesDao;
+    private final UploadFilesDao uploadFilesDao;
+
+    public UploadFilesServiceImpl(UploadFilesDao uploadFilesDao) {
+        this.uploadFilesDao = uploadFilesDao;
+    }
 
     /**
      * 通过ID查询单条数据

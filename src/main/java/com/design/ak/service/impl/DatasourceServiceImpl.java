@@ -27,8 +27,11 @@ import static com.design.ak.utils.Utils.removeLastStr;
  */
 @Service("datasourceService")
 public class DatasourceServiceImpl implements DatasourceService {
-    @Resource
-    private DatasourceDao datasourceDao;
+    private final DatasourceDao datasourceDao;
+
+    public DatasourceServiceImpl(DatasourceDao datasourceDao) {
+        this.datasourceDao = datasourceDao;
+    }
 
     /**
      * 通过ID查询单条数据
@@ -41,6 +44,11 @@ public class DatasourceServiceImpl implements DatasourceService {
         return this.datasourceDao.queryById(id);
     }
 
+
+    @Override
+    public List<Map<String,Object>> queryByIds(String[] ids){
+        return this.datasourceDao.queryByIds(ids);
+    }
     /**
      * 分页查询
      *

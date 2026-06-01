@@ -23,15 +23,15 @@ import java.util.stream.Collectors;
  */
 @Service("menuService")
 public class MenuServiceImpl implements MenuService {
+    private final MenuDao menuDao;
+
     @Resource
-    private MenuDao menuDao;
+    private UserService userService;
+    @Resource
+    private RoleService roleService;
 
-    private final UserService userService;
-    private final RoleService roleService;
-
-    public MenuServiceImpl(UserService userService, RoleService roleService) {
-        this.userService = userService;
-        this.roleService = roleService;
+    public MenuServiceImpl(MenuDao menuDao) {
+        this.menuDao = menuDao;
     }
 
     /**

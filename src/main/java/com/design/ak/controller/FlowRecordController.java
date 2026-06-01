@@ -57,13 +57,7 @@ public class FlowRecordController {
      */
     @PostMapping("done")
     public ResponseEntity<Map<String, Object>> getDonePage(@RequestBody Map<String, Object> query) {
-        JSONObject extend = new JSONObject();
-        if (query.get("extend") != null) {
-            extend = (JSONObject) query.get("extend");
-        }
-        extend.put("status", "1,2,3"); // 这里放在extend里传进去，放query里status传不了这种格式，会报错
-        query.put("extend", extend);
-        query.put("userId", Utils.getCurrentUserId());
+        query.put("status", "1,2,3");
         return ResponseEntity.ok(this.flowRecordService.getDonePage(query));
     }
 
@@ -75,14 +69,7 @@ public class FlowRecordController {
      */
     @PostMapping("copy")
     public ResponseEntity<Map<String, Object>> getCopyPage(@RequestBody Map<String, Object> query) {
-       /* JSONObject extend = new JSONObject();
-        if (query.get("extend") != null) {
-            extend = (JSONObject) query.get("extend");
-        }
-        extend.put("status", "1,2,3"); // 这里放在extend里传进去，放query里status传不了这种格式，会报错
-        query.put("extend", extend);*/
         query.put("status", 5);
-        query.put("userId", Utils.getCurrentUserId());
         return ResponseEntity.ok(this.flowRecordService.getDonePage(query));
     }
 

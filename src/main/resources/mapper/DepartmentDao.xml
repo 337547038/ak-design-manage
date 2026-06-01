@@ -162,4 +162,7 @@ id, parentId, name, sort, status, remark, updateTime, userId
 parentId = values(parentId)name = values(name)sort = values(sort)status = values(status)remark = values(remark)updateTime = values(updateTime)
     </insert>
 
+    <select id="queryManageIdByUserId" resultMap="DepartmentMap">
+        SELECT userId FROM sys_department WHERE id = (SELECT departmentId FROM `sys_user` WHERE id = #{id});
+    </select>
     </mapper>

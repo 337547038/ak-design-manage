@@ -19,8 +19,11 @@ import java.util.Map;
  */
 @Service("dictService")
 public class DictServiceImpl implements DictService {
-    @Resource
-    private DictDao dictDao;
+    private final DictDao dictDao;
+
+    public DictServiceImpl(DictDao dictDao) {
+        this.dictDao = dictDao;
+    }
 
     /**
      * 通过ID查询单条数据

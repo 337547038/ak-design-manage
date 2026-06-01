@@ -25,13 +25,14 @@ import java.util.Map;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
+    private final UserDao userDao;
+
     @Resource
-    private UserDao userDao;
+    private LoginLogService loginLogService;
 
-    private final LoginLogService loginLogService;
-
-    public UserServiceImpl(LoginLogService loginLogService) {
-        this.loginLogService = loginLogService;
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     /**
@@ -141,4 +142,6 @@ public class UserServiceImpl implements UserService {
         loginLogService.insert(log);
         return list;
     }
+
+    
 }

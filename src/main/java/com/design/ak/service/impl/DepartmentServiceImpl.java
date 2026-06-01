@@ -7,10 +7,10 @@ import com.design.ak.dao.DepartmentDao;
 import com.design.ak.service.DepartmentService;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  * 部门(Department)表服务实现类
  *
@@ -19,8 +19,12 @@ import java.util.Map;
  */
 @Service("departmentService")
 public class DepartmentServiceImpl implements DepartmentService {
-    @Resource
-    private DepartmentDao departmentDao;
+
+    private final DepartmentDao departmentDao;
+
+    public DepartmentServiceImpl(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
+    }
 
     /**
      * 通过ID查询单条数据
@@ -36,16 +40,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     /**
      * 分页查询
      *
-     * @param pages  筛选条件分页对象
+     * @param pages 筛选条件分页对象
      * @return 查询结果
      */
     @Override
-    public Map<String, Object> queryByPage(Map<String,Object> pages) {
-        Map<String, Map<String,Object>> map = Utils.getPagination(pages);//处理分页信息
+    public Map<String, Object> queryByPage(Map<String, Object> pages) {
+        Map<String, Map<String, Object>> map = Utils.getPagination(pages);//处理分页信息
         Department department = JSON.parseObject(JSON.toJSONString(map.get("query")), Department.class);//json字符串转java对象
-        
+
         long total = this.departmentDao.count(department);
-        List<Map<String,Object>> list = this.departmentDao.queryAllByLimit(department,map.get("extend"));
+        List<Map<String, Object>> list = this.departmentDao.queryAllByLimit(department, map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
@@ -85,5 +89,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public boolean deleteById(String[] id) {
         return this.departmentDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 根据用户id获取直接领导id
+     *
+     * @param id 用户id
+     */
+    @Override
+    public Department queryManageIdByUserId(Integer id) {
+        return this.departmentDao.queryManageIdByUserId(id);
     }
 }

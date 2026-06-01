@@ -19,8 +19,11 @@ import java.util.Map;
  */
 @Service("postService")
 public class PostServiceImpl implements PostService {
-    @Resource
-    private PostDao postDao;
+    private final PostDao postDao;
+
+    public PostServiceImpl(PostDao postDao) {
+        this.postDao = postDao;
+    }
 
     /**
      * 通过ID查询单条数据

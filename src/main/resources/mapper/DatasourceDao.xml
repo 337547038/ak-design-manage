@@ -74,9 +74,6 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
                     <if test="query.tableData != null and query.tableData != ''">
                         and tableData = #{query.tableData}
                     </if>
-                <if test="query.idList != null and query.idList != ''">
-                    and id in (${query.idList})
-                </if>
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">
@@ -192,5 +189,16 @@ id, name, tableName, category, status, creatDate, updateDate, creatUserId, updat
     <!--根据表单id查询数据库表名-->
     <select id="getTableNameByFormId">
         SELECT tableName,tableData FROM `datasource` WHERE id = (SELECT source FROM `design` WHERE id=#{id})
+    </select>
+
+
+    <select id="queryByIds">
+        select
+        <include refid="commColumnsItem" />
+        from datasource
+        where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </select>
     </mapper>

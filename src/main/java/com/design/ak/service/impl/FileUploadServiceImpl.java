@@ -3,6 +3,7 @@ package com.design.ak.service.impl;
 import com.design.ak.config.CustomException;
 import com.design.ak.entity.UploadFiles;
 import com.design.ak.service.FileUploadService;
+import com.design.ak.service.UploadFilesService;
 import com.design.ak.utils.Utils;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,14 +21,10 @@ import java.util.regex.Pattern;
 @Service("FileUploadService")
 public class FileUploadServiceImpl implements FileUploadService {
 
-    private final UploadFilesServiceImpl uploadFilesService;
+    @Resource
+    private UploadFilesService uploadFilesService;
     @Value("${server.servlet.context-path:/}")
     private String contextPath;
-
-    // 通过构造函数注入（推荐）
-    public FileUploadServiceImpl(UploadFilesServiceImpl uploadFilesService) {
-        this.uploadFilesService = uploadFilesService;
-    }
 
     private File uploadDir() {
         String dir = System.getProperty("user.dir");

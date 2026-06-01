@@ -21,10 +21,7 @@ import java.util.*;
  * 作用：
  * 定义的一些全局工具类
  */
-public class Utils {
-
-    @Resource
-    private UserService userService;
+public class Utils implements Utilsabc {
     /**
      * 公共分页处理方法
      */
@@ -157,30 +154,5 @@ public class Utils {
         }
         int lastIndex = str.lastIndexOf(",");
         return str.substring(0, lastIndex);
-    }
-
-    @Override
-    public Map<String, Object> getUserDict(List<Map<String, Object>> list, String key) {
-        String[] ids = list.stream()
-                // 取出userId字段
-                .map(map -> (String) map.get(key))
-                // 过滤空值
-                .filter(Objects::nonNull)
-                .filter(str -> !str.trim().isEmpty())
-                // 按逗号拆分，转成单个id流
-                .flatMap(str -> Arrays.stream(str.split(",")))
-                // 去除空格 + 过滤空字符串
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                // 去重
-                .distinct()
-                // 转为数组
-                .toArray(String[]::new);
-        List<Map<String, Object>> userlist = userService.queryByIds(ids);
-        Map<String, Object> userMap = new HashMap<>();
-        for (Map<String, Object> map1 : userlist) {
-            userMap.put(map1.get("id").toString(), map1.get("userName").toString());
-        }
-        return userMap;
     }
 }

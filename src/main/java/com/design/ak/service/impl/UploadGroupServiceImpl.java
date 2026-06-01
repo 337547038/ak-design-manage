@@ -19,8 +19,11 @@ import java.util.Map;
  */
 @Service("uploadGroupService")
 public class UploadGroupServiceImpl implements UploadGroupService {
-    @Resource
-    private UploadGroupDao uploadGroupDao;
+    private final UploadGroupDao uploadGroupDao;
+
+    public UploadGroupServiceImpl(UploadGroupDao uploadGroupDao) {
+        this.uploadGroupDao = uploadGroupDao;
+    }
 
     /**
      * 通过ID查询单条数据

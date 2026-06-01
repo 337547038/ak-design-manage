@@ -82,12 +82,15 @@ public class Design implements Serializable {
      * 流程图标
      */
     private String icon;
-
-    /**
-     * 仅用于查询包含的id
+/**
+     * 流程的表单类型0在线1本地
      */
-    @JsonIgnore
-    private String idList;
+    private Integer formType;
+/**
+     * 流程选择的表单id或名称
+     */
+    private String formId;
+
 
 }
 

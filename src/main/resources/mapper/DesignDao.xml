@@ -19,12 +19,12 @@
                 <result property="roleId" column="roleId" jdbcType="INTEGER"/>
                 <result property="remark" column="remark" jdbcType="VARCHAR"/>
                 <result property="icon" column="icon" jdbcType="VARCHAR"/>
-            <!--同时返回数据源名称-->
-            <!--<result column="sourceName" property="sourceName" jdbcType="VARCHAR"/>-->
+                <result property="formType" column="formType" jdbcType="INTEGER"/>
+                <result property="formId" column="formId" jdbcType="VARCHAR"/>
         </resultMap>
 
     <sql id="commColumnsItem">
-id, source, name, type, data, listData, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon        
+id, source, name, type, data, listData, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon, formType, formId
     </sql>
         <!--查询单个-->
         <select id="queryById" resultMap="DesignMap">
@@ -42,7 +42,7 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
                     ${extend.columns}
                 </when>
                 <otherwise>
-                    <include refid="commColumnsItem" />
+                    id, source, name, type, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon,formType,formId
                 </otherwise>
             </choose>
             from design
@@ -95,9 +95,12 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
                     <if test="query.icon != null and query.icon != ''">
                         and icon = #{query.icon}
                     </if>
-                <if test="query.idList != null and query.idList != ''">
-                    and id in (${query.idList})
-                </if>
+                    <if test="query.formType != null">
+                        and formType = #{query.formType}
+                    </if>
+                    <if test="query.formId != null and query.formId != ''">
+                        and formId = #{query.formId}
+                    </if>
             </where>
             <choose>
                 <when test="extend.sort != null and extend.sort!=''">
@@ -165,14 +168,20 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
                     <if test="icon != null and icon != ''">
                         and icon = #{icon}
                     </if>
+                    <if test="formType != null">
+                        and formType = #{formType}
+                    </if>
+                    <if test="formId != null and formId != ''">
+                        and formId = #{formId}
+                    </if>
             </where>
         </select>
 
         <!--新增所有列-->
         <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-            insert into design(source, name, type, data, listData, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon)
+            insert into design(source, name, type, data, listData, status, updateDate, creatDate, dict, category, creatUserId, editUserId, roleId, remark, icon,formType,formId)
                 values
-            (#{source}, #{name}, #{type}, #{data}, #{listData}, #{status}, #{updateDate}, #{creatDate}, #{dict}, #{category}, #{creatUserId}, #{editUserId}, #{roleId}, #{remark}, #{icon})
+            (#{source}, #{name}, #{type}, #{data}, #{listData}, #{status}, #{updateDate}, #{creatDate}, #{dict}, #{category}, #{creatUserId}, #{editUserId}, #{roleId}, #{remark}, #{icon}, #{formType}, #{formId})
         </insert>
 
         <!--通过主键修改数据-->
@@ -224,6 +233,12 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
                     <if test="icon != null and icon != ''">
                         icon = #{icon},
                     </if>
+                    <if test="formType != null">
+                        formType = #{formType},
+                    </if>
+                    <if test="formId != null and formId != ''">
+                        formId = #{formId},
+                    </if>
             </set>
             where id = #{id}
         </update>
@@ -236,5 +251,15 @@ id, source, name, type, data, listData, status, updateDate, creatDate, dict, cat
             #{item}
         </foreach>
         </delete>
+
+    <select id="queryByIds">
+        select
+        <include refid="commColumnsItem" />
+        from design
+        where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 
     </mapper>

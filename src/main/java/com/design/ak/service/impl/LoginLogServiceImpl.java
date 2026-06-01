@@ -19,8 +19,11 @@ import java.util.Map;
  */
 @Service("loginLogService")
 public class LoginLogServiceImpl implements LoginLogService {
-    @Resource
-    private LoginLogDao loginLogDao;
+    private final LoginLogDao loginLogDao;
+
+    public LoginLogServiceImpl(LoginLogDao loginLogDao) {
+        this.loginLogDao = loginLogDao;
+    }
 
     /**
      * 通过ID查询单条数据

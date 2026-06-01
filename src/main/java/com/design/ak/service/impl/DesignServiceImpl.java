@@ -5,6 +5,8 @@ import com.design.ak.dao.DatasourceDao;
 import com.design.ak.dao.UserDao;
 import com.design.ak.entity.Datasource;
 import com.design.ak.entity.User;
+import com.design.ak.service.CommonService;
+import com.design.ak.service.DatasourceService;
 import com.design.ak.service.UserService;
 import com.design.ak.utils.Utils;
 import com.design.ak.entity.Design;
@@ -14,10 +16,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,10 +29,10 @@ import java.util.stream.Collectors;
 public class DesignServiceImpl implements DesignService {
     private final DesignDao designDao;
     @Resource
-    private UserService userService;
+    private CommonService commonService;
 
     @Resource
-    private DatasourceDao datasourceDao;
+    private DatasourceService datasourceService;
 
     public DesignServiceImpl(DesignDao designDao) {
         this.designDao = designDao;
@@ -59,6 +58,11 @@ public class DesignServiceImpl implements DesignService {
         return result;
     }
 
+    @Override
+    public List<Map<String, Object>> queryByIds(String[] ids) {
+        return this.designDao.queryByIds(ids);
+    }
+
     /**
      * 分页查询
      *
@@ -77,69 +81,34 @@ public class DesignServiceImpl implements DesignService {
         Map<String, Object> dict = new HashMap<>();
 
         //用户以dict形式返回创建人
-        Map<String, Object> userDict = Utils.getUserDict(list, "creatUserId");
-        dict.put("user", userDict);
+        Map<String, Object> userDict = commonService.getUserDict(list, "creatUserId");
+        dict.put("creatUser", userDict);
 
-        //表单列表时返回数据源字典
-        if (design.getType() == 1) {
-            String sourceIdList = getStringKey(list, "source");
-            if (!sourceIdList.isEmpty()) {
-                Datasource queryDataSource = new Datasource();
-                queryDataSource.setIdList(sourceIdList);
-                List<Map<String, Object>> dataSourceList = this.datasourceDao.queryAllByLimit(queryDataSource, new HashMap<>());
-                dict.put("source", getObjKeyValue(dataSourceList, "name"));
+        //表单列表时返回数据源字典1表单2列表3流程
+        if (design.getType() == 1 || design.getType() == 2 || design.getType() == 3) {
+            String[] ids = commonService.getIdsByList(list, design.getType() == 3?"formId":"source");
+            Map<String, Object> source = new HashMap<>();
+            if (ids.length > 0) {
+                String dictName = "source";
+                List<Map<String, Object>> sourceList;
+                if (design.getType() == 1) {
+                    sourceList = datasourceService.queryByIds(ids);
+                } else {
+                    //2列表页时返回表单数据源字典;3流程列表
+                    dictName = "formName";
+                    sourceList = this.designDao.queryByIds(ids);
+                }
+                for (Map<String, Object> map1 : sourceList) {
+                    source.put(map1.get("id").toString(), map1.get("name").toString());
+                }
+                dict.put(dictName, source);
             }
-        }
-
-        //2列表页时返回表单数据源字典;3流程列表
-        if (design.getType() == 2 || design.getType() == 3) {
-            String sourceIdList = getStringKey(list, "source");
-            Design queryDesign = new Design();
-            queryDesign.setIdList(sourceIdList);
-            List<Map<String, Object>> sourceList = this.designDao.queryAllByLimit(queryDesign, new HashMap<>());
-            dict.put("formName", getObjKeyValue(sourceList, "name"));
         }
 
         response.put("list", list);
         response.put("total", total);
         response.put("dict", dict);
         return response;
-    }
-
-    /**
-     * 在list中提取指定的key的值，并过滤重复
-     * [{id:1},{id:3},{id:3}]转为"1,3"
-     *
-     * @param list 数据
-     * @param key  指定的key
-     * @return 所有key的字符串"1,3"
-     */
-    private String getStringKey(List<Map<String, Object>> list, String key) {
-        if (list.isEmpty()) {
-            return "";
-        }
-        Set<String> ids = list.stream()
-                .map(obj -> obj.get(key) + "") // 提取id并转换为字符串
-                .collect(Collectors.toSet()); // 使用Set来过滤重复的id
-        return String.join(",", ids);
-    }
-
-    /**
-     * 从list中根据key和value转为key和value的对象
-     * * [{id:1,name:"n1"},{id:3,name:"n3"}]转为{1:"n1",3:"n3"}
-     *
-     * @param list  列表数据
-     * @param value 指定的value
-     * @return {1:"n1",3:"n3"}
-     */
-    private Map<String, Object> getObjKeyValue(List<Map<String, Object>> list, String value) {
-        Map<String, Object> result = new HashMap<>();
-        if (!list.isEmpty()) {
-            for (Map<String, Object> obj : list) {
-                result.put(obj.get("id").toString(), obj.get(value));
-            }
-        }
-        return result;
     }
 
     /**

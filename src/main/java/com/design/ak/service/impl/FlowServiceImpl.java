@@ -4,17 +4,16 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
 import com.design.ak.dao.FlowDao;
-import com.design.ak.dao.FlowRecordDao;
 import com.design.ak.entity.*;
-import com.design.ak.service.DesignService;
-import com.design.ak.service.FlowRecordService;
-import com.design.ak.service.FlowService;
-import com.design.ak.service.UserService;
+import com.design.ak.service.*;
 import com.design.ak.utils.Utils;
+import jakarta.annotation.Resource;
 import lombok.Data;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,18 +31,20 @@ import org.apache.commons.jexl3.MapContext;
 @Service("flowService")
 public class FlowServiceImpl implements FlowService {
     private final FlowDao flowDao;
-    private final DesignService designService;
-    private final FlowRecordService flowRecordService;
-    private final UserService userService;
-    private final FlowRecordDao flowRecordDao;
+    @Resource
+    private DesignService designService;
+    @Resource
+    private FlowRecordService flowRecordService;
+
     private static String formContent;
 
-    public FlowServiceImpl(FlowDao flowDao, DesignService designService, FlowRecordService flowRecordService, UserService userService, FlowRecordDao flowRecordDao) {
+    @Resource
+    private CommonService commonService;
+    @Resource
+    private DepartmentService departmentService;
+
+    public FlowServiceImpl(FlowDao flowDao) {
         this.flowDao = flowDao;
-        this.designService = designService;
-        this.flowRecordService = flowRecordService;
-        this.userService = userService;
-        this.flowRecordDao = flowRecordDao;
     }
 
     /**
@@ -128,7 +129,17 @@ public class FlowServiceImpl implements FlowService {
         List<String> dangerNode = new ArrayList<>(); // 拒绝的节点
         FlowRecord flowRecord = new FlowRecord();
         flowRecord.setFlowId(flow.getId());
-        List<Map<String, Object>> recordList = this.flowRecordDao.queryAllByLimit(flowRecord, new HashMap<>());
+
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("query", flowRecord);
+
+        Map<String, Object> recordMap = this.flowRecordService.queryByPage(queryMap);
+        Object listObj = recordMap.get("list");
+        List<Map<String, Object>> recordList = JSON.parseArray(
+                JSON.toJSONString(listObj),
+                (Type) Map.class
+        );
+
         List<Integer> statusList = Arrays.asList(1, 5, 6);
         for (Map<String, Object> record : recordList) {
             Integer status = (Integer) record.get("status");
@@ -142,7 +153,6 @@ public class FlowServiceImpl implements FlowService {
                 findNodePreEdges(nodeId, flowChart.getEdges(), dangerNode, includesNode);
             }
         }
-
 
         nodeStatusMap.put("includes", includesNode); // 审批路线的节点
         nodeStatusMap.put("active", activeNode);
@@ -177,37 +187,19 @@ public class FlowServiceImpl implements FlowService {
     public Map<String, Object> queryByPage(Map<String, Object> query) {
         Map<String, Map<String, Object>> map = Utils.getPagination(query);//处理分页信息
         Flow flow = JSON.parseObject(JSON.toJSONString(map.get("query")), Flow.class);//json字符串转java对象
-
+        flow.setStatus((Integer) query.get("status")); //controller层
         flow.setUserId(Utils.getCurrentUserId());
 
         long total = this.flowDao.count(flow);
-        List<Map<String, Object>> list = this.flowDao.queryAllByLimit(flow, map);
+        List<Map<String, Object>> list = this.flowDao.queryAllByLimit(flow, map.get("extend"));
         Map<String, Object> response = new HashMap<>();
         response.put("list", list);
         response.put("total", total);
         // 同时将当前节点处理人名称作为字典返回，用于前端列表显示
-        String[] ids = list.stream()
-                // 取出userId字段
-                .map(map1 -> (String) map1.get("currentUserId"))
-                // 过滤空值
-                .filter(Objects::nonNull)
-                .filter(str -> !str.trim().isEmpty())
-                // 按逗号拆分，转成单个id流
-                .flatMap(str -> Arrays.stream(str.split(",")))
-                // 去除空格 + 过滤空字符串
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                // 去重
-                .distinct()
-                // 转为数组
-                .toArray(String[]::new);
-        List<Map<String, Object>> userlist = userService.queryByIds(ids);
-        Map<String, Object> userMap = new HashMap<>();
-        for (Map<String, Object> map1 : userlist) {
-            userMap.put(map1.get("id").toString(), map1.get("userName").toString());
-        }
+        Map<String, Object> userDict = commonService.getUserDict(list, "currentUserId");
+
         Map<String, Object> dict = new HashMap<>();
-        dict.put("userDict", userMap);
+        dict.put("creatUser", userDict);
         response.put("dict", dict);
         return response;
     }
@@ -630,10 +622,10 @@ public class FlowServiceImpl implements FlowService {
                 JSONObject obj = JSON.parseObject(approver.getString(node.getId()));
                 yield obj.getString("id");
             }
-            /*todo case "3" -> {
-                User user = userService.queryById(Utils.getCurrentUserId());
-                yield user.getLeaderId().toString();
-            }*/
+            case "3" -> {
+                Department department = departmentService.queryManageIdByUserId(flow.getUserId());
+                yield department.getUserId().toString();
+            }
             default -> "";
         };
     }
