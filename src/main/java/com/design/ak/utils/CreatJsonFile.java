@@ -1,5 +1,6 @@
 package com.design.ak.utils;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 
@@ -16,19 +17,13 @@ import java.util.regex.Pattern;
  * 功能：将接口返回数据生成json文件，用作mock数据
  */
 public class CreatJsonFile {
-    public static void JsonFile(String url, String content, Object params) throws IOException {
+    public static void JsonFile(String url, String content, Object params, Boolean diyResult) throws IOException {
         Pattern pattern = Pattern.compile("/api(.*)");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find()) {
-
             String result = matcher.group(1);
 
             JSONObject obj = JSONObject.parse(JSONObject.toJSONString(params));
-            JSONObject objContent = new JSONObject();
-            if (!(content.startsWith("[") && content.endsWith("]"))) {
-                //有些演示是[{},{}]的这里不用转换
-                objContent = JSONObject.parse(content);
-            }
             JSONObject query = obj.getJSONObject("query");
             JSONObject extend = obj.getJSONObject("extend");
             List<String> ids = new ArrayList<>();
@@ -54,19 +49,24 @@ public class CreatJsonFile {
                 resultIds = String.join("-", ids);
             }
             String filePath = System.getProperty("user.dir") + "/mock" + result + resultIds + ".json";
-            JSONObject contentBody = objContent.getJSONObject("body");
+            if (diyResult) {
+                // 使用自定义返回时
+                writeToFile(filePath, content);
+                return;
+            }
+            Object bodyData = null;
+            try {
+                bodyData = JSON.parse(content);
+                if (((JSONObject) bodyData).containsKey("body")) {
+                    bodyData = ((JSONObject) bodyData).get("body");
+                }
+            } catch (Exception e) {
+                bodyData = JSON.parse(content);
+            }
+
             JSONObject body = new JSONObject();
             body.put("code", 1);
-            // 3个特殊格式的演示数据
-            if (result.endsWith("/demo/select")) {
-                body.put("data", JSONArray.parseArray(content));
-            } else if (result.endsWith("/demo/dict")) {
-                body.put("data", JSONObject.parseObject(content));
-            } else if (result.endsWith("/demo/echarts")) {
-                body.put("data", objContent);
-            } else {
-                body.put("data", objContent.getJSONObject("body"));
-            }
+            body.put("data", bodyData);
             writeToFile(filePath, JSONObject.toJSONString(body));
         }
     }

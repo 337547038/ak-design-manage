@@ -51,8 +51,6 @@ public class LogAspect {
         if (!logArgs.isEmpty()) {
             params = logArgs.get(0);
         }
-        //System.out.println(JSON.toJSONString(logArgs));
-        //System.out.println(logArgs.size());
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (Objects.isNull(attributes)) {
@@ -66,7 +64,10 @@ public class LogAspect {
                     request.getRequestURL(),
                     JSON.toJSONString(getHeaders(request.getHeaderNames(), request)),
                     methodName,
-                    request.getMethod(), request.getRemoteAddr(), JSON.toJSONString(params),uuid);
+                    request.getMethod(),
+                    request.getRemoteAddr(),
+                    JSON.toJSONString(params),
+                    uuid);
         }
         Object result;
         try {
@@ -79,7 +80,8 @@ public class LogAspect {
         }
         if (log.isDebugEnabled()) {
             log.debug("{}响应 :{}", uuid,JSON.toJSONString(result));
-            CreatJsonFile.JsonFile(String.valueOf(request.getRequestURL()),JSON.toJSONString(result),params);
+            boolean hasDiyResult = methodName.contains("ResponseResult");
+            CreatJsonFile.JsonFile(String.valueOf(request.getRequestURL()),JSON.toJSONString(result),params,hasDiyResult);
         }
         return result;
     }
