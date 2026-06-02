@@ -26,7 +26,6 @@ upload/
 /nbproject/private/
 /nbbuild/
 /dist/
-/demo/
 /nbdist/
 /.nb-gradle/
 build/
