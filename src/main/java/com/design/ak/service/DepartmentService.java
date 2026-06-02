@@ -49,4 +49,5 @@ public interface DepartmentService {
      */
     boolean deleteById(String[] id);
 
+    Department queryManageIdByUserId(Integer id);
 }

@@ -1,28 +1,25 @@
 package com.design.ak.controller;
-
-import com.design.ak.config.CustomException;
 import com.design.ak.entity.Flow;
-import com.design.ak.entity.FlowRecord;
 import com.design.ak.service.FlowService;
 import com.design.ak.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.annotation.Resource;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
- * 流程表(Flow)表控制层
+ * (Flow)表控制层
  *
  * @author ak.design 337547038
- * @since 2023-12-27 18:22:20
+ * @since 2025-05-23 17:10:32
  */
-@Tag(name = "Flow相关")
+@Tag(name = "flow流程")
 @RestController
 @RequestMapping("flow")
 public class FlowController {
@@ -31,15 +28,12 @@ public class FlowController {
      */
     @Resource
     private FlowService flowService;
-    @Autowired
-    private FlowRecordServiceImpl flowRecordService;
 
     /**
      * 分页查询
      * 前端传参:
      * * @param pages 筛选条件分页对象
      * {
-     * query:{},//查询条件
      * extend:{
      * pageNum:1,//当前第几页
      * pageSize:20,//每页多少条记录，默认20。小于0返回全部
@@ -50,18 +44,65 @@ public class FlowController {
      *
      * @return 查询结果
      */
-    @Operation(summary = "分页列表")
-    @Parameters({
-            @Parameter(name = "extend.pageNum", description = "当前第几页"),
-            @Parameter(name = "extend.pageSize", description = "每页显示多少条"),
-            @Parameter(name = "extend.sort", description = "排序"),
-            @Parameter(name = "extend.columns", description = "返回指定查询字段"),
-            @Parameter(name = "query", description = "查询条件")
-    })
-    @PostMapping("list")
+    /*@PostMapping("list")
     public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> pages) {
         return ResponseEntity.ok(this.flowService.queryByPage(pages));
+    }*/
+    // 我发起的分页查询
+    @Operation(summary ="我发起的分页查询")
+    @Parameters({
+            @Parameter(name = "extend.pageNum",description = "当前第几页"),
+            @Parameter(name = "extend.pageSize",description = "每页显示多少条"),
+            @Parameter(name = "extend.sort",description = "排序"),
+            @Parameter(name = "extend.columns",description = "返回指定查询字段如'id,name'"),
+            @Parameter(name = "xx",description = "查询条件")
+    })
+    @PostMapping("my")
+    public ResponseEntity<Map<String, Object>> queryByPage(@RequestBody Map<String, Object> query) {
+        return ResponseEntity.ok(this.flowService.queryByPage(query));
     }
+
+    /**
+     * 撤回流程申请
+     *
+     * @param query 流程id
+     * @return 结果
+     */
+    @Operation(summary ="撤回流程申请")
+    @Parameter(name = "id",description = "流程id",required = true)
+    @PostMapping("cancel")
+    public ResponseEntity<Boolean> queryCancel(@RequestBody Map<String, Integer> query) {
+        return ResponseEntity.ok(this.flowService.queryCancel(query.get("id")));
+    }
+
+    /**
+     * 我的待办
+     *
+     * @param query 分页相关参数
+     * @return 结果
+     */
+    @Operation(summary ="我的待办分页查询")
+    @Parameters({
+            @Parameter(name = "extend.pageNum",description = "当前第几页"),
+            @Parameter(name = "extend.pageSize",description = "每页显示多少条"),
+            @Parameter(name = "extend.sort",description = "排序"),
+            @Parameter(name = "extend.columns",description = "返回指定查询字段如'id,name'"),
+            @Parameter(name = "xx",description = "查询条件")
+    })
+    @PostMapping("todo")
+    public ResponseEntity<Map<String, Object>> getTodo(@RequestBody Map<String, Object> query) {
+        query.put("status", 0); // 进行中
+        return ResponseEntity.ok(this.flowService.queryByPage(query));
+    }
+
+    // 审批
+    @Operation(summary ="审批流程")
+    @Parameter(name = "id",description = "流程id",required = true)
+    @PostMapping("approval")
+    public ResponseEntity<Boolean> submitApproval(@RequestBody Map<String, Object> query) {
+        return ResponseEntity.ok(this.flowService.approval(query));
+    }
+
 
     /**
      * 通过主键查询单条数据
@@ -69,23 +110,24 @@ public class FlowController {
      * @param query 主键
      * @return 单条数据
      */
-    @Operation(summary = "根据id查询数据")
+    @Operation(summary ="根据id查询流程数据")
+    @Parameter(name = "id",description = "流程id",required = true)
     @PostMapping("get")
-    public ResponseEntity<Flow> queryById(@RequestBody Map<String, Integer> query) {
+    public ResponseEntity<Map<String, Object>> queryById(@RequestBody Map<String, Integer> query) {
         return ResponseEntity.ok(this.flowService.queryById(query.get("id")));
     }
 
     /**
      * 新增数据
      *
-     * @param params 参数
-     * @return 影响行数
+     * @param flow 实体
+     * @return 新增结果Id
      */
-    @Operation(summary = "新增数据")
+    @Operation(summary ="新增流程")
     @PostMapping("save")
-    public ResponseEntity<Integer> add(@RequestBody Map<String, Object> params) {
-        Integer result = flowService.insert(params);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<Integer> add(@RequestBody Flow flow) {
+        Flow result = flowService.insert(flow);
+        return ResponseEntity.ok(result.getId());
     }
 
     /**
@@ -94,7 +136,7 @@ public class FlowController {
      * @param flow 实体
      * @return 影响行数
      */
-    @Operation(summary = "编辑数据")
+    @Operation(summary ="编辑流程")
     @PostMapping("edit")
     public ResponseEntity<Integer> edit(@RequestBody Flow flow) {
         return ResponseEntity.ok(this.flowService.updateById(flow));
@@ -106,8 +148,8 @@ public class FlowController {
      * @param ids 主键
      * @return 删除是否成功
      */
-    @Operation(summary = "根据id删除")
-    @Parameter(name = "id", description = "多个id时使用豆号隔开", required = true)
+    @Operation(summary ="删除流程")
+    @Parameter(name = "ids",description = "流程id,多个使用豆号隔开",required = true)
     @PostMapping("delete")
     public ResponseEntity<Boolean> deleteById(@RequestBody Map<String, Object> ids) {
         String string = ids.get("id").toString();
@@ -115,86 +157,5 @@ public class FlowController {
         return ResponseEntity.ok(this.flowService.deleteById(idList));
     }
 
-    @Operation(summary = "根据流程表单查询表单及流程数据")
-    @Parameter(name = "id", required = true)
-    @PostMapping("form")
-    public ResponseEntity<Map<String, Object>> queryByFromId(@RequestBody Map<String, Integer> params) {
-        Integer id = params.get("id");
-        if (id == null) {
-            throw new CustomException("表单id不能为空");
-        }
-        return ResponseEntity.ok(this.flowService.queryByFromId(id));
-    }
-
-    /**
-     * 撤回申请
-     *
-     * @param params 流程id
-     * @return 执行结果
-     */
-    @PostMapping("withdraw")
-    public ResponseEntity<Integer> withdraw(@RequestBody Map<String, String> params) {
-        Integer id = Integer.valueOf(params.get("id"));
-        if (id == null) {
-            throw new CustomException("id不能为空");
-        }
-        Flow flow = new Flow();
-        flow.setId(id);
-        flow.setEndTime(new Date());
-        flow.setCurrentApproverIds("");
-        flow.setCurrentApprover("");
-        flow.setStatus(1);
-        flow.setCopyIds("");
-        flow.setCurrentNode("");
-        Integer i = this.flowService.updateById(flow);
-        if (i != null) {
-            // 添加一条流程记录
-            FlowRecord flowRecord = new FlowRecord();
-            flowRecord.setFlowId(id);
-            flowRecord.setContent("申请人撤回");
-            flowRecord.setDatetime(new Date());
-            flowRecord.setStatus(3);
-            flowRecord.setApproverId(Utils.getCurrentUserId());
-            flowRecord.setNodeName(params.get("currentNode"));
-            flowRecordService.insert(flowRecord);
-        }
-        return ResponseEntity.ok(i);
-    }
-
-    /**
-     * 流转记录
-     *
-     * @param params 参数
-     * @return 结果
-     */
-    @Operation(summary = "流转流程")
-    @Parameter(name = "flowId", description = "当前流程id", required = true)
-    @Parameter(name = "userId", description = "流转指向用户id,多个使用豆号隔开", required = true)
-    @Parameter(name = "userName", description = "流转指向用户名,多个使用豆号隔开", required = true)
-    @PostMapping("flowToUser")
-    ResponseEntity<Boolean> flowToUser(@RequestBody Map<String, String> params) {
-        // userName 暂先由前端传过来。
-        String flowId = params.get("id");
-        if (flowId == null) {
-            throw new CustomException("流程id不能为空");
-        }
-        String userId = params.get("userId");
-        if (userId == null) {
-            throw new CustomException("流转指向用户id不能为空");
-        }
-        return ResponseEntity.ok(this.flowService.flowToUser(params));
-    }
-
-    @Operation(summary = "审批流程")
-    @Parameter(name = "id", description = "当前流程id", required = true)
-    @Parameter(name = "status", description = "审批状态0拒绝1同意2流转3撤回", required = true)
-    @PostMapping("shenPi")
-    ResponseEntity<Boolean> shenPi(@RequestBody Map<String, String> params) {
-        String flowId = params.get("id");
-        if (flowId == null) {
-            throw new CustomException("流程id不能为空");
-        }
-        return ResponseEntity.ok(this.flowService.shenPi(params));
-    }
 }
 

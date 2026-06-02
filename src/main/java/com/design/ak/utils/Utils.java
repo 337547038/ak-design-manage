@@ -5,16 +5,15 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.design.ak.service.UserService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * author: 337547038
@@ -22,33 +21,10 @@ import java.util.Objects;
  * 作用：
  * 定义的一些全局工具类
  */
-public class Utils {
-
+public class Utils implements Utilsabc {
     /**
      * 公共分页处理方法
      */
-    public static Map<String, Object> pagination(Map<String, Object> pages) {
-        //其他参数包含了pageNum当前第几页,pageSize每页分几条,sort排序,columns指定字段
-        Object params = pages.get("extend");
-        Object query = pages.get("query");//查询条件
-        if (params == null) {
-            params = new Object();
-        }
-        if (query == null) {
-            query = new Object();
-        }
-        //根据pageNum计算pageIndex,并对pageSize设置初始值
-        JSONObject obj = JSON.parseObject(JSON.toJSONString(params));
-        int pageNum = obj.getIntValue("pageNum", 1);
-        int pageSize = obj.getIntValue("pageSize", -1);
-        int pageIndex = (pageNum - 1) * pageSize;
-        obj.put("pageIndex", pageIndex);
-        obj.put("pageSize", pageSize);
-        Map<String, Object> map = new HashMap<>();
-        map.put("extend", obj);
-        map.put("query", query);
-        return map;
-    }
 
     public static Map<String, Map<String, Object>> getPagination(Map<String, Object> pages) {
         Map<String, Map<String, Object>> map = new HashMap<>();
@@ -96,7 +72,7 @@ public class Utils {
      *
      * @param userId   会员id
      * @param password //密码
-     * @param expire   　//　过期时间ms
+     * @param expire   //　过期时间ms
      * @return token
      */
     public static String getToken(String userId, String password, long expire) {

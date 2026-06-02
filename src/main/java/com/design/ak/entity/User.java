@@ -65,10 +65,5 @@ public class User implements Serializable {
      */
     private String ip;
 
-    /**
-     * 仅用于查询包含的id
-     */
-    @JsonIgnore
-    private String idList;
 }
 

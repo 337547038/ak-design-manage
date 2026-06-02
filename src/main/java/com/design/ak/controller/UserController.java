@@ -167,13 +167,12 @@ public class UserController {
         if (token == null) {
             throw new CustomException("登录超时，token刷新失败");
         }
-        System.out.println(obj);
         String userId;
         try {
             userId = JWT.decode(token).getAudience().get(0);
         } catch (JWTDecodeException e) {
             //log.error("token 解码失败");
-            throw new CustomException("登录超时，请重新登录.");
+            throw new CustomException("登录超时，请重新登录.1");
         }
         User user = userService.queryById(Integer.valueOf(userId));
         if (user == null || user.getStatus() == 0) {
@@ -185,7 +184,7 @@ public class UserController {
             jwtVerifier.verify(token);
         } catch (JWTVerificationException e) {
             //log.error("token 校验失败");
-            throw new CustomException("登录超时，请重新登录");
+            throw new CustomException("登录超时，请重新登录2");
         }
         //生成新token
         Map<String, Object> newToken = new HashMap<>();

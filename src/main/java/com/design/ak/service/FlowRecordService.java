@@ -4,10 +4,10 @@ import com.design.ak.entity.FlowRecord;
 
 import java.util.Map;
 /**
- * 流程审批记录(FlowRecord)表服务接口
+ * (FlowRecord)表服务接口
  *
  * @author ak.design 337547038
- * @since 2024-11-29 15:30:29
+ * @since 2025-05-24 15:44:57
  */
 public interface FlowRecordService {
 
@@ -25,14 +25,7 @@ public interface FlowRecordService {
      * @return 查询结果
      */
     Map<String,Object> queryByPage(Map<String,Object> pages);
-
-
-    /**
-     * 分页查询已办事项
-     * @param pages 筛选条件 分页对象
-     * @return 查询结果
-     */
-    Map<String,Object> queryByWherePage(Map<String,Object> pages);
+    Map<String,Object> getDonePage(Map<String,Object> pages);
     /**
      * 新增数据
      *
@@ -56,7 +49,5 @@ public interface FlowRecordService {
      * @return 是否成功
      */
     boolean deleteById(String[] id);
-
-
 
 }

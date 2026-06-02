@@ -61,7 +61,7 @@ public class Datasource implements Serializable {
     /**
      * 仅用于查询包含的id
      */
-    @JsonIgnore
-    private String idList;
+    /*@JsonIgnore
+    private String idList;*/
 }
 

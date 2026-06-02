@@ -2,6 +2,7 @@ package com.design.ak.service;
 
 import com.design.ak.entity.Design;
 
+import java.util.List;
 import java.util.Map;
 /**
  * 设计的表单(Design)表服务接口
@@ -18,6 +19,8 @@ public interface DesignService {
      * @return 实例对象
      */
     Design queryById(Integer id);
+
+    List<Map<String,Object>> queryByIds(String[] ids);
     
     /**
      * 分页查询

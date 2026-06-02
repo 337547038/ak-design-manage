@@ -2,6 +2,7 @@ package com.design.ak.service;
 
 import com.design.ak.entity.Datasource;
 
+import java.util.List;
 import java.util.Map;
 /**
  * 数据源表(Datasource)表服务接口
@@ -18,6 +19,8 @@ public interface DatasourceService {
      * @return 实例对象
      */
     Datasource queryById(Integer id);
+
+    List<Map<String,Object>> queryByIds(String[] ids);
     
     /**
      * 分页查询

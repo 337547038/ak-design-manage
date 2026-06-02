@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 流程审批记录(FlowRecord)表数据库访问层
+ * (FlowRecord)表数据库访问层
  *
  * @author ak.design 337547038
- * @since 2024-11-29 15:30:29
+ * @since 2025-05-24 15:44:56
  */
  @Mapper
 public interface FlowRecordDao {
@@ -31,14 +31,7 @@ public interface FlowRecordDao {
      * @return 对象列表
      */
     List<Map<String,Object>> queryAllByLimit(@Param("query") FlowRecord flowRecord,@Param("extend") Object extend);
-
-    /**
-     * 已办事项
-     *@param flowRecord 筛选条件
-     *@param extend 扩展参数
-     * @return 对象列表
-     */
-    List<Map<String,Object>> queryWhereByLimit(@Param("query") FlowRecord flowRecord,@Param("extend") Object extend);
+    List<Map<String,Object>> queryDoneList(@Param("query") FlowRecord flowRecord,@Param("extend") Object extend);
 
     /**
      * 统计总行数
